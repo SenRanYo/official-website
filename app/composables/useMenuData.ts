@@ -24,71 +24,71 @@ export default function () {
           },
           {
             title: "大事记",
-            route: "/gsgk/gsjj",
+            route: "/gsgk/dsj",
           },
         ],
       },
       {
         title: "新闻中心",
-        route: "/estate",
+        route: "/gsgk/gsjj",
         child: [
           {
             title: "公司要闻",
-            route: "/estate?menu=0",
+            route: "/gsgk/gsjj",
           },
           {
             title: "公司新闻",
-            route: "/estate?menu=1",
+            route: "/gsgk/gsjj",
           },
           {
             title: "媒体聚焦",
-            route: "/estate?menu=2",
+            route: "/gsgk/gsjj",
           },
           {
             title: "图片新闻",
-            route: "/estate?menu=2",
+            route: "/gsgk/gsjj",
           },
           {
             title: "专题聚焦",
-            route: "/estate?menu=2",
+            route: "/gsgk/gsjj",
           },
           {
             title: "职工园地",
-            route: "/estate?menu=2",
+            route: "/gsgk/gsjj",
           },
         ],
       },
       {
         title: "党的建设",
-        route: "/join",
+        route: "/gsgk/gsjj",
         child: [
           {
             title: "党建工作",
-            route: "/join?menu=0#rcfz",
+            route: "/gsgk/gsjj",
           },
           {
             title: "工会团青",
-            route: "/join?menu=3#ygfl",
+            route: "/gsgk/gsjj",
           },
           {
             title: "企业文化",
-            route: "/join?menu=3#ygfl",
+            route: "/gsgk/gsjj",
           },
           {
             title: "厂务公开",
-            route: "/join?menu=3#ygfl",
+            route: "/gsgk/gsjj",
           },
           {
             title: "党务公开",
-            route: "/join?menu=3#ygfl",
+            route: "/gsgk/gsjj",
           },
           {
             title: "纪检监察",
-            route: "/join?menu=3#ygfl",
+            route: "/gsgk/gsjj",
           },
           {
             title: "人力资源",
-            route: "/join?menu=3#ygfl",
+            route: "/gsgk/gsjj",
           },
         ],
       },

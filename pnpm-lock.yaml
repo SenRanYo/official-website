@@ -53,6 +53,9 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
+      v-gsap-nuxt:
+        specifier: 1.4.4
+        version: 1.4.4(magicast@0.3.5)
       vue:
         specifier: ^3.5.21
         version: 3.5.21(typescript@5.9.2)
@@ -3039,6 +3042,9 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
+  gsap@3.13.0:
+    resolution: {integrity: sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw==}
+
   gzip-size@6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
     engines: {node: '>=10'}
@@ -4752,6 +4758,9 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  v-gsap-nuxt@1.4.4:
+    resolution: {integrity: sha512-ygzTkdVmiHHytIS9Hw2xXeIuyLbKLKHGakPfYwLj3MA1OfaSCbANPTwEa2/4EkA9DyJA7xYwvO8T3Gf2+hc8kA==}
 
   valibot@1.1.0:
     resolution: {integrity: sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw==}
@@ -8529,6 +8538,8 @@ snapshots:
 
   graphemer@1.4.0: {}
 
+  gsap@3.13.0: {}
+
   gzip-size@6.0.0:
     dependencies:
       duplexer: 0.1.2
@@ -10555,6 +10566,14 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
+
+  v-gsap-nuxt@1.4.4(magicast@0.3.5):
+    dependencies:
+      '@nuxt/kit': 3.19.1(magicast@0.3.5)
+      defu: 6.1.4
+      gsap: 3.13.0
+    transitivePeerDependencies:
+      - magicast
 
   valibot@1.1.0(typescript@5.9.2):
     optionalDependencies:
