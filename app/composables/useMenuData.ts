@@ -7,91 +7,88 @@ export default function () {
         child: [],
       },
       {
-        title: "简介",
+        title: "公司概况",
         route: "/about",
         child: [
           {
-            title: "集团简介",
+            title: "公司简介",
             route: "/about?menu=0#gsjj",
           },
           {
-            title: "发展历程",
+            title: "领导班子",
             route: "/about?menu=1#fzlc",
           },
           {
-            title: "企业文化",
+            title: "组织机构",
+            route: "/about?menu=2#qywh",
+          },
+          {
+            title: "大事记",
             route: "/about?menu=2#qywh",
           },
         ],
       },
       {
-        title: "产业版图",
+        title: "新闻中心",
         route: "/estate",
         child: [
           {
-            title: "文化科技板块",
+            title: "公司要闻",
             route: "/estate?menu=0",
           },
           {
-            title: "福利营销板块",
+            title: "公司新闻",
             route: "/estate?menu=1",
           },
           {
-            title: "文化投资板块",
+            title: "媒体聚焦",
+            route: "/estate?menu=2",
+          },
+          {
+            title: "图片新闻",
+            route: "/estate?menu=2",
+          },
+          {
+            title: "专题聚焦",
+            route: "/estate?menu=2",
+          },
+          {
+            title: "职工园地",
             route: "/estate?menu=2",
           },
         ],
       },
       {
-        title: "公司资讯",
-        route: "/news",
-        child: [],
-        footerHide: true,
-      },
-      {
-        title: "加入我们",
+        title: "党的建设",
         route: "/join",
         child: [
           {
-            title: "人才&招聘",
+            title: "党建工作",
             route: "/join?menu=0#rcfz",
           },
           {
-            title: "福利&环境",
+            title: "工会团青",
             route: "/join?menu=3#ygfl",
           },
           {
-            title: "员工活动",
-            route: "/join?menu=5#yghd",
+            title: "企业文化",
+            route: "/join?menu=3#ygfl",
           },
           {
-            title: "加入我们",
-            route: "/join?menu=6#jrwm",
-            footerHide: true,
-          },
-        ],
-      },
-      {
-        title: "合作伙伴",
-        route: "/cooperate",
-        child: [],
-        footerHide: true,
-      },
-      {
-        title: "联系我们",
-        route: "/contact",
-        child: [
-          {
-            title: "福州总部",
-            route: "/contact#fzgs",
+            title: "厂务公开",
+            route: "/join?menu=3#ygfl",
           },
           {
-            title: "北京",
-            route: "/contact#bjgs",
+            title: "党务公开",
+            route: "/join?menu=3#ygfl",
           },
           {
-            title: "上海",
-            route: "/contact#shgs",
+            title: "纪检监察",
+            route: "/join?menu=3#ygfl",
+          },
+          {
+            title: "人力资源",
+            route: "/join?menu=3#ygfl",
           },
         ],
       },
