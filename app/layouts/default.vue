@@ -1,8 +1,8 @@
 <template>
   <div>
     <Header />
-    <Banner />
-    <Breadcrumb />
+    <banner />
+    <breadcrumb />
     <slot />
     <Footer />
   </div>

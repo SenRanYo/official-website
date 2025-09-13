@@ -20,7 +20,7 @@
 const menus = useMenuData()
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .header {
   top: 0;
   left: 0;

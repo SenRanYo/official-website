@@ -8,23 +8,23 @@ export default function () {
       },
       {
         title: "公司概况",
-        route: "/about",
+        route: "/gsgk/gsjj",
         child: [
           {
             title: "公司简介",
-            route: "/about?menu=0#gsjj",
+            route: "/gsgk/gsjj",
           },
           {
             title: "领导班子",
-            route: "/about?menu=1#fzlc",
+            route: "/gsgk/gsjj",
           },
           {
             title: "组织机构",
-            route: "/about?menu=2#qywh",
+            route: "/gsgk/gsjj",
           },
           {
             title: "大事记",
-            route: "/about?menu=2#qywh",
+            route: "/gsgk/gsjj",
           },
         ],
       },

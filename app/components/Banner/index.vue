@@ -54,7 +54,7 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .banner {
   width: 100%;
   height: 310px;
