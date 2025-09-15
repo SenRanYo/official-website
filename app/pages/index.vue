@@ -14,7 +14,9 @@
           <IndexSwiperSlideThree></IndexSwiperSlideThree>
         </div>
 
-        <div class="swiper-slide">4</div>
+        <div class="swiper-slide">
+          <IndexSwiperSlideFour></IndexSwiperSlideFour>
+        </div>
       </div>
 
       <!-- 分页器 -->
