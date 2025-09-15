@@ -10,7 +10,9 @@
           <IndexSwiperSlideTwo></IndexSwiperSlideTwo>
         </div>
 
-        <div class="swiper-slide">3</div>
+        <div class="swiper-slide">
+          <IndexSwiperSlideThree></IndexSwiperSlideThree>
+        </div>
 
         <div class="swiper-slide">4</div>
       </div>
