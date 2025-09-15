@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <!-- <img class="logo" src="https://www.china-cdt.com/dtwz/lib/public/images/logo.png" alt="" /> -->
+    <img class="logo" src="https://www.china-cdt.com/dtwz/lib/public/images/logo.png" alt="" />
     <div class="menu">
       <div v-for="(item, index) in menus" :key="index" class="menu-item-wrapper">
         <NuxtLink class="menu-item" :to="item.route">

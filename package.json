@@ -27,6 +27,7 @@
     "lucide-vue-next": "^0.544.0",
     "nuxt": "^4.1.1",
     "nuxt-aos": "1.2.5",
+    "swiper": "^12.0.1",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
     "v-gsap-nuxt": "1.4.4",
