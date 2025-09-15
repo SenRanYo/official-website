@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="overview-image">
-            <img src="~/assets/images/banner.png" alt="泸定水电站" />
+            <!-- <img src="~/assets/images/banner1.png" alt="泸定水电站" /> -->
           </div>
         </div>
       </div>
