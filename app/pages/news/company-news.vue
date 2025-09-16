@@ -16,26 +16,7 @@
       </div>
     </div>
 
-    <!-- 分页组件 -->
-    <div class="pagination">
-      <button :disabled="currentPage === 1" class="page-btn" @click="goToPage(1)">首页</button>
-      <button :disabled="currentPage === 1" class="page-btn" @click="goToPage(currentPage - 1)">上一页</button>
-
-      <button v-for="page in visiblePages" :key="page" class="page-btn" :class="{ active: page === currentPage }" @click="goToPage(page)">
-        {{ page }}
-      </button>
-
-      <button :disabled="currentPage === totalPages" class="page-btn" @click="goToPage(currentPage + 1)">下一页</button>
-      <button :disabled="currentPage === totalPages" class="page-btn" @click="goToPage(totalPages)">尾页</button>
-
-      <div class="page-info">
-        跳至
-        <input v-model="jumpPage" type="number" min="1" :max="totalPages" class="page-input" @keyup.enter="jumpToPage" />
-        页
-      </div>
-
-      <button class="page-btn" @click="jumpToPage">确定</button>
-    </div>
+    <Pagination :current-page="currentPage" :total-pages="totalPages" @change="goToPage" />
   </div>
 </template>
 
@@ -121,7 +102,6 @@ const newsData = ref([
 // 分页相关数据
 const currentPage = ref(1)
 const pageSize = ref(8) // 每页显示8条
-const jumpPage = ref("")
 
 // 计算总页数
 const totalPages = computed(() => Math.ceil(newsData.value.length / pageSize.value))
@@ -133,44 +113,10 @@ const currentPageNews = computed(() => {
   return newsData.value.slice(start, end)
 })
 
-// 可见的页码
-const visiblePages = computed(() => {
-  const pages = []
-  const total = totalPages.value
-  const current = currentPage.value
-
-  let start = Math.max(1, current - 2)
-  let end = Math.min(total, current + 2)
-
-  // 确保显示5个页码（如果总页数足够）
-  if (end - start < 4) {
-    if (start === 1) {
-      end = Math.min(total, start + 4)
-    } else {
-      start = Math.max(1, end - 4)
-    }
-  }
-
-  for (let i = start; i <= end; i++) {
-    pages.push(i)
-  }
-
-  return pages
-})
-
 // 跳转到指定页面
 const goToPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
-  }
-}
-
-// 跳转页面功能
-const jumpToPage = () => {
-  const page = parseInt(jumpPage.value)
-  if (!isNaN(page) && page >= 1 && page <= totalPages.value) {
-    goToPage(page)
-    jumpPage.value = ""
   }
 }
 </script>
