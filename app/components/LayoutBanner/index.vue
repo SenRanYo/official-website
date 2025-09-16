@@ -1,5 +1,5 @@
 <template>
-  <div class="banner" @mouseenter="stopAutoPlay" @mouseleave="startAutoPlay">
+  <div class="layout-banner" @mouseenter="stopAutoPlay" @mouseleave="startAutoPlay">
     <div class="carousel-container">
       <img v-for="(image, index) in bannerImages" :key="index" :src="image.src" :alt="image.alt" class="carousel-image" :class="{ active: currentIndex === index }" />
     </div>
@@ -55,7 +55,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.banner {
+.layout-banner {
   width: 100%;
   height: 310px;
   position: relative;

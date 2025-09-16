@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Header />
-    <Banner />
-    <Breadcrumb />
+    <LayoutHeader />
+    <LayoutBanner />
+    <LayoutBreadcrumb />
     <slot />
-    <Footer />
+    <LayoutFooter />
   </div>
 </template>
 

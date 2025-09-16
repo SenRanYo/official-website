@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="layout-footer">
     <div class="content">
       <!-- 公司信息区域 -->
       <div class="company-info">
@@ -64,7 +64,7 @@ const menu = useMenuData()
 </script>
 
 <style scoped lang="scss">
-.footer {
+.layout-footer {
   width: 100%;
   padding: 60px 12.5% 0;
   display: flex;

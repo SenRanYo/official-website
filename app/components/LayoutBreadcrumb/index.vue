@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumb">
+  <div class="layout-breadcrumb">
     <div class="left">
       <nav class="breadcrumb-nav">
         <span v-for="(item, index) in breadcrumbItems" :key="index" class="breadcrumb-item">
@@ -175,7 +175,7 @@ const isCurrentSubmenu = (submenuRoute: string) => {
 </script>
 
 <style scoped lang="scss">
-.breadcrumb {
+.layout-breadcrumb {
   width: 100%;
   height: 50px;
   display: flex;

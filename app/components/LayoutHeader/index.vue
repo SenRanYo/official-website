@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="layout-header">
     <img class="logo" src="https://www.china-cdt.com/dtwz/lib/public/images/logo.png" alt="" />
     <div class="menu">
       <div v-for="(item, index) in menus" :key="index" class="menu-item-wrapper">
@@ -21,7 +21,7 @@ const menus = useMenuData()
 </script>
 
 <style lang="scss">
-.header {
+.layout-header {
   top: 0;
   left: 0;
   width: 100%;
