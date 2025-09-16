@@ -3,7 +3,7 @@
     <p class="title">公司要闻</p>
     <div class="content">
       <!-- 左侧轮播图 -->
-      <div class="left-section">
+      <div class="left-section" :class="{ 'slide-in-left': isVisible }">
         <div ref="swiperRef" class="swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -32,7 +32,7 @@
       </div>
 
       <!-- 右侧新闻列表 -->
-      <div class="right-section">
+      <div class="right-section" :class="{ 'slide-in-right': isVisible }">
         <div class="news-header">
           <span class="news-category active">公司要闻</span>
           <span class="more">更多</span>
@@ -105,21 +105,40 @@ import { Pagination, Navigation, EffectFade, Mousewheel } from "swiper/modules"
 
 const swiper = ref<Swiper>()
 const swiperRef = ref<HTMLElement>()
+const isVisible = ref(false)
+
+// 进入时触发动画
+function enter() {
+  isVisible.value = true
+}
+
+// 离开时重置动画
+function leave() {
+  isVisible.value = false
+}
 
 function initSwiper() {
-  if (swiperRef.value) {
-    swiper.value = new Swiper(swiperRef.value, {
-      modules: [Pagination, Navigation, EffectFade, Mousewheel],
-      mousewheel: { forceToAxis: true, releaseOnEdges: false },
-      slidesPerView: 1,
-      speed: 600,
-      pagination: { el: ".swiper-pagination", clickable: true },
-    })
-  }
+  nextTick(() => {
+    if (swiperRef.value) {
+      swiper.value = new Swiper(swiperRef.value, {
+        modules: [Pagination, Navigation, EffectFade, Mousewheel],
+        mousewheel: { forceToAxis: true, releaseOnEdges: false },
+        slidesPerView: 1,
+        speed: 600,
+        pagination: { el: ".swiper-pagination", clickable: true },
+      })
+    }
+  })
 }
 
 onMounted(() => {
+  // enter()
   initSwiper()
+})
+
+defineExpose({
+  enter,
+  leave,
 })
 </script>
 
@@ -148,6 +167,14 @@ onMounted(() => {
     .left-section {
       width: 650px;
       position: relative;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.8s ease;
+
+      &.slide-in-left {
+        opacity: 1;
+        transform: translateX(0);
+      }
 
       .swiper {
         width: 100%;
@@ -205,6 +232,14 @@ onMounted(() => {
     .right-section {
       flex: 1;
       overflow: hidden;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s ease;
+
+      &.slide-in-right {
+        opacity: 1;
+        transform: translateX(0);
+      }
 
       .news-header {
         display: flex;

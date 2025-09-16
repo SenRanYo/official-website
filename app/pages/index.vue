@@ -6,12 +6,12 @@
           <IndexSwiperSlideOne></IndexSwiperSlideOne>
         </div>
 
-        <div class="swiper-slide">
-          <IndexSwiperSlideTwo></IndexSwiperSlideTwo>
+        <div class="swiper-slide" @click="onClickTest">
+          <IndexSwiperSlideTwo ref="swiperSlideTwoRef"></IndexSwiperSlideTwo>
         </div>
 
         <div class="swiper-slide">
-          <IndexSwiperSlideThree></IndexSwiperSlideThree>
+          <IndexSwiperSlideThree ref="swiperSlideThreeRef"></IndexSwiperSlideThree>
         </div>
 
         <div class="swiper-slide">
@@ -36,6 +36,9 @@ import { Pagination, Navigation, EffectFade, Mousewheel } from "swiper/modules"
 const swiper = ref<Swiper>()
 const swiperRef = ref<HTMLElement>()
 
+const swiperSlideTwoRef = ref()
+const swiperSlideThreeRef = ref()
+
 function initSwiper() {
   if (swiperRef.value) {
     swiper.value = new Swiper(swiperRef.value, {
@@ -45,19 +48,35 @@ function initSwiper() {
       allowTouchMove: false,
       slidesPerView: 1,
       speed: 600,
-      effect: "creative",
-      creativeEffect: {
-        prev: {
-          translate: [0, "-100%", 0],
-        },
-        next: {
-          translate: [0, "100%", 0],
-        },
-      },
       fadeEffect: { crossFade: true },
       pagination: { el: ".swiper-pagination", clickable: true },
+      on: {
+        slideChange: (swiper) => {
+          swiperSlideTwoRef.value.leave()
+          swiperSlideThreeRef.value.leave()
+          switch (swiper.realIndex) {
+            case 1:
+              setTimeout(() => {
+                swiperSlideTwoRef.value.enter()
+              }, 200)
+              break
+            case 2:
+              setTimeout(() => {
+                swiperSlideThreeRef.value.enter()
+              }, 200)
+              break
+
+            default:
+              break
+          }
+        },
+      },
     })
   }
+}
+
+function onClickTest() {
+  swiperSlideTwoRef.value.enter()
 }
 
 onMounted(() => {
