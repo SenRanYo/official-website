@@ -181,7 +181,7 @@ const isCurrentSubmenu = (submenuRoute: string) => {
   display: flex;
   padding: 0 12.5%;
   align-items: center;
-  border: 1px solid green;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .breadcrumb-nav {
@@ -204,11 +204,6 @@ const isCurrentSubmenu = (submenuRoute: string) => {
   &:hover {
     color: $primary-color;
   }
-}
-
-.breadcrumb-current {
-  color: #333;
-  font-weight: 500;
 }
 
 .breadcrumb-separator {
@@ -242,9 +237,8 @@ const isCurrentSubmenu = (submenuRoute: string) => {
   }
 
   &.active {
-    color: #1890ff;
-    background-color: #e6f7ff;
-    font-weight: 500;
+    color: $primary-color;
+    font-weight: bold;
   }
 }
 </style>
