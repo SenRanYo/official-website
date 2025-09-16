@@ -42,8 +42,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue"
 
-definePageMeta({ layout: "section" })
-
 // 模拟新闻数据
 const newsData = ref([
   {

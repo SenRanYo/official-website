@@ -1,6 +1,8 @@
 <template>
   <div>
     <Header />
+    <Banner />
+    <Breadcrumb />
     <slot />
     <Footer />
   </div>

@@ -37,6 +37,8 @@ import "swiper/css/effect-fade"
 import { Swiper } from "swiper"
 import { Pagination, Navigation, EffectFade, Mousewheel } from "swiper/modules"
 
+definePageMeta({ layout: "home" })
+
 const swiper = ref<Swiper>()
 const swiperRef = ref<HTMLElement>()
 

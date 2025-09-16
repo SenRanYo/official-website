@@ -185,10 +185,6 @@ useHead({
     },
   ],
 })
-
-definePageMeta({
-  layout: "section",
-})
 </script>
 
 <style scoped lang="scss">
