@@ -3,7 +3,7 @@
     <p class="title">公司要闻</p>
     <div class="content">
       <!-- 右侧新闻列表 -->
-      <div class="left-section">
+      <div class="left-section" :class="{ 'slide-in-left': isVisible }">
         <div class="news-header">
           <span class="news-category active">公司要闻</span>
           <span class="more">更多</span>
@@ -62,7 +62,7 @@
         </div>
       </div>
       <!-- 左侧轮播图 -->
-      <div class="right-section">
+      <div class="right-section" :class="{ 'slide-in-right': isVisible }">
         <p class="card-title">媒体关注</p>
         <div class="card-content">
           <div class="content">
@@ -77,6 +77,23 @@
 
 <script setup lang="ts">
 import banner from "~/assets/images/banner1.jpg"
+
+const isVisible = ref(false)
+
+// 进入时触发动画
+function enter() {
+  isVisible.value = true
+}
+
+// 离开时重置动画
+function leave() {
+  isVisible.value = false
+}
+
+defineExpose({
+  enter,
+  leave,
+})
 </script>
 
 <style scoped lang="scss">
@@ -103,6 +120,14 @@ import banner from "~/assets/images/banner1.jpg"
     .left-section {
       flex: 1;
       overflow: hidden;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.8s ease;
+
+      &.slide-in-left {
+        opacity: 1;
+        transform: translateX(0);
+      }
 
       .news-header {
         display: flex;
@@ -212,6 +237,14 @@ import banner from "~/assets/images/banner1.jpg"
       border-radius: 16px;
       background-color: #f9f9f9;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s ease;
+
+      &.slide-in-right {
+        opacity: 1;
+        transform: translateX(0);
+      }
       .card-title {
         font-size: 18px;
         color: $primary-color;

@@ -15,7 +15,11 @@
         </div>
 
         <div class="swiper-slide">
-          <IndexSwiperSlideFour></IndexSwiperSlideFour>
+          <IndexSwiperSlideFour ref="swiperSlideFourRef"></IndexSwiperSlideFour>
+        </div>
+
+        <div class="swiper-slide">
+          <IndexSwiperSlideFive ref="swiperSlideFiveRef"></IndexSwiperSlideFive>
         </div>
       </div>
 
@@ -38,6 +42,7 @@ const swiperRef = ref<HTMLElement>()
 
 const swiperSlideTwoRef = ref()
 const swiperSlideThreeRef = ref()
+const swiperSlideFourRef = ref()
 
 function initSwiper() {
   if (swiperRef.value) {
@@ -54,6 +59,7 @@ function initSwiper() {
         slideChange: (swiper) => {
           swiperSlideTwoRef.value.leave()
           swiperSlideThreeRef.value.leave()
+          swiperSlideFourRef.value.leave()
           switch (swiper.realIndex) {
             case 1:
               setTimeout(() => {
@@ -63,6 +69,11 @@ function initSwiper() {
             case 2:
               setTimeout(() => {
                 swiperSlideThreeRef.value.enter()
+              }, 200)
+              break
+            case 3:
+              setTimeout(() => {
+                swiperSlideFourRef.value.enter()
               }, 200)
               break
 
