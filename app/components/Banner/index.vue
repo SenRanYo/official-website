@@ -8,17 +8,17 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue"
-import banner from "~/assets/images/banner1.png"
-import banner1 from "~/assets/images/banner-1.jpg"
-import banner2 from "~/assets/images/banner-2.jpg"
-import banner3 from "~/assets/images/banner-3.jpg"
+import banner1 from "~/assets/images/banner1.jpg"
+import banner2 from "~/assets/images/banner2.jpg"
+import banner3 from "~/assets/images/banner3.jpg"
+import banner4 from "~/assets/images/banner4.jpg"
 
 // 轮播图数据
 const bannerImages = [
-  { src: banner, alt: "轮播图 0" },
   { src: banner1, alt: "轮播图 1" },
   { src: banner2, alt: "轮播图 2" },
   { src: banner3, alt: "轮播图 3" },
+  { src: banner4, alt: "轮播图 4" },
 ]
 
 // 当前显示的图片索引

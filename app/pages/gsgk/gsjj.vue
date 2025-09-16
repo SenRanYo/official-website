@@ -4,25 +4,27 @@
     <section class="company-overview">
       <div class="container">
         <div class="overview-content">
-          <div class="overview-text">
-            <h1 class="company-name">四川华电泸定水电有限公司</h1>
-            <p class="company-description">四川华电泸定水电有限公司（以下简称公司）于2006年6月注册成立，由华电国际电力股份有限公司全资设立，负责泸定水电站的投资、建设和运营。</p>
-            <div class="key-stats">
-              <div class="stat-item">
+          <div class="overview-text" data-aos="fade-right" data-aos-duration="800">
+            <h1 class="company-name" data-aos="fade-up" data-aos-delay="200">四川华电泸定水电有限公司</h1>
+            <p class="company-description" data-aos="fade-up" data-aos-delay="400">
+              四川华电泸定水电有限公司（以下简称公司）于2006年6月注册成立，由华电国际电力股份有限公司全资设立，负责泸定水电站的投资、建设和运营。
+            </p>
+            <div class="key-stats" data-aos="fade-up" data-aos-delay="600">
+              <div class="stat-item" data-aos="zoom-in" data-aos-delay="800">
                 <span class="stat-number">920</span>
                 <span class="stat-label">MW 总装机容量</span>
               </div>
-              <div class="stat-item">
+              <div class="stat-item" data-aos="zoom-in" data-aos-delay="900">
                 <span class="stat-number">37.8</span>
                 <span class="stat-label">亿kW·h 年发电量</span>
               </div>
-              <div class="stat-item">
+              <div class="stat-item" data-aos="zoom-in" data-aos-delay="1000">
                 <span class="stat-number">2012</span>
                 <span class="stat-label">年全面投产</span>
               </div>
             </div>
           </div>
-          <div class="overview-image">
+          <div class="overview-image" data-aos="fade-left" data-aos-duration="800">
             <!-- <img src="~/assets/images/banner1.png" alt="泸定水电站" /> -->
           </div>
         </div>
@@ -32,9 +34,9 @@
     <!-- 电站介绍 -->
     <section class="station-intro">
       <div class="container">
-        <h2 class="section-title">泸定水电站</h2>
+        <h2 class="section-title" data-aos="fade-up" data-aos-duration="600">泸定水电站</h2>
         <div class="intro-grid">
-          <div class="intro-card">
+          <div class="intro-card" data-aos="fade-up" data-aos-delay="200">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z" />
@@ -43,7 +45,7 @@
             <h3>地理位置</h3>
             <p>坐落于红军长征飞夺泸定桥名垂青史的红城泸定，位于甘孜藏族自治州大渡河干流中游，坝址距下游泸定县城2.5公里。</p>
           </div>
-          <div class="intro-card">
+          <div class="intro-card" data-aos="fade-up" data-aos-delay="400">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
@@ -52,7 +54,7 @@
             <h3>重要意义</h3>
             <p>是汶川"5·12"特大地震后国家发改委核准的首个大型水电站，为大渡河干流规划调整推荐22级方案的第12个梯级电站。</p>
           </div>
-          <div class="intro-card">
+          <div class="intro-card" data-aos="fade-up" data-aos-delay="600">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
@@ -68,58 +70,58 @@
     <!-- 发展历程 -->
     <section class="development-timeline">
       <div class="container">
-        <h2 class="section-title">发展历程</h2>
+        <h2 class="section-title" data-aos="fade-up" data-aos-duration="600">发展历程</h2>
         <div class="timeline">
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
             <div class="timeline-date">2004年6月</div>
             <div class="timeline-content">
               <h4>项目筹建</h4>
               <p>电站开始筹建工作</p>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-left" data-aos-delay="200">
             <div class="timeline-date">2005年12月</div>
             <div class="timeline-content">
               <h4>前期工程开工</h4>
               <p>"三通一平"等前期工程正式开工</p>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="300">
             <div class="timeline-date">2006年6月</div>
             <div class="timeline-content">
               <h4>公司成立</h4>
               <p>四川华电泸定水电有限公司注册成立</p>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-left" data-aos-delay="400">
             <div class="timeline-date">2009年3月</div>
             <div class="timeline-content">
               <h4>项目核准</h4>
               <p>获得国家发改委项目核准</p>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="500">
             <div class="timeline-date">2009年11月</div>
             <div class="timeline-content">
               <h4>大江截流</h4>
               <p>实现大江截流重要节点</p>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-left" data-aos-delay="600">
             <div class="timeline-date">2011年10月</div>
             <div class="timeline-content">
               <h4>首台机组投产</h4>
               <p>首台机组投产发电</p>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="700">
             <div class="timeline-date">2012年6月</div>
             <div class="timeline-content">
               <h4>全面投产</h4>
               <p>4台机组全部投入商业运营</p>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" data-aos="fade-left" data-aos-delay="800">
             <div class="timeline-date">2014年7月</div>
             <div class="timeline-content">
               <h4>远控中心投运</h4>
@@ -133,9 +135,9 @@
     <!-- 技术成就 -->
     <section class="achievements">
       <div class="container">
-        <h2 class="section-title">技术成就</h2>
+        <h2 class="section-title" data-aos="fade-up" data-aos-duration="600">技术成就</h2>
         <div class="achievements-grid">
-          <div class="achievement-card">
+          <div class="achievement-card" data-aos="zoom-in" data-aos-delay="200">
             <div class="achievement-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -144,7 +146,7 @@
             <h3>世界纪录</h3>
             <p>在大坝坝基防渗墙施工中，以单孔施工154.8米深度创造了世界纪录</p>
           </div>
-          <div class="achievement-card">
+          <div class="achievement-card" data-aos="zoom-in" data-aos-delay="400">
             <div class="achievement-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path
@@ -155,7 +157,7 @@
             <h3>技术突破</h3>
             <p>填补了国内防渗墙施工史上孔深超过110米大规模深墙施工的一项空白</p>
           </div>
-          <div class="achievement-card">
+          <div class="achievement-card" data-aos="zoom-in" data-aos-delay="600">
             <div class="achievement-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path
@@ -182,6 +184,10 @@ useHead({
       content: "四川华电泸定水电有限公司成立于2006年，负责泸定水电站的投资、建设和运营。总装机容量920MW，年发电量37.8亿kW·h。",
     },
   ],
+})
+
+definePageMeta({
+  layout: "section",
 })
 </script>
 
