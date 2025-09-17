@@ -1,60 +1,74 @@
 <template>
   <div class="layout-footer">
-    <div class="content">
-      <!-- 公司信息区域 -->
-      <div class="company-info">
-        <div class="logo">
-          <!-- <img src="/logo.png" alt="CHD" class="logo-img" /> -->
-          <div class="company-name">
-            <h3>CHD</h3>
-            <p>四川华电泸定水电<br />有限公司</p>
-          </div>
-        </div>
-        <p class="company-desc">四川华电泸定水电有限公司是中国华电集团有限公司下的重要子公司，专注于水电资源的开发、建设与运营。</p>
+    <!-- 公司Logo和信息区域 -->
+    <div class="company-info">
+      <img class="logo" src="https://www.china-cdt.com/dtwz/lib/public/images/logo.png" alt="" />
+      <div class="action-buttons">
+        <button class="btn-recruit">人才招聘</button>
+        <button class="btn-tender">招标采购</button>
       </div>
+      <div class="company-contact">
+        <div class="address">北京市西城区广宁伯街1号</div>
+        <div class="postal">邮编：100033</div>
+        <div class="icp">京ICP备18049784号-3</div>
+        <div class="license">京公网安备110401027000144号</div>
+      </div>
+    </div>
 
-      <!-- 快速链接区域 -->
-      <div class="quick-links">
-        <h4>快速链接</h4>
+    <!-- 主要栏目导航 -->
+    <div class="main-navigation">
+      <div v-for="menuItem in menu.filter((item) => item.title !== '首页')" :key="menuItem.title" class="nav-section">
+        <h4>{{ menuItem.title }}</h4>
         <ul>
-          <li v-for="item in menu" :key="item.title">
-            <NuxtLink :to="item.route">{{ item.title }}</NuxtLink>
+          <li v-for="subItem in menuItem.child" :key="subItem.title">
+            <NuxtLink :to="subItem.route">{{ subItem.title }}</NuxtLink>
           </li>
         </ul>
       </div>
 
-      <!-- 专题栏目区域 -->
-      <div class="special-topics">
-        <h4>专题栏目</h4>
+      <!-- 额外的栏目 -->
+      <div class="nav-section">
+        <h4>卓越文化</h4>
         <ul>
-          <li><NuxtLink to="/topics/lean-management">精益管理</NuxtLink></li>
-          <li><NuxtLink to="/topics/party-building">党的建设</NuxtLink></li>
-          <li><NuxtLink to="/topics/safety">安全生产</NuxtLink></li>
-          <li><NuxtLink to="/topics/innovation">科技创新</NuxtLink></li>
-          <li><NuxtLink to="/topics/social-responsibility">社会责任</NuxtLink></li>
+          <li><NuxtLink to="/culture/intro">文化内涵</NuxtLink></li>
+          <li><NuxtLink to="/culture/vi">大唐VI</NuxtLink></li>
+          <li><NuxtLink to="/culture/datang">大唐文化</NuxtLink></li>
+          <li><NuxtLink to="/culture/brand">大唐品牌</NuxtLink></li>
         </ul>
       </div>
 
-      <!-- 联系方式区域 -->
-      <div class="contact-info">
-        <h4>联系方式</h4>
-        <div class="contact-item">
-          <i class="icon-location"></i>
-          <span>四川省甘孜藏族自治州泸定县泸桥镇</span>
-        </div>
-        <div class="contact-item">
-          <i class="icon-phone"></i>
-          <span>0836-312XXXX</span>
-        </div>
-        <div class="contact-item">
-          <i class="icon-email"></i>
-          <span>luding@chd.com.cn</span>
-        </div>
+      <div class="nav-section">
+        <h4>六电六业</h4>
+        <ul>
+          <li><NuxtLink to="/business/power">电力</NuxtLink></li>
+          <li><NuxtLink to="/business/coal">煤炭化工</NuxtLink></li>
+          <li><NuxtLink to="/business/finance">金融</NuxtLink></li>
+          <li><NuxtLink to="/business/env">环保</NuxtLink></li>
+          <li><NuxtLink to="/business/trade">商贸物流</NuxtLink></li>
+          <li><NuxtLink to="/business/new">新兴产业</NuxtLink></li>
+        </ul>
       </div>
-    </div>
 
-    <div class="copyright">
-      <span>Copyright © 2025 四川华电泸定水电有限公司 版权所有</span>
+      <div class="nav-section">
+        <h4>信息公开</h4>
+        <ul>
+          <li><NuxtLink to="/info/basic">基本信息</NuxtLink></li>
+          <li><NuxtLink to="/info/group">集团公告</NuxtLink></li>
+          <li><NuxtLink to="/info/social">社会责任</NuxtLink></li>
+          <li><NuxtLink to="/info/about">关于信息公开</NuxtLink></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <h4>投资者关系</h4>
+        <ul>
+          <li><NuxtLink to="/investor/power">大唐发电</NuxtLink></li>
+          <li><NuxtLink to="/investor/huaneng">华银电力</NuxtLink></li>
+          <li><NuxtLink to="/investor/guodian">华电电力</NuxtLink></li>
+          <li><NuxtLink to="/investor/new">大唐新能源</NuxtLink></li>
+          <li><NuxtLink to="/investor/env">大唐环境</NuxtLink></li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -66,65 +80,94 @@ const menu = useMenuData()
 <style scoped lang="scss">
 .layout-footer {
   width: 100%;
-  padding: 60px 12.5% 0;
   display: flex;
-  flex-direction: column;
-  color: rgba(255, 255, 255, 0.8);
-  background-color: #1e3a5f;
+  padding: 60px 12.5%;
+  background-color: #fff;
+  justify-content: space-between;
 
-  .content {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 60px;
-    margin-bottom: 40px;
+  .company-info {
+    .logo {
+      width: 220px;
+      margin-bottom: 20px;
+    }
 
-    .company-info {
-      .logo {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
+    .action-buttons {
+      display: flex;
+      gap: 10px;
 
-        .logo-img {
-          width: 60px;
-          height: 60px;
-          margin-right: 15px;
-          background-color: rgba(255, 255, 255, 0.1);
-          border-radius: 8px;
+      button {
+        padding: 6px 16px;
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+
+        &.btn-recruit {
+          background-color: #f39c12;
+          color: white;
         }
 
-        .company-name {
-          h3 {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0 0 5px 0;
-          }
-
-          p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-            margin: 0;
-            line-height: 1.4;
-          }
+        &.btn-tender {
+          background-color: #3498db;
+          color: white;
         }
-      }
-
-      .company-desc {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 14px;
-        line-height: 1.6;
-        margin: 0;
       }
     }
 
-    .quick-links,
-    .special-topics,
-    .contact-info {
+    .company-contact {
+      color: #a3a2a1;
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 30px;
+
+      div {
+        margin-bottom: 4px;
+      }
+    }
+  }
+
+  .site-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .link-section {
       h4 {
+        font-size: 14px;
+        margin-bottom: 8px;
         color: white;
-        font-size: 18px;
+      }
+
+      .link-dropdown {
+        select {
+          width: 100%;
+          padding: 6px 12px;
+          border: 1px solid #555;
+          background-color: #404040;
+          color: white;
+          border-radius: 4px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .main-navigation {
+    gap: 30px;
+    display: flex;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+    .nav-section {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+
+      h4 {
+        font-size: 14px;
         font-weight: bold;
-        margin: 0 0 20px 0;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #e5e5e5;
       }
 
       ul {
@@ -133,71 +176,93 @@ const menu = useMenuData()
         margin: 0;
 
         li {
-          margin-bottom: 12px;
+          margin-bottom: 8px;
 
           a {
-            color: rgba(255, 255, 255, 0.8);
+            color: #a3a2a1;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 12px;
             transition: color 0.3s ease;
-
-            &:hover {
-              color: white;
-            }
           }
         }
       }
     }
+  }
+}
 
-    .contact-info {
-      .contact-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 12px;
+.footer-bottom {
+  background-color: #1a1a1a;
 
-        i {
-          width: 16px;
-          height: 16px;
-          margin-right: 10px;
-          background-color: rgba(255, 255, 255, 0.6);
-          border-radius: 2px;
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+    .footer-links {
+      text-align: center;
+      margin-bottom: 15px;
+
+      a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 12px;
+        margin: 0 8px;
+
+        &:hover {
+          color: white;
         }
+      }
 
-        span {
-          color: rgba(255, 255, 255, 0.8);
-          font-size: 14px;
-        }
+      span {
+        color: #666;
+        margin: 0 4px;
+      }
+    }
+
+    .copyright {
+      text-align: center;
+
+      p {
+        color: #999;
+        font-size: 11px;
+        margin: 4px 0;
+        line-height: 1.4;
       }
     }
   }
+}
 
-  .copyright {
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+// 响应式设计
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
 
-    span {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 14px;
+    .main-navigation {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 20px;
     }
   }
+}
 
-  // 响应式设计
-  @media (max-width: 1024px) {
-    .content {
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 15px;
+
+    .main-navigation {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
     }
   }
+}
 
-  @media (max-width: 768px) {
-    padding: 40px 5% 0;
-
-    .content {
+@media (max-width: 480px) {
+  .content {
+    .main-navigation {
       grid-template-columns: 1fr;
-      gap: 30px;
     }
   }
 }
