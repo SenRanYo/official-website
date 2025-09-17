@@ -1,22 +1,22 @@
 <template>
-  <div class="trends-page">
+  <div class="news-page">
     <!-- 页面头部 -->
     <div class="page-header">
-      <h1 class="page-title">行业动态</h1>
-      <p class="page-subtitle">把握行业脉搏，洞察发展趋势</p>
+      <h1 class="page-title">新闻大事件</h1>
+      <p class="page-subtitle">了解最新资讯动态</p>
     </div>
 
     <!-- 过渡动画容器 -->
     <Transition name="slide" mode="out-in">
-      <!-- 行业动态列表视图 -->
-      <div v-if="!showDetail" key="list" class="trends-list-view">
+      <!-- 新闻列表视图 -->
+      <div v-if="!showDetail" key="list" class="news-list-view">
         <!-- 搜索和筛选 -->
         <div class="filter-section">
           <div class="search-box">
             <input 
               v-model="searchKeyword" 
               type="text" 
-              placeholder="搜索行业动态标题或内容..."
+              placeholder="搜索新闻标题或内容..."
               class="search-input"
             />
             <button class="search-btn" @click="handleSearch">
@@ -38,27 +38,27 @@
           </div>
         </div>
 
-        <!-- 行业动态列表 -->
-        <div class="trends-list">
+        <!-- 新闻列表 -->
+        <div class="news-list">
           <div 
-            v-for="trend in paginatedTrends" 
-            :key="trend.id"
-            class="trend-item"
-            @click="showTrendDetail(trend)"
+            v-for="news in paginatedNews" 
+            :key="news.id"
+            class="news-item"
+            @click="showNewsDetail(news)"
           >
-            <div class="trend-image">
-              <img :src="trend.coverImage" :alt="trend.title" />
-              <div class="category-tag">{{ trend.category }}</div>
+            <div class="news-image">
+              <img :src="news.coverImage" :alt="news.title" />
+              <div class="category-tag">{{ news.category }}</div>
             </div>
             
-            <div class="trend-content">
-              <h3 class="trend-title">{{ trend.title }}</h3>
-              <p class="trend-summary">{{ trend.summary }}</p>
+            <div class="news-content">
+              <h3 class="news-title">{{ news.title }}</h3>
+              <p class="news-summary">{{ news.summary }}</p>
               
-              <div class="trend-meta">
-                <span class="publish-date">{{ formatDate(trend.publishDate) }}</span>
-                <span class="views">{{ trend.views }} 阅读</span>
-                <span class="author">{{ trend.author }}</span>
+              <div class="news-meta">
+                <span class="publish-date">{{ formatDate(news.publishDate) }}</span>
+                <span class="views">{{ news.views }} 阅读</span>
+                <span class="author">{{ news.author }}</span>
               </div>
             </div>
           </div>
@@ -93,11 +93,11 @@
         </div>
       </div>
 
-      <!-- 行业动态详情视图 -->
+      <!-- 新闻详情视图 -->
       <NewsDetail 
         v-else 
         key="detail" 
-        :news="selectedTrend!" 
+        :news="selectedNews!" 
         @back="backToList"
       />
     </Transition>
@@ -107,7 +107,7 @@
 <script setup lang="ts">
 import NewsDetail from '~/components/NewsDetail/index.vue'
 
-interface TrendItem {
+interface NewsItem {
   id: number
   title: string
   summary: string
@@ -122,135 +122,135 @@ interface TrendItem {
 
 // 响应式数据
 const showDetail = ref(false)
-const selectedTrend = ref<TrendItem | null>(null)
+const selectedNews = ref<NewsItem | null>(null)
 const searchKeyword = ref('')
 const selectedCategory = ref('全部')
 const currentPage = ref(1)
 const pageSize = 6
 
 // 分类数据
-const categories = ['全部', '政策解读', '市场分析', '技术趋势', '竞争态势', '投资动向', '国际视野']
+const categories = ['全部', '政策法规', '行业动态', '技术创新', '企业新闻', '国际资讯']
 
-// 模拟行业动态数据
-const trendsData = ref<TrendItem[]>([
+// 模拟新闻数据
+const newsData = ref<NewsItem[]>([
   {
     id: 1,
-    title: '国家发布新政策支持行业数字化转型',
-    summary: '近日，国家相关部门发布了支持行业数字化转型的新政策，为企业数字化升级提供了政策保障和资金支持...',
-    content: '<p>国家发布数字化转型支持政策。</p><p>该政策从税收优惠、资金扶持、技术支撑等多个方面为企业数字化转型提供全方位支持。</p>',
-    publishDate: '2024-01-16',
-    category: '政策解读',
-    views: 3580,
-    author: '政策研究中心',
-    coverImage: 'https://picsum.photos/400/240?random=31',
-    tags: ['数字化转型', '政策支持', '企业升级']
+    title: '国家发布新能源汽车产业发展规划',
+    summary: '为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》...',
+    content: '<p>为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》。</p><p>规划明确了新能源汽车产业发展的总体要求、发展目标、重点任务和保障措施。</p>',
+    publishDate: '2024-01-15',
+    category: '政策法规',
+    views: 1250,
+    author: '政策研究部',
+    coverImage: 'https://picsum.photos/400/240?random=1',
+    tags: ['新能源', '汽车', '政策']
   },
   {
     id: 2,
-    title: '行业市场规模持续扩大，增长势头强劲',
-    summary: '最新市场研究报告显示，行业市场规模在过去一年中实现了显著增长，预计未来几年将继续保持强劲的发展势头...',
-    content: '<p>行业市场规模持续扩大。</p><p>报告分析了市场增长的主要驱动因素，包括技术创新、消费升级、政策支持等多个方面。</p>',
-    publishDate: '2024-01-14',
-    category: '市场分析',
-    views: 2845,
-    author: '市场研究院',
-    coverImage: 'https://picsum.photos/400/240?random=32'
+    title: '人工智能技术在制造业中的应用前景',
+    summary: '随着人工智能技术的不断发展，其在制造业中的应用越来越广泛，为传统制造业带来了新的发展机遇...',
+    content: '<p>人工智能技术正在深刻改变制造业的面貌。</p><p>从智能制造到预测性维护，AI技术为制造业提供了全新的解决方案。</p>',
+    publishDate: '2024-01-12',
+    category: '技术创新',
+    views: 980,
+    author: '技术部',
+    coverImage: 'https://picsum.photos/400/240?random=2'
   },
   {
     id: 3,
-    title: '人工智能技术在行业中的应用日趋成熟',
-    summary: '人工智能技术在行业中的应用越来越广泛，从自动化生产到智能决策，AI正在深刻改变着行业的发展模式...',
-    content: '<p>AI技术在行业中的应用日趋成熟。</p><p>从机器学习到深度学习，从自然语言处理到计算机视觉，AI技术正在为行业发展注入新动力。</p>',
-    publishDate: '2024-01-12',
-    category: '技术趋势',
-    views: 2567,
-    author: '技术分析师',
-    coverImage: 'https://picsum.photos/400/240?random=33'
+    title: '绿色发展理念引领企业转型升级',
+    summary: '在碳达峰、碳中和目标指引下，越来越多的企业开始践行绿色发展理念，推动产业结构优化升级...',
+    content: '<p>绿色发展已成为企业可持续发展的必由之路。</p><p>通过技术创新和管理创新，企业正在实现经济效益与环境效益的双赢。</p>',
+    publishDate: '2024-01-10',
+    category: '企业新闻',
+    views: 756,
+    author: '环保部',
+    coverImage: 'https://picsum.photos/400/240?random=3'
   },
   {
     id: 4,
-    title: '行业竞争格局发生重大变化',
-    summary: '随着新技术的不断涌现和市场环境的变化，行业竞争格局正在发生深刻变化，传统优势企业面临新的挑战...',
-    content: '<p>行业竞争格局发生重大变化。</p><p>新兴企业凭借技术创新和商业模式创新，正在挑战传统行业巨头的市场地位。</p>',
-    publishDate: '2024-01-10',
-    category: '竞争态势',
-    views: 2234,
-    author: '行业分析师',
-    coverImage: 'https://picsum.photos/400/240?random=34'
+    title: '数字化转型助力中小企业发展',
+    summary: '数字化转型已成为中小企业提升竞争力的重要途径，通过数字技术的应用，企业运营效率显著提升...',
+    content: '<p>数字化转型为中小企业带来了新的发展机遇。</p><p>云计算、大数据、物联网等技术的应用，帮助企业降本增效。</p>',
+    publishDate: '2024-01-08',
+    category: '行业动态',
+    views: 642,
+    author: '数字化部',
+    coverImage: 'https://picsum.photos/400/240?random=4'
   },
   {
     id: 5,
-    title: '投资机构看好行业发展前景',
-    summary: '多家知名投资机构表示看好行业发展前景，预计将加大对相关企业的投资力度，推动行业快速发展...',
-    content: '<p>投资机构看好行业发展前景。</p><p>投资机构认为，行业具有巨大的发展潜力和投资价值，将持续关注和投资优质企业。</p>',
-    publishDate: '2024-01-08',
-    category: '投资动向',
-    views: 1987,
-    author: '投资分析师',
-    coverImage: 'https://picsum.photos/400/240?random=35'
+    title: '国际贸易新格局下的机遇与挑战',
+    summary: '全球贸易格局正在发生深刻变化，我国企业需要在新的国际环境中寻找发展机遇，应对各种挑战...',
+    content: '<p>国际贸易环境的变化为我国企业带来了新的机遇和挑战。</p><p>企业需要加强国际合作，提升自身竞争力。</p>',
+    publishDate: '2024-01-05',
+    category: '国际资讯',
+    views: 523,
+    author: '国际部',
+    coverImage: 'https://picsum.photos/400/240?random=5'
   },
   {
     id: 6,
-    title: '国际市场对中国企业需求持续增长',
-    summary: '国际市场对中国企业产品和服务的需求持续增长，为中国企业走出去提供了良好机遇...',
-    content: '<p>国际市场需求持续增长。</p><p>中国企业凭借技术优势和成本优势，在国际市场上的竞争力不断提升。</p>',
-    publishDate: '2024-01-06',
-    category: '国际视野',
-    views: 1756,
-    author: '国际贸易专家',
-    coverImage: 'https://picsum.photos/400/240?random=36'
+    title: '科技创新驱动高质量发展',
+    summary: '科技创新是推动高质量发展的第一动力，各地正在加大科技投入，培育新的经济增长点...',
+    content: '<p>科技创新正在成为经济发展的核心驱动力。</p><p>通过加强研发投入和人才培养，推动产业升级和结构优化。</p>',
+    publishDate: '2024-01-03',
+    category: '技术创新',
+    views: 834,
+    author: '科技部',
+    coverImage: 'https://picsum.photos/400/240?random=6'
   },
   {
     id: 7,
-    title: '绿色发展成为行业新趋势',
-    summary: '随着环保意识的不断提高，绿色发展已成为行业发展的新趋势，越来越多的企业开始重视可持续发展...',
-    content: '<p>绿色发展成为行业新趋势。</p><p>企业通过技术创新和管理创新，实现了经济效益和环境效益的双赢。</p>',
-    publishDate: '2024-01-04',
-    category: '技术趋势',
-    views: 1534,
-    author: '环保专家',
-    coverImage: 'https://picsum.photos/400/240?random=37'
+    title: '供应链管理优化提升企业效率',
+    summary: '在全球化背景下，供应链管理的重要性日益凸显，优化供应链管理成为企业提升竞争力的关键...',
+    content: '<p>供应链管理优化是企业运营的重要环节。</p><p>通过数字化手段和精细化管理，企业可以显著提升运营效率。</p>',
+    publishDate: '2024-01-01',
+    category: '企业新闻',
+    views: 445,
+    author: '运营部',
+    coverImage: 'https://picsum.photos/400/240?random=7'
   },
   {
     id: 8,
-    title: '行业标准化建设取得重要进展',
-    summary: '行业标准化建设取得重要进展，相关标准的制定和实施为行业健康发展提供了重要保障...',
-    content: '<p>行业标准化建设取得重要进展。</p><p>标准化建设有助于规范市场秩序，提升产品质量，促进行业健康发展。</p>',
-    publishDate: '2024-01-02',
-    category: '政策解读',
-    views: 1323,
-    author: '标准化专家',
-    coverImage: 'https://picsum.photos/400/240?random=38'
+    title: '新材料产业发展迎来新机遇',
+    summary: '随着科技进步和产业升级，新材料产业正迎来前所未有的发展机遇，成为推动经济增长的新引擎...',
+    content: '<p>新材料产业是战略性新兴产业的重要组成部分。</p><p>在政策支持和市场需求双重驱动下，新材料产业发展前景广阔。</p>',
+    publishDate: '2023-12-28',
+    category: '行业动态',
+    views: 678,
+    author: '材料部',
+    coverImage: 'https://picsum.photos/400/240?random=8'
   }
 ])
 
 // 计算属性
-const filteredTrends = computed(() => {
-  let result = trendsData.value
+const filteredNews = computed(() => {
+  let result = newsData.value
   
   // 按分类筛选
   if (selectedCategory.value !== '全部') {
-    result = result.filter(trend => trend.category === selectedCategory.value)
+    result = result.filter(news => news.category === selectedCategory.value)
   }
   
   // 按关键词搜索
   if (searchKeyword.value.trim()) {
     const keyword = searchKeyword.value.toLowerCase()
-    result = result.filter(trend => 
-      trend.title.toLowerCase().includes(keyword) || 
-      trend.summary.toLowerCase().includes(keyword)
+    result = result.filter(news => 
+      news.title.toLowerCase().includes(keyword) || 
+      news.summary.toLowerCase().includes(keyword)
     )
   }
   
   return result
 })
 
-const totalPages = computed(() => Math.ceil(filteredTrends.value.length / pageSize))
+const totalPages = computed(() => Math.ceil(filteredNews.value.length / pageSize))
 
-const paginatedTrends = computed(() => {
+const paginatedNews = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   const end = start + pageSize
-  return filteredTrends.value.slice(start, end)
+  return filteredNews.value.slice(start, end)
 })
 
 const visiblePages = computed(() => {
@@ -310,16 +310,16 @@ const changePage = (page: number | string) => {
   }
 }
 
-const showTrendDetail = (trend: TrendItem) => {
-  selectedTrend.value = trend
+const showNewsDetail = (news: NewsItem) => {
+  selectedNews.value = news
   showDetail.value = true
   // 增加阅读量
-  trend.views++
+  news.views++
 }
 
 const backToList = () => {
   showDetail.value = false
-  selectedTrend.value = null
+  selectedNews.value = null
 }
 
 // 监听搜索关键词变化
@@ -329,9 +329,9 @@ watch(searchKeyword, () => {
 </script>
 
 <style lang="scss" scoped>
-.trends-page {
+.news-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 20px;
 }
 
@@ -342,17 +342,17 @@ watch(searchKeyword, () => {
   .page-title {
     font-size: 36px;
     font-weight: 700;
-    color: #2e7d32;
+    color: #2c3e50;
     margin-bottom: 10px;
   }
   
   .page-subtitle {
     font-size: 16px;
-    color: #388e3c;
+    color: #7f8c8d;
   }
 }
 
-.trends-list-view {
+.news-list-view {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -361,7 +361,7 @@ watch(searchKeyword, () => {
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   
   .search-box {
@@ -371,20 +371,20 @@ watch(searchKeyword, () => {
     .search-input {
       flex: 1;
       padding: 12px 16px;
-      border: 2px solid #e8f5e8;
+      border: 2px solid #e1e8ed;
       border-radius: 8px 0 0 8px;
       font-size: 14px;
       outline: none;
       transition: border-color 0.3s ease;
       
       &:focus {
-        border-color: #388e3c;
+        border-color: #3498db;
       }
     }
     
     .search-btn {
       padding: 12px 16px;
-      background: #388e3c;
+      background: #3498db;
       border: none;
       border-radius: 0 8px 8px 0;
       color: #fff;
@@ -392,7 +392,7 @@ watch(searchKeyword, () => {
       transition: background 0.3s ease;
       
       &:hover {
-        background: #2e7d32;
+        background: #2980b9;
       }
     }
   }
@@ -405,48 +405,48 @@ watch(searchKeyword, () => {
     .category-btn {
       padding: 8px 16px;
       background: #f8f9fa;
-      border: 1px solid #e8f5e8;
+      border: 1px solid #dee2e6;
       border-radius: 20px;
-      color: #388e3c;
+      color: #6c757d;
       cursor: pointer;
       font-size: 14px;
       transition: all 0.3s ease;
       
       &:hover {
-        background: #e8f5e8;
-        border-color: #c8e6c9;
+        background: #e9ecef;
+        border-color: #adb5bd;
       }
       
       &.active {
-        background: #388e3c;
-        border-color: #388e3c;
+        background: #3498db;
+        border-color: #3498db;
         color: #fff;
       }
     }
   }
 }
 
-.trends-list {
+.news-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
 }
 
-.trend-item {
+.news-item {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(46, 125, 50, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
   
-  .trend-image {
+  .news-image {
     position: relative;
     height: 200px;
     overflow: hidden;
@@ -462,7 +462,7 @@ watch(searchKeyword, () => {
       position: absolute;
       top: 12px;
       left: 12px;
-      background: rgba(56, 142, 60, 0.9);
+      background: rgba(52, 152, 219, 0.9);
       color: #fff;
       padding: 4px 12px;
       border-radius: 12px;
@@ -471,13 +471,13 @@ watch(searchKeyword, () => {
     }
   }
   
-  .trend-content {
+  .news-content {
     padding: 20px;
     
-    .trend-title {
+    .news-title {
       font-size: 18px;
       font-weight: 600;
-      color: #2e7d32;
+      color: #2c3e50;
       margin-bottom: 12px;
       line-height: 1.4;
       display: -webkit-box;
@@ -486,8 +486,8 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .trend-summary {
-      color: #666;
+    .news-summary {
+      color: #7f8c8d;
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 16px;
@@ -497,21 +497,20 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .trend-meta {
+    .news-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
-      color: #999;
+      color: #95a5a6;
       
       .publish-date {
         font-weight: 500;
-        color: #388e3c;
       }
     }
   }
   
-  &:hover .trend-image img {
+  &:hover .news-image img {
     transform: scale(1.05);
   }
 }
@@ -525,15 +524,15 @@ watch(searchKeyword, () => {
   .page-btn {
     padding: 8px 16px;
     background: #fff;
-    border: 1px solid #e8f5e8;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #388e3c;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     
     &:hover:not(:disabled) {
-      background: #e8f5e8;
-      border-color: #c8e6c9;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &:disabled {
@@ -545,22 +544,22 @@ watch(searchKeyword, () => {
   .page-number {
     padding: 8px 12px;
     background: #fff;
-    border: 1px solid #e8f5e8;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #388e3c;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 40px;
     text-align: center;
     
     &:hover {
-      background: #e8f5e8;
-      border-color: #c8e6c9;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &.active {
-      background: #388e3c;
-      border-color: #388e3c;
+      background: #3498db;
+      border-color: #3498db;
       color: #fff;
     }
   }
@@ -584,7 +583,7 @@ watch(searchKeyword, () => {
 
 // 响应式设计
 @media (max-width: 768px) {
-  .trends-page {
+  .news-page {
     padding: 15px;
   }
   
@@ -603,20 +602,20 @@ watch(searchKeyword, () => {
     }
   }
   
-  .trends-list {
+  .news-list {
     grid-template-columns: 1fr;
     gap: 16px;
   }
   
-  .trend-item {
-    .trend-content {
+  .news-item {
+    .news-content {
       padding: 15px;
       
-      .trend-title {
+      .news-title {
         font-size: 16px;
       }
       
-      .trend-meta {
+      .news-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;

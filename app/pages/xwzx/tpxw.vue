@@ -1,22 +1,22 @@
 <template>
-  <div class="integrity-page">
+  <div class="news-page">
     <!-- 页面头部 -->
     <div class="page-header">
-      <h1 class="page-title">廉政建设</h1>
-      <p class="page-subtitle">严守纪律底线，筑牢廉洁防线</p>
+      <h1 class="page-title">新闻大事件</h1>
+      <p class="page-subtitle">了解最新资讯动态</p>
     </div>
 
     <!-- 过渡动画容器 -->
     <Transition name="slide" mode="out-in">
-      <!-- 廉政建设内容列表视图 -->
-      <div v-if="!showDetail" key="list" class="integrity-list-view">
+      <!-- 新闻列表视图 -->
+      <div v-if="!showDetail" key="list" class="news-list-view">
         <!-- 搜索和筛选 -->
         <div class="filter-section">
           <div class="search-box">
             <input 
               v-model="searchKeyword" 
               type="text" 
-              placeholder="搜索廉政建设内容标题或内容..."
+              placeholder="搜索新闻标题或内容..."
               class="search-input"
             />
             <button class="search-btn" @click="handleSearch">
@@ -38,27 +38,27 @@
           </div>
         </div>
 
-        <!-- 廉政建设内容列表 -->
-        <div class="integrity-list">
+        <!-- 新闻列表 -->
+        <div class="news-list">
           <div 
-            v-for="integrity in paginatedIntegrity" 
-            :key="integrity.id"
-            class="integrity-item"
-            @click="showIntegrityDetail(integrity)"
+            v-for="news in paginatedNews" 
+            :key="news.id"
+            class="news-item"
+            @click="showNewsDetail(news)"
           >
-            <div class="integrity-image">
-              <img :src="integrity.coverImage" :alt="integrity.title" />
-              <div class="category-tag">{{ integrity.category }}</div>
+            <div class="news-image">
+              <img :src="news.coverImage" :alt="news.title" />
+              <div class="category-tag">{{ news.category }}</div>
             </div>
             
-            <div class="integrity-content">
-              <h3 class="integrity-title">{{ integrity.title }}</h3>
-              <p class="integrity-summary">{{ integrity.summary }}</p>
+            <div class="news-content">
+              <h3 class="news-title">{{ news.title }}</h3>
+              <p class="news-summary">{{ news.summary }}</p>
               
-              <div class="integrity-meta">
-                <span class="publish-date">{{ formatDate(integrity.publishDate) }}</span>
-                <span class="views">{{ integrity.views }} 阅读</span>
-                <span class="author">{{ integrity.author }}</span>
+              <div class="news-meta">
+                <span class="publish-date">{{ formatDate(news.publishDate) }}</span>
+                <span class="views">{{ news.views }} 阅读</span>
+                <span class="author">{{ news.author }}</span>
               </div>
             </div>
           </div>
@@ -93,11 +93,11 @@
         </div>
       </div>
 
-      <!-- 廉政建设详情视图 -->
+      <!-- 新闻详情视图 -->
       <NewsDetail 
         v-else 
         key="detail" 
-        :news="selectedIntegrity!" 
+        :news="selectedNews!" 
         @back="backToList"
       />
     </Transition>
@@ -107,7 +107,7 @@
 <script setup lang="ts">
 import NewsDetail from '~/components/NewsDetail/index.vue'
 
-interface IntegrityItem {
+interface NewsItem {
   id: number
   title: string
   summary: string
@@ -122,135 +122,135 @@ interface IntegrityItem {
 
 // 响应式数据
 const showDetail = ref(false)
-const selectedIntegrity = ref<IntegrityItem | null>(null)
+const selectedNews = ref<NewsItem | null>(null)
 const searchKeyword = ref('')
 const selectedCategory = ref('全部')
 const currentPage = ref(1)
 const pageSize = 6
 
 // 分类数据
-const categories = ['全部', '制度建设', '警示教育', '监督检查', '案例分析', '学习培训', '廉政文化']
+const categories = ['全部', '政策法规', '行业动态', '技术创新', '企业新闻', '国际资讯']
 
-// 模拟廉政建设数据
-const integrityData = ref<IntegrityItem[]>([
+// 模拟新闻数据
+const newsData = ref<NewsItem[]>([
   {
     id: 1,
-    title: '公司廉洁从业管理制度修订完善',
-    summary: '为进一步规范员工廉洁从业行为，公司对廉洁从业管理制度进行了全面修订完善，明确了各项纪律要求...',
-    content: '<p>公司廉洁从业管理制度修订完善。</p><p>新修订的制度进一步明确了廉洁从业的具体要求，完善了监督检查机制，强化了责任追究措施。</p>',
-    publishDate: '2024-01-16',
-    category: '制度建设',
-    views: 3280,
-    author: '纪检监察部',
-    coverImage: 'https://picsum.photos/400/240?random=61',
-    tags: ['制度建设', '廉洁从业', '规范管理']
+    title: '国家发布新能源汽车产业发展规划',
+    summary: '为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》...',
+    content: '<p>为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》。</p><p>规划明确了新能源汽车产业发展的总体要求、发展目标、重点任务和保障措施。</p>',
+    publishDate: '2024-01-15',
+    category: '政策法规',
+    views: 1250,
+    author: '政策研究部',
+    coverImage: 'https://picsum.photos/400/240?random=1',
+    tags: ['新能源', '汽车', '政策']
   },
   {
     id: 2,
-    title: '廉政警示教育专题讲座成功举办',
-    summary: '公司组织开展廉政警示教育专题讲座，通过典型案例分析，教育引导员工增强廉洁自律意识...',
-    content: '<p>廉政警示教育专题讲座成功举办。</p><p>讲座通过分析典型违纪违法案例，深刻剖析了腐败问题的危害性，教育员工要时刻保持清醒头脑。</p>',
-    publishDate: '2024-01-14',
-    category: '警示教育',
-    views: 2945,
-    author: '党委办公室',
-    coverImage: 'https://picsum.photos/400/240?random=62'
+    title: '人工智能技术在制造业中的应用前景',
+    summary: '随着人工智能技术的不断发展，其在制造业中的应用越来越广泛，为传统制造业带来了新的发展机遇...',
+    content: '<p>人工智能技术正在深刻改变制造业的面貌。</p><p>从智能制造到预测性维护，AI技术为制造业提供了全新的解决方案。</p>',
+    publishDate: '2024-01-12',
+    category: '技术创新',
+    views: 980,
+    author: '技术部',
+    coverImage: 'https://picsum.photos/400/240?random=2'
   },
   {
     id: 3,
-    title: '开展节前廉政提醒谈话活动',
-    summary: '在重要节日前夕，公司纪检监察部门开展廉政提醒谈话活动，提醒党员干部严守纪律规定...',
-    content: '<p>开展节前廉政提醒谈话活动。</p><p>通过个别谈话、集体提醒等方式，教育引导党员干部严格遵守中央八项规定精神，过一个廉洁祥和的节日。</p>',
-    publishDate: '2024-01-12',
-    category: '监督检查',
-    views: 2156,
-    author: '纪检监察部',
-    coverImage: 'https://picsum.photos/400/240?random=63'
+    title: '绿色发展理念引领企业转型升级',
+    summary: '在碳达峰、碳中和目标指引下，越来越多的企业开始践行绿色发展理念，推动产业结构优化升级...',
+    content: '<p>绿色发展已成为企业可持续发展的必由之路。</p><p>通过技术创新和管理创新，企业正在实现经济效益与环境效益的双赢。</p>',
+    publishDate: '2024-01-10',
+    category: '企业新闻',
+    views: 756,
+    author: '环保部',
+    coverImage: 'https://picsum.photos/400/240?random=3'
   },
   {
     id: 4,
-    title: '违纪违法典型案例通报分析',
-    summary: '公司通报了近期查处的违纪违法典型案例，深入分析案件特点和教训，警示教育全体员工...',
-    content: '<p>违纪违法典型案例通报分析。</p><p>通过对典型案例的深入分析，揭示了违纪违法行为的严重后果，为全体员工敲响了警钟。</p>',
-    publishDate: '2024-01-10',
-    category: '案例分析',
-    views: 1987,
-    author: '纪检监察部',
-    coverImage: 'https://picsum.photos/400/240?random=64'
+    title: '数字化转型助力中小企业发展',
+    summary: '数字化转型已成为中小企业提升竞争力的重要途径，通过数字技术的应用，企业运营效率显著提升...',
+    content: '<p>数字化转型为中小企业带来了新的发展机遇。</p><p>云计算、大数据、物联网等技术的应用，帮助企业降本增效。</p>',
+    publishDate: '2024-01-08',
+    category: '行业动态',
+    views: 642,
+    author: '数字化部',
+    coverImage: 'https://picsum.photos/400/240?random=4'
   },
   {
     id: 5,
-    title: '党纪法规学习培训班圆满结束',
-    summary: '公司举办的党纪法规学习培训班圆满结束，全体党员干部系统学习了最新的党纪法规知识...',
-    content: '<p>党纪法规学习培训班圆满结束。</p><p>培训内容涵盖了党章党规、法律法规等多个方面，有效提升了党员干部的纪律意识和法治观念。</p>',
-    publishDate: '2024-01-08',
-    category: '学习培训',
-    views: 1756,
-    author: '党委组织部',
-    coverImage: 'https://picsum.photos/400/240?random=65'
+    title: '国际贸易新格局下的机遇与挑战',
+    summary: '全球贸易格局正在发生深刻变化，我国企业需要在新的国际环境中寻找发展机遇，应对各种挑战...',
+    content: '<p>国际贸易环境的变化为我国企业带来了新的机遇和挑战。</p><p>企业需要加强国际合作，提升自身竞争力。</p>',
+    publishDate: '2024-01-05',
+    category: '国际资讯',
+    views: 523,
+    author: '国际部',
+    coverImage: 'https://picsum.photos/400/240?random=5'
   },
   {
     id: 6,
-    title: '廉政文化建设成果展示活动',
-    summary: '公司开展廉政文化建设成果展示活动，通过多种形式展现廉政文化建设的丰硕成果...',
-    content: '<p>廉政文化建设成果展示活动。</p><p>活动通过展板展示、文艺演出、知识竞赛等形式，营造了浓厚的廉政文化氛围，增强了廉洁教育效果。</p>',
-    publishDate: '2024-01-06',
-    category: '廉政文化',
-    views: 1534,
-    author: '宣传部',
-    coverImage: 'https://picsum.photos/400/240?random=66'
+    title: '科技创新驱动高质量发展',
+    summary: '科技创新是推动高质量发展的第一动力，各地正在加大科技投入，培育新的经济增长点...',
+    content: '<p>科技创新正在成为经济发展的核心驱动力。</p><p>通过加强研发投入和人才培养，推动产业升级和结构优化。</p>',
+    publishDate: '2024-01-03',
+    category: '技术创新',
+    views: 834,
+    author: '科技部',
+    coverImage: 'https://picsum.photos/400/240?random=6'
   },
   {
     id: 7,
-    title: '内控制度执行情况专项检查',
-    summary: '公司组织开展内控制度执行情况专项检查，重点检查关键岗位和重要环节的制度执行情况...',
-    content: '<p>内控制度执行情况专项检查。</p><p>检查发现了一些制度执行不到位的问题，并要求相关部门立即整改，确保内控制度有效运行。</p>',
-    publishDate: '2024-01-04',
-    category: '监督检查',
-    views: 1423,
-    author: '审计部',
-    coverImage: 'https://picsum.photos/400/240?random=67'
+    title: '供应链管理优化提升企业效率',
+    summary: '在全球化背景下，供应链管理的重要性日益凸显，优化供应链管理成为企业提升竞争力的关键...',
+    content: '<p>供应链管理优化是企业运营的重要环节。</p><p>通过数字化手段和精细化管理，企业可以显著提升运营效率。</p>',
+    publishDate: '2024-01-01',
+    category: '企业新闻',
+    views: 445,
+    author: '运营部',
+    coverImage: 'https://picsum.photos/400/240?random=7'
   },
   {
     id: 8,
-    title: '廉洁从业承诺书签订仪式',
-    summary: '公司举行廉洁从业承诺书签订仪式，全体员工郑重承诺严格遵守廉洁从业各项规定...',
-    content: '<p>廉洁从业承诺书签订仪式。</p><p>通过签订承诺书，进一步强化了员工的廉洁意识，明确了廉洁从业的责任和义务。</p>',
-    publishDate: '2024-01-02',
-    category: '制度建设',
-    views: 1256,
-    author: '人力资源部',
-    coverImage: 'https://picsum.photos/400/240?random=68'
+    title: '新材料产业发展迎来新机遇',
+    summary: '随着科技进步和产业升级，新材料产业正迎来前所未有的发展机遇，成为推动经济增长的新引擎...',
+    content: '<p>新材料产业是战略性新兴产业的重要组成部分。</p><p>在政策支持和市场需求双重驱动下，新材料产业发展前景广阔。</p>',
+    publishDate: '2023-12-28',
+    category: '行业动态',
+    views: 678,
+    author: '材料部',
+    coverImage: 'https://picsum.photos/400/240?random=8'
   }
 ])
 
 // 计算属性
-const filteredIntegrity = computed(() => {
-  let result = integrityData.value
+const filteredNews = computed(() => {
+  let result = newsData.value
   
   // 按分类筛选
   if (selectedCategory.value !== '全部') {
-    result = result.filter(integrity => integrity.category === selectedCategory.value)
+    result = result.filter(news => news.category === selectedCategory.value)
   }
   
   // 按关键词搜索
   if (searchKeyword.value.trim()) {
     const keyword = searchKeyword.value.toLowerCase()
-    result = result.filter(integrity => 
-      integrity.title.toLowerCase().includes(keyword) || 
-      integrity.summary.toLowerCase().includes(keyword)
+    result = result.filter(news => 
+      news.title.toLowerCase().includes(keyword) || 
+      news.summary.toLowerCase().includes(keyword)
     )
   }
   
   return result
 })
 
-const totalPages = computed(() => Math.ceil(filteredIntegrity.value.length / pageSize))
+const totalPages = computed(() => Math.ceil(filteredNews.value.length / pageSize))
 
-const paginatedIntegrity = computed(() => {
+const paginatedNews = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   const end = start + pageSize
-  return filteredIntegrity.value.slice(start, end)
+  return filteredNews.value.slice(start, end)
 })
 
 const visiblePages = computed(() => {
@@ -310,16 +310,16 @@ const changePage = (page: number | string) => {
   }
 }
 
-const showIntegrityDetail = (integrity: IntegrityItem) => {
-  selectedIntegrity.value = integrity
+const showNewsDetail = (news: NewsItem) => {
+  selectedNews.value = news
   showDetail.value = true
   // 增加阅读量
-  integrity.views++
+  news.views++
 }
 
 const backToList = () => {
   showDetail.value = false
-  selectedIntegrity.value = null
+  selectedNews.value = null
 }
 
 // 监听搜索关键词变化
@@ -329,9 +329,9 @@ watch(searchKeyword, () => {
 </script>
 
 <style lang="scss" scoped>
-.integrity-page {
+.news-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f3e5f5 0%, #9c27b0 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 20px;
 }
 
@@ -342,17 +342,17 @@ watch(searchKeyword, () => {
   .page-title {
     font-size: 36px;
     font-weight: 700;
-    color: #4a148c;
+    color: #2c3e50;
     margin-bottom: 10px;
   }
   
   .page-subtitle {
     font-size: 16px;
-    color: #7b1fa2;
+    color: #7f8c8d;
   }
 }
 
-.integrity-list-view {
+.news-list-view {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -361,7 +361,7 @@ watch(searchKeyword, () => {
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(74, 20, 140, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   
   .search-box {
@@ -371,20 +371,20 @@ watch(searchKeyword, () => {
     .search-input {
       flex: 1;
       padding: 12px 16px;
-      border: 2px solid #f3e5f5;
+      border: 2px solid #e1e8ed;
       border-radius: 8px 0 0 8px;
       font-size: 14px;
       outline: none;
       transition: border-color 0.3s ease;
       
       &:focus {
-        border-color: #7b1fa2;
+        border-color: #3498db;
       }
     }
     
     .search-btn {
       padding: 12px 16px;
-      background: #7b1fa2;
+      background: #3498db;
       border: none;
       border-radius: 0 8px 8px 0;
       color: #fff;
@@ -392,7 +392,7 @@ watch(searchKeyword, () => {
       transition: background 0.3s ease;
       
       &:hover {
-        background: #4a148c;
+        background: #2980b9;
       }
     }
   }
@@ -405,48 +405,48 @@ watch(searchKeyword, () => {
     .category-btn {
       padding: 8px 16px;
       background: #f8f9fa;
-      border: 1px solid #f3e5f5;
+      border: 1px solid #dee2e6;
       border-radius: 20px;
-      color: #7b1fa2;
+      color: #6c757d;
       cursor: pointer;
       font-size: 14px;
       transition: all 0.3s ease;
       
       &:hover {
-        background: #f3e5f5;
-        border-color: #9c27b0;
+        background: #e9ecef;
+        border-color: #adb5bd;
       }
       
       &.active {
-        background: #7b1fa2;
-        border-color: #7b1fa2;
+        background: #3498db;
+        border-color: #3498db;
         color: #fff;
       }
     }
   }
 }
 
-.integrity-list {
+.news-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
 }
 
-.integrity-item {
+.news-item {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(74, 20, 140, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(74, 20, 140, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
   
-  .integrity-image {
+  .news-image {
     position: relative;
     height: 200px;
     overflow: hidden;
@@ -462,7 +462,7 @@ watch(searchKeyword, () => {
       position: absolute;
       top: 12px;
       left: 12px;
-      background: rgba(123, 31, 162, 0.9);
+      background: rgba(52, 152, 219, 0.9);
       color: #fff;
       padding: 4px 12px;
       border-radius: 12px;
@@ -471,13 +471,13 @@ watch(searchKeyword, () => {
     }
   }
   
-  .integrity-content {
+  .news-content {
     padding: 20px;
     
-    .integrity-title {
+    .news-title {
       font-size: 18px;
       font-weight: 600;
-      color: #4a148c;
+      color: #2c3e50;
       margin-bottom: 12px;
       line-height: 1.4;
       display: -webkit-box;
@@ -486,8 +486,8 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .integrity-summary {
-      color: #666;
+    .news-summary {
+      color: #7f8c8d;
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 16px;
@@ -497,21 +497,20 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .integrity-meta {
+    .news-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
-      color: #999;
+      color: #95a5a6;
       
       .publish-date {
         font-weight: 500;
-        color: #7b1fa2;
       }
     }
   }
   
-  &:hover .integrity-image img {
+  &:hover .news-image img {
     transform: scale(1.05);
   }
 }
@@ -525,15 +524,15 @@ watch(searchKeyword, () => {
   .page-btn {
     padding: 8px 16px;
     background: #fff;
-    border: 1px solid #f3e5f5;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #7b1fa2;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     
     &:hover:not(:disabled) {
-      background: #f3e5f5;
-      border-color: #9c27b0;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &:disabled {
@@ -545,22 +544,22 @@ watch(searchKeyword, () => {
   .page-number {
     padding: 8px 12px;
     background: #fff;
-    border: 1px solid #f3e5f5;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #7b1fa2;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 40px;
     text-align: center;
     
     &:hover {
-      background: #f3e5f5;
-      border-color: #9c27b0;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &.active {
-      background: #7b1fa2;
-      border-color: #7b1fa2;
+      background: #3498db;
+      border-color: #3498db;
       color: #fff;
     }
   }
@@ -584,7 +583,7 @@ watch(searchKeyword, () => {
 
 // 响应式设计
 @media (max-width: 768px) {
-  .integrity-page {
+  .news-page {
     padding: 15px;
   }
   
@@ -603,20 +602,20 @@ watch(searchKeyword, () => {
     }
   }
   
-  .integrity-list {
+  .news-list {
     grid-template-columns: 1fr;
     gap: 16px;
   }
   
-  .integrity-item {
-    .integrity-content {
+  .news-item {
+    .news-content {
       padding: 15px;
       
-      .integrity-title {
+      .news-title {
         font-size: 16px;
       }
       
-      .integrity-meta {
+      .news-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;

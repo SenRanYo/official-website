@@ -1,22 +1,22 @@
 <template>
-  <div class="union-page">
+  <div class="news-page">
     <!-- 页面头部 -->
     <div class="page-header">
-      <h1 class="page-title">工会青年</h1>
-      <p class="page-subtitle">凝聚青春力量，展现青年风采</p>
+      <h1 class="page-title">新闻大事件</h1>
+      <p class="page-subtitle">了解最新资讯动态</p>
     </div>
 
     <!-- 过渡动画容器 -->
     <Transition name="slide" mode="out-in">
-      <!-- 工会青年活动列表视图 -->
-      <div v-if="!showDetail" key="list" class="union-list-view">
+      <!-- 新闻列表视图 -->
+      <div v-if="!showDetail" key="list" class="news-list-view">
         <!-- 搜索和筛选 -->
         <div class="filter-section">
           <div class="search-box">
             <input 
               v-model="searchKeyword" 
               type="text" 
-              placeholder="搜索工会青年活动标题或内容..."
+              placeholder="搜索新闻标题或内容..."
               class="search-input"
             />
             <button class="search-btn" @click="handleSearch">
@@ -38,27 +38,27 @@
           </div>
         </div>
 
-        <!-- 工会青年活动列表 -->
-        <div class="union-list">
+        <!-- 新闻列表 -->
+        <div class="news-list">
           <div 
-            v-for="union in paginatedUnion" 
-            :key="union.id"
-            class="union-item"
-            @click="showUnionDetail(union)"
+            v-for="news in paginatedNews" 
+            :key="news.id"
+            class="news-item"
+            @click="showNewsDetail(news)"
           >
-            <div class="union-image">
-              <img :src="union.coverImage" :alt="union.title" />
-              <div class="category-tag">{{ union.category }}</div>
+            <div class="news-image">
+              <img :src="news.coverImage" :alt="news.title" />
+              <div class="category-tag">{{ news.category }}</div>
             </div>
             
-            <div class="union-content">
-              <h3 class="union-title">{{ union.title }}</h3>
-              <p class="union-summary">{{ union.summary }}</p>
+            <div class="news-content">
+              <h3 class="news-title">{{ news.title }}</h3>
+              <p class="news-summary">{{ news.summary }}</p>
               
-              <div class="union-meta">
-                <span class="publish-date">{{ formatDate(union.publishDate) }}</span>
-                <span class="views">{{ union.views }} 阅读</span>
-                <span class="author">{{ union.author }}</span>
+              <div class="news-meta">
+                <span class="publish-date">{{ formatDate(news.publishDate) }}</span>
+                <span class="views">{{ news.views }} 阅读</span>
+                <span class="author">{{ news.author }}</span>
               </div>
             </div>
           </div>
@@ -93,11 +93,11 @@
         </div>
       </div>
 
-      <!-- 工会青年活动详情视图 -->
+      <!-- 新闻详情视图 -->
       <NewsDetail 
         v-else 
         key="detail" 
-        :news="selectedUnion!" 
+        :news="selectedNews!" 
         @back="backToList"
       />
     </Transition>
@@ -107,7 +107,7 @@
 <script setup lang="ts">
 import NewsDetail from '~/components/NewsDetail/index.vue'
 
-interface UnionItem {
+interface NewsItem {
   id: number
   title: string
   summary: string
@@ -122,135 +122,135 @@ interface UnionItem {
 
 // 响应式数据
 const showDetail = ref(false)
-const selectedUnion = ref<UnionItem | null>(null)
+const selectedNews = ref<NewsItem | null>(null)
 const searchKeyword = ref('')
 const selectedCategory = ref('全部')
 const currentPage = ref(1)
 const pageSize = 6
 
 // 分类数据
-const categories = ['全部', '工会活动', '青年工作', '文体活动', '技能竞赛', '志愿服务', '员工关爱']
+const categories = ['全部', '政策法规', '行业动态', '技术创新', '企业新闻', '国际资讯']
 
-// 模拟工会青年活动数据
-const unionData = ref<UnionItem[]>([
+// 模拟新闻数据
+const newsData = ref<NewsItem[]>([
   {
     id: 1,
-    title: '公司工会举办职工技能大赛',
-    summary: '为提升职工技能水平，激发工作热情，公司工会成功举办了职工技能大赛，吸引了众多员工积极参与...',
-    content: '<p>公司工会举办职工技能大赛。</p><p>本次大赛设置了多个比赛项目，涵盖了公司各个岗位的核心技能，为员工提供了展示才华的平台。</p>',
-    publishDate: '2024-01-16',
-    category: '技能竞赛',
-    views: 2580,
-    author: '工会办公室',
-    coverImage: 'https://picsum.photos/400/240?random=51',
-    tags: ['技能大赛', '职工活动', '能力提升']
+    title: '国家发布新能源汽车产业发展规划',
+    summary: '为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》...',
+    content: '<p>为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》。</p><p>规划明确了新能源汽车产业发展的总体要求、发展目标、重点任务和保障措施。</p>',
+    publishDate: '2024-01-15',
+    category: '政策法规',
+    views: 1250,
+    author: '政策研究部',
+    coverImage: 'https://picsum.photos/400/240?random=1',
+    tags: ['新能源', '汽车', '政策']
   },
   {
     id: 2,
-    title: '青年员工座谈会成功举办',
-    summary: '公司团委组织召开青年员工座谈会，倾听青年声音，了解青年需求，为青年发展搭建平台...',
-    content: '<p>青年员工座谈会成功举办。</p><p>会议围绕青年员工关心的职业发展、工作环境、生活保障等问题进行了深入交流和讨论。</p>',
-    publishDate: '2024-01-14',
-    category: '青年工作',
-    views: 2145,
-    author: '团委',
-    coverImage: 'https://picsum.photos/400/240?random=52'
+    title: '人工智能技术在制造业中的应用前景',
+    summary: '随着人工智能技术的不断发展，其在制造业中的应用越来越广泛，为传统制造业带来了新的发展机遇...',
+    content: '<p>人工智能技术正在深刻改变制造业的面貌。</p><p>从智能制造到预测性维护，AI技术为制造业提供了全新的解决方案。</p>',
+    publishDate: '2024-01-12',
+    category: '技术创新',
+    views: 980,
+    author: '技术部',
+    coverImage: 'https://picsum.photos/400/240?random=2'
   },
   {
     id: 3,
-    title: '职工文艺汇演精彩纷呈',
-    summary: '公司工会组织的职工文艺汇演圆满落幕，精彩的节目展现了员工的多才多艺和良好精神风貌...',
-    content: '<p>职工文艺汇演精彩纷呈。</p><p>演出节目形式多样，包括歌曲、舞蹈、小品等，充分展示了员工的艺术才华和团队精神。</p>',
-    publishDate: '2024-01-12',
-    category: '文体活动',
-    views: 1987,
-    author: '文体部',
-    coverImage: 'https://picsum.photos/400/240?random=53'
+    title: '绿色发展理念引领企业转型升级',
+    summary: '在碳达峰、碳中和目标指引下，越来越多的企业开始践行绿色发展理念，推动产业结构优化升级...',
+    content: '<p>绿色发展已成为企业可持续发展的必由之路。</p><p>通过技术创新和管理创新，企业正在实现经济效益与环境效益的双赢。</p>',
+    publishDate: '2024-01-10',
+    category: '企业新闻',
+    views: 756,
+    author: '环保部',
+    coverImage: 'https://picsum.photos/400/240?random=3'
   },
   {
     id: 4,
-    title: '工会组织员工健康体检活动',
-    summary: '为关爱员工身体健康，公司工会组织了全员健康体检活动，为员工提供全面的健康检查服务...',
-    content: '<p>工会组织员工健康体检活动。</p><p>体检项目全面，包括常规检查、专科检查等，体现了公司对员工健康的关心和重视。</p>',
-    publishDate: '2024-01-10',
-    category: '员工关爱',
-    views: 1756,
-    author: '工会办公室',
-    coverImage: 'https://picsum.photos/400/240?random=54'
+    title: '数字化转型助力中小企业发展',
+    summary: '数字化转型已成为中小企业提升竞争力的重要途径，通过数字技术的应用，企业运营效率显著提升...',
+    content: '<p>数字化转型为中小企业带来了新的发展机遇。</p><p>云计算、大数据、物联网等技术的应用，帮助企业降本增效。</p>',
+    publishDate: '2024-01-08',
+    category: '行业动态',
+    views: 642,
+    author: '数字化部',
+    coverImage: 'https://picsum.photos/400/240?random=4'
   },
   {
     id: 5,
-    title: '青年志愿者服务队走进社区',
-    summary: '公司青年志愿者服务队深入社区开展志愿服务活动，用实际行动践行社会责任，传递正能量...',
-    content: '<p>青年志愿者服务队走进社区。</p><p>志愿者们开展了环境清洁、敬老助残、科普宣传等多项服务活动，受到了社区居民的一致好评。</p>',
-    publishDate: '2024-01-08',
-    category: '志愿服务',
-    views: 1534,
-    author: '青年志愿者协会',
-    coverImage: 'https://picsum.photos/400/240?random=55'
+    title: '国际贸易新格局下的机遇与挑战',
+    summary: '全球贸易格局正在发生深刻变化，我国企业需要在新的国际环境中寻找发展机遇，应对各种挑战...',
+    content: '<p>国际贸易环境的变化为我国企业带来了新的机遇和挑战。</p><p>企业需要加强国际合作，提升自身竞争力。</p>',
+    publishDate: '2024-01-05',
+    category: '国际资讯',
+    views: 523,
+    author: '国际部',
+    coverImage: 'https://picsum.photos/400/240?random=5'
   },
   {
     id: 6,
-    title: '工会举办职工运动会',
-    summary: '公司工会成功举办职工运动会，设置了多个比赛项目，员工踊跃参与，展现了良好的体育精神...',
-    content: '<p>工会举办职工运动会。</p><p>运动会设置了田径、球类、趣味项目等多个比赛项目，增强了员工体质，促进了团队合作。</p>',
-    publishDate: '2024-01-06',
-    category: '文体活动',
-    views: 1323,
-    author: '体育部',
-    coverImage: 'https://picsum.photos/400/240?random=56'
+    title: '科技创新驱动高质量发展',
+    summary: '科技创新是推动高质量发展的第一动力，各地正在加大科技投入，培育新的经济增长点...',
+    content: '<p>科技创新正在成为经济发展的核心驱动力。</p><p>通过加强研发投入和人才培养，推动产业升级和结构优化。</p>',
+    publishDate: '2024-01-03',
+    category: '技术创新',
+    views: 834,
+    author: '科技部',
+    coverImage: 'https://picsum.photos/400/240?random=6'
   },
   {
     id: 7,
-    title: '青年创新创业大赛启动',
-    summary: '为激发青年员工创新创业热情，公司启动了青年创新创业大赛，鼓励青年员工积极参与创新实践...',
-    content: '<p>青年创新创业大赛启动。</p><p>大赛旨在为青年员工提供创新创业平台，培养创新思维，提升创新能力，推动企业创新发展。</p>',
-    publishDate: '2024-01-04',
-    category: '青年工作',
-    views: 1245,
-    author: '创新发展部',
-    coverImage: 'https://picsum.photos/400/240?random=57'
+    title: '供应链管理优化提升企业效率',
+    summary: '在全球化背景下，供应链管理的重要性日益凸显，优化供应链管理成为企业提升竞争力的关键...',
+    content: '<p>供应链管理优化是企业运营的重要环节。</p><p>通过数字化手段和精细化管理，企业可以显著提升运营效率。</p>',
+    publishDate: '2024-01-01',
+    category: '企业新闻',
+    views: 445,
+    author: '运营部',
+    coverImage: 'https://picsum.photos/400/240?random=7'
   },
   {
     id: 8,
-    title: '工会开展困难职工帮扶活动',
-    summary: '公司工会深入开展困难职工帮扶活动，通过多种方式为困难职工提供帮助和支持，体现企业温暖...',
-    content: '<p>工会开展困难职工帮扶活动。</p><p>通过资金帮扶、就医协助、子女教育支持等多种方式，为困难职工解决实际问题，传递企业关爱。</p>',
-    publishDate: '2024-01-02',
-    category: '员工关爱',
-    views: 1156,
-    author: '帮扶中心',
-    coverImage: 'https://picsum.photos/400/240?random=58'
+    title: '新材料产业发展迎来新机遇',
+    summary: '随着科技进步和产业升级，新材料产业正迎来前所未有的发展机遇，成为推动经济增长的新引擎...',
+    content: '<p>新材料产业是战略性新兴产业的重要组成部分。</p><p>在政策支持和市场需求双重驱动下，新材料产业发展前景广阔。</p>',
+    publishDate: '2023-12-28',
+    category: '行业动态',
+    views: 678,
+    author: '材料部',
+    coverImage: 'https://picsum.photos/400/240?random=8'
   }
 ])
 
 // 计算属性
-const filteredUnion = computed(() => {
-  let result = unionData.value
+const filteredNews = computed(() => {
+  let result = newsData.value
   
   // 按分类筛选
   if (selectedCategory.value !== '全部') {
-    result = result.filter(union => union.category === selectedCategory.value)
+    result = result.filter(news => news.category === selectedCategory.value)
   }
   
   // 按关键词搜索
   if (searchKeyword.value.trim()) {
     const keyword = searchKeyword.value.toLowerCase()
-    result = result.filter(union => 
-      union.title.toLowerCase().includes(keyword) || 
-      union.summary.toLowerCase().includes(keyword)
+    result = result.filter(news => 
+      news.title.toLowerCase().includes(keyword) || 
+      news.summary.toLowerCase().includes(keyword)
     )
   }
   
   return result
 })
 
-const totalPages = computed(() => Math.ceil(filteredUnion.value.length / pageSize))
+const totalPages = computed(() => Math.ceil(filteredNews.value.length / pageSize))
 
-const paginatedUnion = computed(() => {
+const paginatedNews = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   const end = start + pageSize
-  return filteredUnion.value.slice(start, end)
+  return filteredNews.value.slice(start, end)
 })
 
 const visiblePages = computed(() => {
@@ -310,16 +310,16 @@ const changePage = (page: number | string) => {
   }
 }
 
-const showUnionDetail = (union: UnionItem) => {
-  selectedUnion.value = union
+const showNewsDetail = (news: NewsItem) => {
+  selectedNews.value = news
   showDetail.value = true
   // 增加阅读量
-  union.views++
+  news.views++
 }
 
 const backToList = () => {
   showDetail.value = false
-  selectedUnion.value = null
+  selectedNews.value = null
 }
 
 // 监听搜索关键词变化
@@ -329,9 +329,9 @@ watch(searchKeyword, () => {
 </script>
 
 <style lang="scss" scoped>
-.union-page {
+.news-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fff3e0 0%, #ffcc02 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 20px;
 }
 
@@ -342,17 +342,17 @@ watch(searchKeyword, () => {
   .page-title {
     font-size: 36px;
     font-weight: 700;
-    color: #e65100;
+    color: #2c3e50;
     margin-bottom: 10px;
   }
   
   .page-subtitle {
     font-size: 16px;
-    color: #f57c00;
+    color: #7f8c8d;
   }
 }
 
-.union-list-view {
+.news-list-view {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -361,7 +361,7 @@ watch(searchKeyword, () => {
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(230, 81, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   
   .search-box {
@@ -371,20 +371,20 @@ watch(searchKeyword, () => {
     .search-input {
       flex: 1;
       padding: 12px 16px;
-      border: 2px solid #fff3e0;
+      border: 2px solid #e1e8ed;
       border-radius: 8px 0 0 8px;
       font-size: 14px;
       outline: none;
       transition: border-color 0.3s ease;
       
       &:focus {
-        border-color: #f57c00;
+        border-color: #3498db;
       }
     }
     
     .search-btn {
       padding: 12px 16px;
-      background: #f57c00;
+      background: #3498db;
       border: none;
       border-radius: 0 8px 8px 0;
       color: #fff;
@@ -392,7 +392,7 @@ watch(searchKeyword, () => {
       transition: background 0.3s ease;
       
       &:hover {
-        background: #e65100;
+        background: #2980b9;
       }
     }
   }
@@ -405,48 +405,48 @@ watch(searchKeyword, () => {
     .category-btn {
       padding: 8px 16px;
       background: #f8f9fa;
-      border: 1px solid #fff3e0;
+      border: 1px solid #dee2e6;
       border-radius: 20px;
-      color: #f57c00;
+      color: #6c757d;
       cursor: pointer;
       font-size: 14px;
       transition: all 0.3s ease;
       
       &:hover {
-        background: #fff3e0;
-        border-color: #ffcc02;
+        background: #e9ecef;
+        border-color: #adb5bd;
       }
       
       &.active {
-        background: #f57c00;
-        border-color: #f57c00;
+        background: #3498db;
+        border-color: #3498db;
         color: #fff;
       }
     }
   }
 }
 
-.union-list {
+.news-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
 }
 
-.union-item {
+.news-item {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(230, 81, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(230, 81, 0, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
   
-  .union-image {
+  .news-image {
     position: relative;
     height: 200px;
     overflow: hidden;
@@ -462,7 +462,7 @@ watch(searchKeyword, () => {
       position: absolute;
       top: 12px;
       left: 12px;
-      background: rgba(245, 124, 0, 0.9);
+      background: rgba(52, 152, 219, 0.9);
       color: #fff;
       padding: 4px 12px;
       border-radius: 12px;
@@ -471,13 +471,13 @@ watch(searchKeyword, () => {
     }
   }
   
-  .union-content {
+  .news-content {
     padding: 20px;
     
-    .union-title {
+    .news-title {
       font-size: 18px;
       font-weight: 600;
-      color: #e65100;
+      color: #2c3e50;
       margin-bottom: 12px;
       line-height: 1.4;
       display: -webkit-box;
@@ -486,8 +486,8 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .union-summary {
-      color: #666;
+    .news-summary {
+      color: #7f8c8d;
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 16px;
@@ -497,21 +497,20 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .union-meta {
+    .news-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
-      color: #999;
+      color: #95a5a6;
       
       .publish-date {
         font-weight: 500;
-        color: #f57c00;
       }
     }
   }
   
-  &:hover .union-image img {
+  &:hover .news-image img {
     transform: scale(1.05);
   }
 }
@@ -525,15 +524,15 @@ watch(searchKeyword, () => {
   .page-btn {
     padding: 8px 16px;
     background: #fff;
-    border: 1px solid #fff3e0;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #f57c00;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     
     &:hover:not(:disabled) {
-      background: #fff3e0;
-      border-color: #ffcc02;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &:disabled {
@@ -545,22 +544,22 @@ watch(searchKeyword, () => {
   .page-number {
     padding: 8px 12px;
     background: #fff;
-    border: 1px solid #fff3e0;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #f57c00;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 40px;
     text-align: center;
     
     &:hover {
-      background: #fff3e0;
-      border-color: #ffcc02;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &.active {
-      background: #f57c00;
-      border-color: #f57c00;
+      background: #3498db;
+      border-color: #3498db;
       color: #fff;
     }
   }
@@ -584,7 +583,7 @@ watch(searchKeyword, () => {
 
 // 响应式设计
 @media (max-width: 768px) {
-  .union-page {
+  .news-page {
     padding: 15px;
   }
   
@@ -603,20 +602,20 @@ watch(searchKeyword, () => {
     }
   }
   
-  .union-list {
+  .news-list {
     grid-template-columns: 1fr;
     gap: 16px;
   }
   
-  .union-item {
-    .union-content {
+  .news-item {
+    .news-content {
       padding: 15px;
       
-      .union-title {
+      .news-title {
         font-size: 16px;
       }
       
-      .union-meta {
+      .news-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;

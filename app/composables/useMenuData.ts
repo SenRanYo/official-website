@@ -16,11 +16,11 @@ export default function () {
           },
           {
             title: "领导班子",
-            route: "/gsgk/gsjj",
+            route: "/gsgk/ldbz",
           },
           {
             title: "组织机构",
-            route: "/gsgk/gsjj",
+            route: "/gsgk/zzjg",
           },
           {
             title: "大事记",
@@ -30,65 +30,65 @@ export default function () {
       },
       {
         title: "新闻中心",
-        route: "/news/company-news",
+        route: "/xwzx/gsyw",
         child: [
           {
             title: "公司要闻",
-            route: "/news/company-news",
+            route: "/xwzx/gsyw",
           },
           {
             title: "公司新闻",
-            route: "/news/company-news",
+            route: "/xwzx/gsxw",
           },
           {
             title: "媒体聚焦",
-            route: "/news/media-focus",
+            route: "/xwzx/mtjj",
           },
           {
             title: "图片新闻",
-            route: "/news/photo-news",
+            route: "/xwzx/tpxw",
           },
           {
             title: "专题聚焦",
-            route: "/news/special-focus",
+            route: "/xwzx/ztjj",
           },
           {
             title: "职工园地",
-            route: "/news/employee-garden",
+            route: "/xwzx/zgyd",
           },
         ],
       },
       {
         title: "党的建设",
-        route: "/party/party-building",
+        route: "/ddjs/djgz",
         child: [
           {
             title: "党建工作",
-            route: "/party/party-building",
+            route: "/ddjs/djgz",
           },
           {
             title: "工会团青",
-            route: "/party/union-youth",
+            route: "/ddjs/ghtq",
           },
           {
             title: "企业文化",
-            route: "/party/corporate-culture",
+            route: "/ddjs/qywh",
           },
           {
             title: "厂务公开",
-            route: "/party/factory-affairs",
+            route: "/ddjs/cwgk",
           },
           {
             title: "党务公开",
-            route: "/party/party-affairs",
+            route: "/ddjs/dwgk",
           },
           {
             title: "纪检监察",
-            route: "/party/discipline-inspection",
+            route: "/ddjs/jjjc",
           },
           {
             title: "人力资源",
-            route: "/party/human-resources",
+            route: "/ddjs/rlzy",
           },
         ],
       },

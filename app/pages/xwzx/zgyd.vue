@@ -1,22 +1,22 @@
 <template>
-  <div class="party-page">
+  <div class="news-page">
     <!-- 页面头部 -->
     <div class="page-header">
-      <h1 class="page-title">党的建设</h1>
-      <p class="page-subtitle">坚持党的领导，加强党的建设</p>
+      <h1 class="page-title">新闻大事件</h1>
+      <p class="page-subtitle">了解最新资讯动态</p>
     </div>
 
     <!-- 过渡动画容器 -->
     <Transition name="slide" mode="out-in">
-      <!-- 党建工作列表视图 -->
-      <div v-if="!showDetail" key="list" class="party-list-view">
+      <!-- 新闻列表视图 -->
+      <div v-if="!showDetail" key="list" class="news-list-view">
         <!-- 搜索和筛选 -->
         <div class="filter-section">
           <div class="search-box">
             <input 
               v-model="searchKeyword" 
               type="text" 
-              placeholder="搜索党建工作标题或内容..."
+              placeholder="搜索新闻标题或内容..."
               class="search-input"
             />
             <button class="search-btn" @click="handleSearch">
@@ -38,27 +38,27 @@
           </div>
         </div>
 
-        <!-- 党建工作列表 -->
-        <div class="party-list">
+        <!-- 新闻列表 -->
+        <div class="news-list">
           <div 
-            v-for="party in paginatedParty" 
-            :key="party.id"
-            class="party-item"
-            @click="showPartyDetail(party)"
+            v-for="news in paginatedNews" 
+            :key="news.id"
+            class="news-item"
+            @click="showNewsDetail(news)"
           >
-            <div class="party-image">
-              <img :src="party.coverImage" :alt="party.title" />
-              <div class="category-tag">{{ party.category }}</div>
+            <div class="news-image">
+              <img :src="news.coverImage" :alt="news.title" />
+              <div class="category-tag">{{ news.category }}</div>
             </div>
             
-            <div class="party-content">
-              <h3 class="party-title">{{ party.title }}</h3>
-              <p class="party-summary">{{ party.summary }}</p>
+            <div class="news-content">
+              <h3 class="news-title">{{ news.title }}</h3>
+              <p class="news-summary">{{ news.summary }}</p>
               
-              <div class="party-meta">
-                <span class="publish-date">{{ formatDate(party.publishDate) }}</span>
-                <span class="views">{{ party.views }} 阅读</span>
-                <span class="author">{{ party.author }}</span>
+              <div class="news-meta">
+                <span class="publish-date">{{ formatDate(news.publishDate) }}</span>
+                <span class="views">{{ news.views }} 阅读</span>
+                <span class="author">{{ news.author }}</span>
               </div>
             </div>
           </div>
@@ -93,11 +93,11 @@
         </div>
       </div>
 
-      <!-- 党建工作详情视图 -->
+      <!-- 新闻详情视图 -->
       <NewsDetail 
         v-else 
         key="detail" 
-        :news="selectedParty!" 
+        :news="selectedNews!" 
         @back="backToList"
       />
     </Transition>
@@ -107,7 +107,7 @@
 <script setup lang="ts">
 import NewsDetail from '~/components/NewsDetail/index.vue'
 
-interface PartyItem {
+interface NewsItem {
   id: number
   title: string
   summary: string
@@ -122,135 +122,135 @@ interface PartyItem {
 
 // 响应式数据
 const showDetail = ref(false)
-const selectedParty = ref<PartyItem | null>(null)
+const selectedNews = ref<NewsItem | null>(null)
 const searchKeyword = ref('')
 const selectedCategory = ref('全部')
 const currentPage = ref(1)
 const pageSize = 6
 
 // 分类数据
-const categories = ['全部', '理论学习', '组织建设', '党员教育', '主题活动', '廉政建设', '先进典型']
+const categories = ['全部', '政策法规', '行业动态', '技术创新', '企业新闻', '国际资讯']
 
-// 模拟党建工作数据
-const partyData = ref<PartyItem[]>([
+// 模拟新闻数据
+const newsData = ref<NewsItem[]>([
   {
     id: 1,
-    title: '深入学习贯彻党的二十大精神',
-    summary: '公司党委组织全体党员深入学习贯彻党的二十大精神，通过专题学习会、研讨交流等形式，确保学习成效...',
-    content: '<p>公司党委高度重视党的二十大精神学习贯彻工作。</p><p>通过多种形式的学习活动，引导党员干部深刻理解党的二十大精神实质，切实把思想和行动统一到党中央决策部署上来。</p>',
-    publishDate: '2024-01-16',
-    category: '理论学习',
-    views: 2580,
-    author: '党委办公室',
-    coverImage: 'https://picsum.photos/400/240?random=41',
-    tags: ['二十大精神', '理论学习', '党员教育']
+    title: '国家发布新能源汽车产业发展规划',
+    summary: '为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》...',
+    content: '<p>为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》。</p><p>规划明确了新能源汽车产业发展的总体要求、发展目标、重点任务和保障措施。</p>',
+    publishDate: '2024-01-15',
+    category: '政策法规',
+    views: 1250,
+    author: '政策研究部',
+    coverImage: 'https://picsum.photos/400/240?random=1',
+    tags: ['新能源', '汽车', '政策']
   },
   {
     id: 2,
-    title: '加强基层党组织建设工作',
-    summary: '公司持续加强基层党组织建设，完善组织架构，规范组织生活，提升组织活力和战斗力...',
-    content: '<p>公司不断加强基层党组织建设。</p><p>通过完善组织架构、规范组织生活、创新活动方式等措施，有效提升了基层党组织的凝聚力和战斗力。</p>',
-    publishDate: '2024-01-14',
-    category: '组织建设',
-    views: 2145,
-    author: '组织部',
-    coverImage: 'https://picsum.photos/400/240?random=42'
+    title: '人工智能技术在制造业中的应用前景',
+    summary: '随着人工智能技术的不断发展，其在制造业中的应用越来越广泛，为传统制造业带来了新的发展机遇...',
+    content: '<p>人工智能技术正在深刻改变制造业的面貌。</p><p>从智能制造到预测性维护，AI技术为制造业提供了全新的解决方案。</p>',
+    publishDate: '2024-01-12',
+    category: '技术创新',
+    views: 980,
+    author: '技术部',
+    coverImage: 'https://picsum.photos/400/240?random=2'
   },
   {
     id: 3,
-    title: '开展党员教育培训活动',
-    summary: '公司党委组织开展党员教育培训活动，通过专题讲座、实地参观等方式，提升党员素质和能力...',
-    content: '<p>公司党委重视党员教育培训工作。</p><p>通过系统性的教育培训，帮助党员提升政治素养、业务能力和综合素质，更好地发挥先锋模范作用。</p>',
-    publishDate: '2024-01-12',
-    category: '党员教育',
-    views: 1987,
-    author: '宣传部',
-    coverImage: 'https://picsum.photos/400/240?random=43'
+    title: '绿色发展理念引领企业转型升级',
+    summary: '在碳达峰、碳中和目标指引下，越来越多的企业开始践行绿色发展理念，推动产业结构优化升级...',
+    content: '<p>绿色发展已成为企业可持续发展的必由之路。</p><p>通过技术创新和管理创新，企业正在实现经济效益与环境效益的双赢。</p>',
+    publishDate: '2024-01-10',
+    category: '企业新闻',
+    views: 756,
+    author: '环保部',
+    coverImage: 'https://picsum.photos/400/240?random=3'
   },
   {
     id: 4,
-    title: '"不忘初心、牢记使命"主题党日活动',
-    summary: '公司各党支部开展"不忘初心、牢记使命"主题党日活动，重温入党誓词，坚定理想信念...',
-    content: '<p>各党支部开展主题党日活动。</p><p>通过重温入党誓词、参观红色教育基地等活动，进一步坚定了党员的理想信念和使命担当。</p>',
-    publishDate: '2024-01-10',
-    category: '主题活动',
-    views: 1756,
-    author: '党支部',
-    coverImage: 'https://picsum.photos/400/240?random=44'
+    title: '数字化转型助力中小企业发展',
+    summary: '数字化转型已成为中小企业提升竞争力的重要途径，通过数字技术的应用，企业运营效率显著提升...',
+    content: '<p>数字化转型为中小企业带来了新的发展机遇。</p><p>云计算、大数据、物联网等技术的应用，帮助企业降本增效。</p>',
+    publishDate: '2024-01-08',
+    category: '行业动态',
+    views: 642,
+    author: '数字化部',
+    coverImage: 'https://picsum.photos/400/240?random=4'
   },
   {
     id: 5,
-    title: '深入推进党风廉政建设',
-    summary: '公司党委深入推进党风廉政建设，加强廉政教育，完善监督机制，营造风清气正的发展环境...',
-    content: '<p>公司党委高度重视党风廉政建设。</p><p>通过加强廉政教育、完善制度建设、强化监督检查等措施，有效推进了党风廉政建设工作。</p>',
-    publishDate: '2024-01-08',
-    category: '廉政建设',
-    views: 1534,
-    author: '纪检监察部',
-    coverImage: 'https://picsum.photos/400/240?random=45'
+    title: '国际贸易新格局下的机遇与挑战',
+    summary: '全球贸易格局正在发生深刻变化，我国企业需要在新的国际环境中寻找发展机遇，应对各种挑战...',
+    content: '<p>国际贸易环境的变化为我国企业带来了新的机遇和挑战。</p><p>企业需要加强国际合作，提升自身竞争力。</p>',
+    publishDate: '2024-01-05',
+    category: '国际资讯',
+    views: 523,
+    author: '国际部',
+    coverImage: 'https://picsum.photos/400/240?random=5'
   },
   {
     id: 6,
-    title: '表彰优秀党员和先进党支部',
-    summary: '公司党委表彰了一批优秀党员和先进党支部，充分发挥先进典型的示范引领作用...',
-    content: '<p>公司党委开展先进典型表彰活动。</p><p>通过表彰优秀党员和先进党支部，树立了学习榜样，激发了广大党员的工作热情和创新活力。</p>',
-    publishDate: '2024-01-06',
-    category: '先进典型',
-    views: 1323,
-    author: '党委办公室',
-    coverImage: 'https://picsum.photos/400/240?random=46'
+    title: '科技创新驱动高质量发展',
+    summary: '科技创新是推动高质量发展的第一动力，各地正在加大科技投入，培育新的经济增长点...',
+    content: '<p>科技创新正在成为经济发展的核心驱动力。</p><p>通过加强研发投入和人才培养，推动产业升级和结构优化。</p>',
+    publishDate: '2024-01-03',
+    category: '技术创新',
+    views: 834,
+    author: '科技部',
+    coverImage: 'https://picsum.photos/400/240?random=6'
   },
   {
     id: 7,
-    title: '党员志愿服务活动深入开展',
-    summary: '公司党员积极参与志愿服务活动，深入社区、学校等地开展公益服务，展现党员风采...',
-    content: '<p>党员志愿服务活动深入开展。</p><p>广大党员积极参与各类志愿服务活动，用实际行动践行党员的初心使命，展现了良好的精神风貌。</p>',
-    publishDate: '2024-01-04',
-    category: '主题活动',
-    views: 1245,
-    author: '团委',
-    coverImage: 'https://picsum.photos/400/240?random=47'
+    title: '供应链管理优化提升企业效率',
+    summary: '在全球化背景下，供应链管理的重要性日益凸显，优化供应链管理成为企业提升竞争力的关键...',
+    content: '<p>供应链管理优化是企业运营的重要环节。</p><p>通过数字化手段和精细化管理，企业可以显著提升运营效率。</p>',
+    publishDate: '2024-01-01',
+    category: '企业新闻',
+    views: 445,
+    author: '运营部',
+    coverImage: 'https://picsum.photos/400/240?random=7'
   },
   {
     id: 8,
-    title: '加强党建工作制度化规范化建设',
-    summary: '公司不断完善党建工作制度体系，推进党建工作制度化、规范化、科学化发展...',
-    content: '<p>公司加强党建工作制度化建设。</p><p>通过建立健全各项制度，规范党建工作流程，提升党建工作质量和效果。</p>',
-    publishDate: '2024-01-02',
-    category: '组织建设',
-    views: 1156,
-    author: '党委办公室',
-    coverImage: 'https://picsum.photos/400/240?random=48'
+    title: '新材料产业发展迎来新机遇',
+    summary: '随着科技进步和产业升级，新材料产业正迎来前所未有的发展机遇，成为推动经济增长的新引擎...',
+    content: '<p>新材料产业是战略性新兴产业的重要组成部分。</p><p>在政策支持和市场需求双重驱动下，新材料产业发展前景广阔。</p>',
+    publishDate: '2023-12-28',
+    category: '行业动态',
+    views: 678,
+    author: '材料部',
+    coverImage: 'https://picsum.photos/400/240?random=8'
   }
 ])
 
 // 计算属性
-const filteredParty = computed(() => {
-  let result = partyData.value
+const filteredNews = computed(() => {
+  let result = newsData.value
   
   // 按分类筛选
   if (selectedCategory.value !== '全部') {
-    result = result.filter(party => party.category === selectedCategory.value)
+    result = result.filter(news => news.category === selectedCategory.value)
   }
   
   // 按关键词搜索
   if (searchKeyword.value.trim()) {
     const keyword = searchKeyword.value.toLowerCase()
-    result = result.filter(party => 
-      party.title.toLowerCase().includes(keyword) || 
-      party.summary.toLowerCase().includes(keyword)
+    result = result.filter(news => 
+      news.title.toLowerCase().includes(keyword) || 
+      news.summary.toLowerCase().includes(keyword)
     )
   }
   
   return result
 })
 
-const totalPages = computed(() => Math.ceil(filteredParty.value.length / pageSize))
+const totalPages = computed(() => Math.ceil(filteredNews.value.length / pageSize))
 
-const paginatedParty = computed(() => {
+const paginatedNews = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   const end = start + pageSize
-  return filteredParty.value.slice(start, end)
+  return filteredNews.value.slice(start, end)
 })
 
 const visiblePages = computed(() => {
@@ -310,16 +310,16 @@ const changePage = (page: number | string) => {
   }
 }
 
-const showPartyDetail = (party: PartyItem) => {
-  selectedParty.value = party
+const showNewsDetail = (news: NewsItem) => {
+  selectedNews.value = news
   showDetail.value = true
   // 增加阅读量
-  party.views++
+  news.views++
 }
 
 const backToList = () => {
   showDetail.value = false
-  selectedParty.value = null
+  selectedNews.value = null
 }
 
 // 监听搜索关键词变化
@@ -329,9 +329,9 @@ watch(searchKeyword, () => {
 </script>
 
 <style lang="scss" scoped>
-.party-page {
+.news-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 20px;
 }
 
@@ -342,17 +342,17 @@ watch(searchKeyword, () => {
   .page-title {
     font-size: 36px;
     font-weight: 700;
-    color: #c62828;
+    color: #2c3e50;
     margin-bottom: 10px;
   }
   
   .page-subtitle {
     font-size: 16px;
-    color: #d32f2f;
+    color: #7f8c8d;
   }
 }
 
-.party-list-view {
+.news-list-view {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -361,7 +361,7 @@ watch(searchKeyword, () => {
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(198, 40, 40, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   
   .search-box {
@@ -371,20 +371,20 @@ watch(searchKeyword, () => {
     .search-input {
       flex: 1;
       padding: 12px 16px;
-      border: 2px solid #ffebee;
+      border: 2px solid #e1e8ed;
       border-radius: 8px 0 0 8px;
       font-size: 14px;
       outline: none;
       transition: border-color 0.3s ease;
       
       &:focus {
-        border-color: #d32f2f;
+        border-color: #3498db;
       }
     }
     
     .search-btn {
       padding: 12px 16px;
-      background: #d32f2f;
+      background: #3498db;
       border: none;
       border-radius: 0 8px 8px 0;
       color: #fff;
@@ -392,7 +392,7 @@ watch(searchKeyword, () => {
       transition: background 0.3s ease;
       
       &:hover {
-        background: #c62828;
+        background: #2980b9;
       }
     }
   }
@@ -405,48 +405,48 @@ watch(searchKeyword, () => {
     .category-btn {
       padding: 8px 16px;
       background: #f8f9fa;
-      border: 1px solid #ffebee;
+      border: 1px solid #dee2e6;
       border-radius: 20px;
-      color: #d32f2f;
+      color: #6c757d;
       cursor: pointer;
       font-size: 14px;
       transition: all 0.3s ease;
       
       &:hover {
-        background: #ffebee;
-        border-color: #ffcdd2;
+        background: #e9ecef;
+        border-color: #adb5bd;
       }
       
       &.active {
-        background: #d32f2f;
-        border-color: #d32f2f;
+        background: #3498db;
+        border-color: #3498db;
         color: #fff;
       }
     }
   }
 }
 
-.party-list {
+.news-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
 }
 
-.party-item {
+.news-item {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(198, 40, 40, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(198, 40, 40, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
   
-  .party-image {
+  .news-image {
     position: relative;
     height: 200px;
     overflow: hidden;
@@ -462,7 +462,7 @@ watch(searchKeyword, () => {
       position: absolute;
       top: 12px;
       left: 12px;
-      background: rgba(211, 47, 47, 0.9);
+      background: rgba(52, 152, 219, 0.9);
       color: #fff;
       padding: 4px 12px;
       border-radius: 12px;
@@ -471,13 +471,13 @@ watch(searchKeyword, () => {
     }
   }
   
-  .party-content {
+  .news-content {
     padding: 20px;
     
-    .party-title {
+    .news-title {
       font-size: 18px;
       font-weight: 600;
-      color: #c62828;
+      color: #2c3e50;
       margin-bottom: 12px;
       line-height: 1.4;
       display: -webkit-box;
@@ -486,8 +486,8 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .party-summary {
-      color: #666;
+    .news-summary {
+      color: #7f8c8d;
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 16px;
@@ -497,21 +497,20 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .party-meta {
+    .news-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
-      color: #999;
+      color: #95a5a6;
       
       .publish-date {
         font-weight: 500;
-        color: #d32f2f;
       }
     }
   }
   
-  &:hover .party-image img {
+  &:hover .news-image img {
     transform: scale(1.05);
   }
 }
@@ -525,15 +524,15 @@ watch(searchKeyword, () => {
   .page-btn {
     padding: 8px 16px;
     background: #fff;
-    border: 1px solid #ffebee;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #d32f2f;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     
     &:hover:not(:disabled) {
-      background: #ffebee;
-      border-color: #ffcdd2;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &:disabled {
@@ -545,22 +544,22 @@ watch(searchKeyword, () => {
   .page-number {
     padding: 8px 12px;
     background: #fff;
-    border: 1px solid #ffebee;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #d32f2f;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 40px;
     text-align: center;
     
     &:hover {
-      background: #ffebee;
-      border-color: #ffcdd2;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &.active {
-      background: #d32f2f;
-      border-color: #d32f2f;
+      background: #3498db;
+      border-color: #3498db;
       color: #fff;
     }
   }
@@ -584,7 +583,7 @@ watch(searchKeyword, () => {
 
 // 响应式设计
 @media (max-width: 768px) {
-  .party-page {
+  .news-page {
     padding: 15px;
   }
   
@@ -603,20 +602,20 @@ watch(searchKeyword, () => {
     }
   }
   
-  .party-list {
+  .news-list {
     grid-template-columns: 1fr;
     gap: 16px;
   }
   
-  .party-item {
-    .party-content {
+  .news-item {
+    .news-content {
       padding: 15px;
       
-      .party-title {
+      .news-title {
         font-size: 16px;
       }
       
-      .party-meta {
+      .news-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;

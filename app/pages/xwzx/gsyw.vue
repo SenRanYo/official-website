@@ -1,22 +1,22 @@
 <template>
-  <div class="media-page">
+  <div class="news-page">
     <!-- 页面头部 -->
     <div class="page-header">
-      <h1 class="page-title">媒体聚焦</h1>
-      <p class="page-subtitle">关注媒体报道，了解行业声音</p>
+      <h1 class="page-title">新闻大事件</h1>
+      <p class="page-subtitle">了解最新资讯动态</p>
     </div>
 
     <!-- 过渡动画容器 -->
     <Transition name="slide" mode="out-in">
-      <!-- 媒体报道列表视图 -->
-      <div v-if="!showDetail" key="list" class="media-list-view">
+      <!-- 新闻列表视图 -->
+      <div v-if="!showDetail" key="list" class="news-list-view">
         <!-- 搜索和筛选 -->
         <div class="filter-section">
           <div class="search-box">
             <input 
               v-model="searchKeyword" 
               type="text" 
-              placeholder="搜索媒体报道标题或内容..."
+              placeholder="搜索新闻标题或内容..."
               class="search-input"
             />
             <button class="search-btn" @click="handleSearch">
@@ -38,27 +38,27 @@
           </div>
         </div>
 
-        <!-- 媒体报道列表 -->
-        <div class="media-list">
+        <!-- 新闻列表 -->
+        <div class="news-list">
           <div 
-            v-for="media in paginatedMedia" 
-            :key="media.id"
-            class="media-item"
-            @click="showMediaDetail(media)"
+            v-for="news in paginatedNews" 
+            :key="news.id"
+            class="news-item"
+            @click="showNewsDetail(news)"
           >
-            <div class="media-image">
-              <img :src="media.coverImage" :alt="media.title" />
-              <div class="source-tag">{{ media.category }}</div>
+            <div class="news-image">
+              <img :src="news.coverImage" :alt="news.title" />
+              <div class="category-tag">{{ news.category }}</div>
             </div>
             
-            <div class="media-content">
-              <h3 class="media-title">{{ media.title }}</h3>
-              <p class="media-summary">{{ media.summary }}</p>
+            <div class="news-content">
+              <h3 class="news-title">{{ news.title }}</h3>
+              <p class="news-summary">{{ news.summary }}</p>
               
-              <div class="media-meta">
-                <span class="publish-date">{{ formatDate(media.publishDate) }}</span>
-                <span class="views">{{ media.views }} 阅读</span>
-                <span class="source">{{ media.category }}</span>
+              <div class="news-meta">
+                <span class="publish-date">{{ formatDate(news.publishDate) }}</span>
+                <span class="views">{{ news.views }} 阅读</span>
+                <span class="author">{{ news.author }}</span>
               </div>
             </div>
           </div>
@@ -93,11 +93,11 @@
         </div>
       </div>
 
-      <!-- 媒体报道详情视图 -->
+      <!-- 新闻详情视图 -->
       <NewsDetail 
         v-else 
         key="detail" 
-        :news="selectedMedia!" 
+        :news="selectedNews!" 
         @back="backToList"
       />
     </Transition>
@@ -107,7 +107,7 @@
 <script setup lang="ts">
 import NewsDetail from '~/components/NewsDetail/index.vue'
 
-interface MediaItem {
+interface NewsItem {
   id: number
   title: string
   summary: string
@@ -122,135 +122,135 @@ interface MediaItem {
 
 // 响应式数据
 const showDetail = ref(false)
-const selectedMedia = ref<MediaItem | null>(null)
+const selectedNews = ref<NewsItem | null>(null)
 const searchKeyword = ref('')
 const selectedCategory = ref('全部')
 const currentPage = ref(1)
 const pageSize = 6
 
-// 分类数据（按媒体类型）
-const categories = ['全部', '央视新闻', '人民日报', '新华社', '经济日报', '行业媒体', '地方媒体']
+// 分类数据
+const categories = ['全部', '政策法规', '行业动态', '技术创新', '企业新闻', '国际资讯']
 
-// 模拟媒体报道数据
-const mediaData = ref<MediaItem[]>([
+// 模拟新闻数据
+const newsData = ref<NewsItem[]>([
   {
     id: 1,
-    title: '央视新闻：某公司创新发展模式获得行业认可',
-    summary: '央视新闻报道了某公司在创新发展方面的突出表现，其独特的商业模式和技术创新得到了行业专家的高度评价...',
-    content: '<p>央视新闻深度报道了某公司的创新发展历程。</p><p>该公司通过持续的技术创新和模式创新，在激烈的市场竞争中脱颖而出，成为行业发展的标杆企业。</p>',
-    publishDate: '2024-01-16',
-    category: '央视新闻',
-    views: 2580,
-    author: '央视记者',
-    coverImage: 'https://picsum.photos/400/240?random=21',
-    tags: ['创新发展', '行业认可', '商业模式']
+    title: '国家发布新能源汽车产业发展规划',
+    summary: '为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》...',
+    content: '<p>为推动新能源汽车产业高质量发展，国家发改委发布了《新能源汽车产业发展规划（2021-2035年）》。</p><p>规划明确了新能源汽车产业发展的总体要求、发展目标、重点任务和保障措施。</p>',
+    publishDate: '2024-01-15',
+    category: '政策法规',
+    views: 1250,
+    author: '政策研究部',
+    coverImage: 'https://picsum.photos/400/240?random=1',
+    tags: ['新能源', '汽车', '政策']
   },
   {
     id: 2,
-    title: '人民日报：企业社会责任担当获得社会好评',
-    summary: '人民日报刊发文章，高度评价了某公司在履行社会责任方面的突出表现，特别是在公益慈善、环境保护等方面的贡献...',
-    content: '<p>人民日报专题报道企业社会责任实践。</p><p>该企业积极履行社会责任，在公益慈善、环境保护、员工关爱等方面做出了突出贡献。</p>',
-    publishDate: '2024-01-14',
-    category: '人民日报',
-    views: 2145,
-    author: '人民日报记者',
-    coverImage: 'https://picsum.photos/400/240?random=22'
+    title: '人工智能技术在制造业中的应用前景',
+    summary: '随着人工智能技术的不断发展，其在制造业中的应用越来越广泛，为传统制造业带来了新的发展机遇...',
+    content: '<p>人工智能技术正在深刻改变制造业的面貌。</p><p>从智能制造到预测性维护，AI技术为制造业提供了全新的解决方案。</p>',
+    publishDate: '2024-01-12',
+    category: '技术创新',
+    views: 980,
+    author: '技术部',
+    coverImage: 'https://picsum.photos/400/240?random=2'
   },
   {
     id: 3,
-    title: '新华社：重大项目建设成果显著',
-    summary: '新华社报道了某公司承建的重大基础设施项目取得的显著成果，项目的成功实施为地方经济发展注入了新动力...',
-    content: '<p>新华社深度报道重大项目建设成果。</p><p>该项目的成功实施不仅展现了企业的技术实力，也为当地经济社会发展做出了重要贡献。</p>',
-    publishDate: '2024-01-12',
-    category: '新华社',
-    views: 1987,
-    author: '新华社记者',
-    coverImage: 'https://picsum.photos/400/240?random=23'
+    title: '绿色发展理念引领企业转型升级',
+    summary: '在碳达峰、碳中和目标指引下，越来越多的企业开始践行绿色发展理念，推动产业结构优化升级...',
+    content: '<p>绿色发展已成为企业可持续发展的必由之路。</p><p>通过技术创新和管理创新，企业正在实现经济效益与环境效益的双赢。</p>',
+    publishDate: '2024-01-10',
+    category: '企业新闻',
+    views: 756,
+    author: '环保部',
+    coverImage: 'https://picsum.photos/400/240?random=3'
   },
   {
     id: 4,
-    title: '经济日报：数字化转型成效突出',
-    summary: '经济日报专题报道了某公司在数字化转型方面的成功实践，通过技术创新和管理创新实现了企业的高质量发展...',
-    content: '<p>经济日报关注企业数字化转型实践。</p><p>该企业通过数字化转型，提升了运营效率，增强了市场竞争力，为行业数字化发展提供了有益借鉴。</p>',
-    publishDate: '2024-01-10',
-    category: '经济日报',
-    views: 1756,
-    author: '经济日报记者',
-    coverImage: 'https://picsum.photos/400/240?random=24'
+    title: '数字化转型助力中小企业发展',
+    summary: '数字化转型已成为中小企业提升竞争力的重要途径，通过数字技术的应用，企业运营效率显著提升...',
+    content: '<p>数字化转型为中小企业带来了新的发展机遇。</p><p>云计算、大数据、物联网等技术的应用，帮助企业降本增效。</p>',
+    publishDate: '2024-01-08',
+    category: '行业动态',
+    views: 642,
+    author: '数字化部',
+    coverImage: 'https://picsum.photos/400/240?random=4'
   },
   {
     id: 5,
-    title: '行业媒体：技术创新引领行业发展',
-    summary: '权威行业媒体深度报道了某公司在技术创新方面的突破性进展，其自主研发的核心技术填补了行业空白...',
-    content: '<p>行业媒体聚焦技术创新成果。</p><p>该企业的技术创新不仅提升了自身竞争力，也推动了整个行业的技术进步和发展。</p>',
-    publishDate: '2024-01-08',
-    category: '行业媒体',
-    views: 1534,
-    author: '行业分析师',
-    coverImage: 'https://picsum.photos/400/240?random=25'
+    title: '国际贸易新格局下的机遇与挑战',
+    summary: '全球贸易格局正在发生深刻变化，我国企业需要在新的国际环境中寻找发展机遇，应对各种挑战...',
+    content: '<p>国际贸易环境的变化为我国企业带来了新的机遇和挑战。</p><p>企业需要加强国际合作，提升自身竞争力。</p>',
+    publishDate: '2024-01-05',
+    category: '国际资讯',
+    views: 523,
+    author: '国际部',
+    coverImage: 'https://picsum.photos/400/240?random=5'
   },
   {
     id: 6,
-    title: '地方媒体：助力地方经济发展获得赞誉',
-    summary: '地方主流媒体报道了某公司在促进地方经济发展、带动就业创业方面的积极作用，得到了政府和社会的高度认可...',
-    content: '<p>地方媒体报道企业对地方发展的贡献。</p><p>该企业扎根本地，积极参与地方建设，为区域经济发展和社会进步做出了重要贡献。</p>',
-    publishDate: '2024-01-06',
-    category: '地方媒体',
-    views: 1323,
-    author: '地方记者',
-    coverImage: 'https://picsum.photos/400/240?random=26'
+    title: '科技创新驱动高质量发展',
+    summary: '科技创新是推动高质量发展的第一动力，各地正在加大科技投入，培育新的经济增长点...',
+    content: '<p>科技创新正在成为经济发展的核心驱动力。</p><p>通过加强研发投入和人才培养，推动产业升级和结构优化。</p>',
+    publishDate: '2024-01-03',
+    category: '技术创新',
+    views: 834,
+    author: '科技部',
+    coverImage: 'https://picsum.photos/400/240?random=6'
   },
   {
     id: 7,
-    title: '央视新闻：绿色发展理念践行者',
-    summary: '央视新闻再次关注某公司，报道了其在绿色发展、节能减排方面的创新实践和显著成效...',
-    content: '<p>央视新闻关注企业绿色发展实践。</p><p>该企业坚持绿色发展理念，在节能减排、环境保护方面取得了显著成效，成为行业绿色发展的典型代表。</p>',
-    publishDate: '2024-01-04',
-    category: '央视新闻',
-    views: 1245,
-    author: '央视记者',
-    coverImage: 'https://picsum.photos/400/240?random=27'
+    title: '供应链管理优化提升企业效率',
+    summary: '在全球化背景下，供应链管理的重要性日益凸显，优化供应链管理成为企业提升竞争力的关键...',
+    content: '<p>供应链管理优化是企业运营的重要环节。</p><p>通过数字化手段和精细化管理，企业可以显著提升运营效率。</p>',
+    publishDate: '2024-01-01',
+    category: '企业新闻',
+    views: 445,
+    author: '运营部',
+    coverImage: 'https://picsum.photos/400/240?random=7'
   },
   {
     id: 8,
-    title: '新华社：国际合作取得新突破',
-    summary: '新华社报道了某公司在国际市场拓展和对外合作方面取得的新突破，为中国企业走出去树立了良好典型...',
-    content: '<p>新华社报道企业国际化发展成果。</p><p>该企业积极参与国际合作，在海外市场取得了良好业绩，提升了中国企业的国际形象。</p>',
-    publishDate: '2024-01-02',
-    category: '新华社',
-    views: 1156,
-    author: '新华社记者',
-    coverImage: 'https://picsum.photos/400/240?random=28'
+    title: '新材料产业发展迎来新机遇',
+    summary: '随着科技进步和产业升级，新材料产业正迎来前所未有的发展机遇，成为推动经济增长的新引擎...',
+    content: '<p>新材料产业是战略性新兴产业的重要组成部分。</p><p>在政策支持和市场需求双重驱动下，新材料产业发展前景广阔。</p>',
+    publishDate: '2023-12-28',
+    category: '行业动态',
+    views: 678,
+    author: '材料部',
+    coverImage: 'https://picsum.photos/400/240?random=8'
   }
 ])
 
 // 计算属性
-const filteredMedia = computed(() => {
-  let result = mediaData.value
+const filteredNews = computed(() => {
+  let result = newsData.value
   
   // 按分类筛选
   if (selectedCategory.value !== '全部') {
-    result = result.filter(media => media.category === selectedCategory.value)
+    result = result.filter(news => news.category === selectedCategory.value)
   }
   
   // 按关键词搜索
   if (searchKeyword.value.trim()) {
     const keyword = searchKeyword.value.toLowerCase()
-    result = result.filter(media => 
-      media.title.toLowerCase().includes(keyword) || 
-      media.summary.toLowerCase().includes(keyword)
+    result = result.filter(news => 
+      news.title.toLowerCase().includes(keyword) || 
+      news.summary.toLowerCase().includes(keyword)
     )
   }
   
   return result
 })
 
-const totalPages = computed(() => Math.ceil(filteredMedia.value.length / pageSize))
+const totalPages = computed(() => Math.ceil(filteredNews.value.length / pageSize))
 
-const paginatedMedia = computed(() => {
+const paginatedNews = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   const end = start + pageSize
-  return filteredMedia.value.slice(start, end)
+  return filteredNews.value.slice(start, end)
 })
 
 const visiblePages = computed(() => {
@@ -310,16 +310,16 @@ const changePage = (page: number | string) => {
   }
 }
 
-const showMediaDetail = (media: MediaItem) => {
-  selectedMedia.value = media
+const showNewsDetail = (news: NewsItem) => {
+  selectedNews.value = news
   showDetail.value = true
   // 增加阅读量
-  media.views++
+  news.views++
 }
 
 const backToList = () => {
   showDetail.value = false
-  selectedMedia.value = null
+  selectedNews.value = null
 }
 
 // 监听搜索关键词变化
@@ -329,9 +329,9 @@ watch(searchKeyword, () => {
 </script>
 
 <style lang="scss" scoped>
-.media-page {
+.news-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 20px;
 }
 
@@ -342,17 +342,17 @@ watch(searchKeyword, () => {
   .page-title {
     font-size: 36px;
     font-weight: 700;
-    color: #7b1fa2;
+    color: #2c3e50;
     margin-bottom: 10px;
   }
   
   .page-subtitle {
     font-size: 16px;
-    color: #8e24aa;
+    color: #7f8c8d;
   }
 }
 
-.media-list-view {
+.news-list-view {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -361,7 +361,7 @@ watch(searchKeyword, () => {
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(123, 31, 162, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   
   .search-box {
@@ -371,20 +371,20 @@ watch(searchKeyword, () => {
     .search-input {
       flex: 1;
       padding: 12px 16px;
-      border: 2px solid #f3e5f5;
+      border: 2px solid #e1e8ed;
       border-radius: 8px 0 0 8px;
       font-size: 14px;
       outline: none;
       transition: border-color 0.3s ease;
       
       &:focus {
-        border-color: #8e24aa;
+        border-color: #3498db;
       }
     }
     
     .search-btn {
       padding: 12px 16px;
-      background: #8e24aa;
+      background: #3498db;
       border: none;
       border-radius: 0 8px 8px 0;
       color: #fff;
@@ -392,7 +392,7 @@ watch(searchKeyword, () => {
       transition: background 0.3s ease;
       
       &:hover {
-        background: #7b1fa2;
+        background: #2980b9;
       }
     }
   }
@@ -405,48 +405,48 @@ watch(searchKeyword, () => {
     .category-btn {
       padding: 8px 16px;
       background: #f8f9fa;
-      border: 1px solid #f3e5f5;
+      border: 1px solid #dee2e6;
       border-radius: 20px;
-      color: #8e24aa;
+      color: #6c757d;
       cursor: pointer;
       font-size: 14px;
       transition: all 0.3s ease;
       
       &:hover {
-        background: #f3e5f5;
-        border-color: #e1bee7;
+        background: #e9ecef;
+        border-color: #adb5bd;
       }
       
       &.active {
-        background: #8e24aa;
-        border-color: #8e24aa;
+        background: #3498db;
+        border-color: #3498db;
         color: #fff;
       }
     }
   }
 }
 
-.media-list {
+.news-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
 }
 
-.media-item {
+.news-item {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(123, 31, 162, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(123, 31, 162, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
   
-  .media-image {
+  .news-image {
     position: relative;
     height: 200px;
     overflow: hidden;
@@ -458,11 +458,11 @@ watch(searchKeyword, () => {
       transition: transform 0.3s ease;
     }
     
-    .source-tag {
+    .category-tag {
       position: absolute;
       top: 12px;
       left: 12px;
-      background: rgba(142, 36, 170, 0.9);
+      background: rgba(52, 152, 219, 0.9);
       color: #fff;
       padding: 4px 12px;
       border-radius: 12px;
@@ -471,13 +471,13 @@ watch(searchKeyword, () => {
     }
   }
   
-  .media-content {
+  .news-content {
     padding: 20px;
     
-    .media-title {
+    .news-title {
       font-size: 18px;
       font-weight: 600;
-      color: #7b1fa2;
+      color: #2c3e50;
       margin-bottom: 12px;
       line-height: 1.4;
       display: -webkit-box;
@@ -486,8 +486,8 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .media-summary {
-      color: #666;
+    .news-summary {
+      color: #7f8c8d;
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 16px;
@@ -497,21 +497,20 @@ watch(searchKeyword, () => {
       overflow: hidden;
     }
     
-    .media-meta {
+    .news-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
-      color: #999;
+      color: #95a5a6;
       
       .publish-date {
         font-weight: 500;
-        color: #8e24aa;
       }
     }
   }
   
-  &:hover .media-image img {
+  &:hover .news-image img {
     transform: scale(1.05);
   }
 }
@@ -525,15 +524,15 @@ watch(searchKeyword, () => {
   .page-btn {
     padding: 8px 16px;
     background: #fff;
-    border: 1px solid #f3e5f5;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #8e24aa;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     
     &:hover:not(:disabled) {
-      background: #f3e5f5;
-      border-color: #e1bee7;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &:disabled {
@@ -545,22 +544,22 @@ watch(searchKeyword, () => {
   .page-number {
     padding: 8px 12px;
     background: #fff;
-    border: 1px solid #f3e5f5;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    color: #8e24aa;
+    color: #6c757d;
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 40px;
     text-align: center;
     
     &:hover {
-      background: #f3e5f5;
-      border-color: #e1bee7;
+      background: #f8f9fa;
+      border-color: #adb5bd;
     }
     
     &.active {
-      background: #8e24aa;
-      border-color: #8e24aa;
+      background: #3498db;
+      border-color: #3498db;
       color: #fff;
     }
   }
@@ -584,7 +583,7 @@ watch(searchKeyword, () => {
 
 // 响应式设计
 @media (max-width: 768px) {
-  .media-page {
+  .news-page {
     padding: 15px;
   }
   
@@ -603,20 +602,20 @@ watch(searchKeyword, () => {
     }
   }
   
-  .media-list {
+  .news-list {
     grid-template-columns: 1fr;
     gap: 16px;
   }
   
-  .media-item {
-    .media-content {
+  .news-item {
+    .news-content {
       padding: 15px;
       
-      .media-title {
+      .news-title {
         font-size: 16px;
       }
       
-      .media-meta {
+      .news-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;
