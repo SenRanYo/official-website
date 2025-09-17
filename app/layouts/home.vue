@@ -2,6 +2,7 @@
   <div>
     <LayoutHeader />
     <slot />
+    <FixedNotice />
     <LayoutFooter />
   </div>
 </template>
