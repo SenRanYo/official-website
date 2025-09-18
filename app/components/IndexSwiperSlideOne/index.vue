@@ -3,32 +3,25 @@
     <div ref="swiperContainer" class="swiper">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <div class="slide-content" :style="{ backgroundImage: `url(${banner1})` }"></div>
+          <div class="slide-content" :style="{ backgroundImage: `url(${swiper1})` }"></div>
         </div>
 
         <div class="swiper-slide">
-          <div class="slide-content" :style="{ backgroundImage: `url(${banner2})` }"></div>
+          <div class="slide-content" :style="{ backgroundImage: `url(${swiper2})` }"></div>
         </div>
 
         <div class="swiper-slide">
-          <div class="slide-content" :style="{ backgroundImage: `url(${banner3})` }"></div>
-        </div>
-
-        <div class="swiper-slide">
-          <div class="slide-content" :style="{ backgroundImage: `url(${banner4})` }"></div>
+          <div class="slide-content" :style="{ backgroundImage: `url(${swiper4})` }"></div>
         </div>
       </div>
-
-      <!-- <div class="swiper-pagination"></div> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import banner1 from "~/assets/images/banner1.jpg"
-import banner2 from "~/assets/images/banner2.jpg"
-import banner3 from "~/assets/images/banner3.jpg"
-import banner4 from "~/assets/images/banner4.jpg"
+import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
+import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
+import swiper4 from "~/assets/images/swiper/swiper-4.jpg"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
@@ -48,7 +41,7 @@ onMounted(() => {
         crossFade: true,
       },
       autoplay: {
-        delay: 300000,
+        delay: 3000,
         disableOnInteraction: false,
       },
       pagination: {
@@ -86,6 +79,7 @@ onUnmounted(() => {
 
 .swiper-slide {
   display: flex;
+  cursor: pointer;
   position: relative;
   align-items: center;
   justify-content: center;

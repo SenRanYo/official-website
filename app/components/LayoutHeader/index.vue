@@ -37,7 +37,7 @@ const menus = useMenuData()
     background-color: #fff;
   }
   .logo {
-    height: 32px;
+    height: 50px;
     margin: 0 100px;
   }
   .menu {

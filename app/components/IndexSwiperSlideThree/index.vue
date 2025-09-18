@@ -3,23 +3,26 @@
     <p class="title">专题聚焦</p>
     <div class="content">
       <div class="content-item" :class="{ 'item-visible': isVisible }">
-        <img :src="banner1" alt="" />
+        <img :src="swiper1" alt="" />
       </div>
       <div class="content-item" :class="{ 'item-visible': isVisible }">
-        <img :src="banner1" alt="" />
+        <img :src="swiper2" alt="" />
       </div>
       <div class="content-item" :class="{ 'item-visible': isVisible }">
-        <img :src="banner1" alt="" />
+        <img :src="swiper3" alt="" />
       </div>
       <div class="content-item" :class="{ 'item-visible': isVisible }">
-        <img :src="banner1" alt="" />
+        <img :src="swiper4" alt="" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import banner1 from "~/assets/images/banner1.jpg"
+import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
+import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
+import swiper3 from "~/assets/images/swiper/swiper-3.jpg"
+import swiper4 from "~/assets/images/swiper/swiper-6.jpg"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
@@ -88,41 +91,41 @@ defineExpose({
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(2, 1fr);
-    
+
     .content-item {
       width: 100%;
-      height: 220px;
+      height: 30vh;
       overflow: hidden;
       opacity: 0;
       transform: translateY(30px);
       transition: all 0.6s ease-out;
-      
+
       &:nth-child(1) {
         transition-delay: 0.1s;
       }
-      
+
       &:nth-child(2) {
         transition-delay: 0.2s;
       }
-      
+
       &:nth-child(3) {
         transition-delay: 0.3s;
       }
-      
+
       &:nth-child(4) {
         transition-delay: 0.4s;
       }
-      
+
       &.item-visible {
         opacity: 1;
         transform: translateY(0);
       }
-      
+
       img {
         width: 100%;
         height: 100%;
         transition: transform 0.3s ease;
-        
+
         &:hover {
           transform: scale(1.05);
         }

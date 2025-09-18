@@ -1,7 +1,7 @@
 <template>
   <div class="index-swiper-slide-five">
     <p class="section-title">专题专栏</p>
-    <div class="top-swiper">
+    <!-- <div class="top-swiper">
       <swiper :slides-per-view="3" :space-between="90" :loop="true" :autoplay="true" :speed="1500" :centered-slides="true" :modules="topSwiperModules">
         <swiper-slide>
           <img :src="img" alt="" />
@@ -22,8 +22,8 @@
           <img :src="img" alt="" />
         </swiper-slide>
       </swiper>
-    </div>
-    <p class="section-title">奋斗华电人</p>
+    </div> -->
+    <!-- <p class="section-title">奋斗华电人</p> -->
     <div ref="bottomSwiperRef" class="bottom-swiper">
       <swiper
         :slides-per-view="4.5"
@@ -40,9 +40,9 @@
         :modules="bottomSwiperModules"
         @slide-change="onBottomSwiperSlideChange"
       >
-        <swiper-slide v-for="(item, index) in 9" :key="index">
-          <img :src="img" alt="" />
-          <div v-if="bottomSwiperIndex === index" class="slide-text">我是内容</div>
+        <swiper-slide v-for="(item, index) in imgList" :key="index">
+          <img :src="item" alt="" />
+          <!-- <div v-if="bottomSwiperIndex === index" class="slide-text">我是内容</div> -->
         </swiper-slide>
       </swiper>
     </div>
@@ -50,16 +50,25 @@
 </template>
 
 <script setup lang="ts">
-import img from "~/assets/images/banner1.jpg"
+import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
+import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
+import swiper3 from "~/assets/images/swiper/swiper-3.jpg"
+import swiper4 from "~/assets/images/swiper/swiper-4.jpg"
+import swiper5 from "~/assets/images/swiper/swiper-5.jpg"
+import swiper6 from "~/assets/images/swiper/swiper-6.jpg"
+import swiper7 from "~/assets/images/swiper/swiper-3.jpg"
+import swiper8 from "~/assets/images/swiper/swiper-4.jpg"
 import "swiper/css"
 import type { Swiper as SwiperType } from "swiper/types"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, EffectCoverflow } from "swiper/modules"
 
+const imgList = [swiper1, swiper2, swiper3, swiper4, swiper5, swiper6, swiper7, swiper8]
+
 const bottomSwiperRef = ref<HTMLElement>()
 const bottomSwiperIndex = ref<number>(-1)
 
-const topSwiperModules = [Autoplay]
+// const topSwiperModules = [Autoplay]
 const bottomSwiperModules = [Autoplay, EffectCoverflow]
 
 function onBottomSwiperSlideChange(swiper: SwiperType) {
@@ -188,7 +197,7 @@ function onBottomSwiperSlideChange(swiper: SwiperType) {
 
         img {
           width: 100%;
-          height: 170px;
+          height: 20vh;
           cursor: pointer;
           overflow: hidden;
           object-fit: cover;
