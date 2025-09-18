@@ -2,7 +2,7 @@
   <div class="layout-footer">
     <!-- 公司Logo和信息区域 -->
     <div class="company-info">
-      <img class="logo" src="https://www.china-cdt.com/dtwz/lib/public/images/logo.png" alt="" />
+      <img class="logo" :src="logo" alt="" />
       <div class="action-buttons">
         <button class="btn-recruit">人才招聘</button>
         <button class="btn-tender">招标采购</button>
@@ -31,9 +31,9 @@
         <h4>卓越文化</h4>
         <ul>
           <li><NuxtLink to="/culture/intro">文化内涵</NuxtLink></li>
-          <li><NuxtLink to="/culture/vi">大唐VI</NuxtLink></li>
-          <li><NuxtLink to="/culture/datang">大唐文化</NuxtLink></li>
-          <li><NuxtLink to="/culture/brand">大唐品牌</NuxtLink></li>
+          <li><NuxtLink to="/culture/vi">华电VI</NuxtLink></li>
+          <li><NuxtLink to="/culture/datang">华电文化</NuxtLink></li>
+          <li><NuxtLink to="/culture/brand">华电品牌</NuxtLink></li>
         </ul>
       </div>
 
@@ -62,11 +62,11 @@
       <div class="nav-section">
         <h4>投资者关系</h4>
         <ul>
-          <li><NuxtLink to="/investor/power">大唐发电</NuxtLink></li>
+          <li><NuxtLink to="/investor/power">华电发电</NuxtLink></li>
           <li><NuxtLink to="/investor/huaneng">华银电力</NuxtLink></li>
           <li><NuxtLink to="/investor/guodian">华电电力</NuxtLink></li>
-          <li><NuxtLink to="/investor/new">大唐新能源</NuxtLink></li>
-          <li><NuxtLink to="/investor/env">大唐环境</NuxtLink></li>
+          <li><NuxtLink to="/investor/new">华电新能源</NuxtLink></li>
+          <li><NuxtLink to="/investor/env">华电环境</NuxtLink></li>
         </ul>
       </div>
     </div>
@@ -74,6 +74,8 @@
 </template>
 
 <script setup lang="ts">
+import logo from "~/assets/images/logo.png"
+
 const menu = useMenuData()
 </script>
 

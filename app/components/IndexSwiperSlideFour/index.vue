@@ -16,7 +16,7 @@
               <span class="month">2025.09</span>
             </div>
             <div class="news-content">
-              <h4>中央第十生态环境保护督察组向中国大唐集团有限公司反馈督察情况</h4>
+              <h4>中央第十生态环境保护督察组向中国华电集团有限公司反馈督察情况</h4>
             </div>
           </div>
 
@@ -26,7 +26,7 @@
               <span class="month">2025.09</span>
             </div>
             <div class="news-content">
-              <h4>中国大唐总部机关单位举办办公室工运动会</h4>
+              <h4>中国华电总部机关单位举办办公室工运动会</h4>
             </div>
           </div>
 
@@ -36,7 +36,7 @@
               <span class="month">2025.09</span>
             </div>
             <div class="news-content">
-              <h4>中国大唐召开党组织的建设工作领导小组（扩大）会议</h4>
+              <h4>中国华电召开党组织的建设工作领导小组（扩大）会议</h4>
             </div>
           </div>
 
@@ -46,7 +46,7 @@
               <span class="month">2025.09</span>
             </div>
             <div class="news-content">
-              <h4>中国大唐召开总部2025年优才计划新员工见面会</h4>
+              <h4>中国华电召开总部2025年优才计划新员工见面会</h4>
             </div>
           </div>
 
@@ -67,7 +67,7 @@
         <div class="card-content">
           <div class="content">
             <img :src="banner" alt="" />
-            <div class="text">中央第十生态环境保护督察组向中国大唐集团有限公司反馈督察情况</div>
+            <div class="text">中央第十生态环境保护督察组向中国华电集团有限公司反馈督察情况</div>
           </div>
         </div>
       </div>

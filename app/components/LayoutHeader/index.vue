@@ -1,6 +1,6 @@
 <template>
   <div class="layout-header">
-    <img class="logo" src="https://www.china-cdt.com/dtwz/lib/public/images/logo.png" alt="" />
+    <img class="logo" :src="logo" alt="" />
     <div class="menu">
       <div v-for="(item, index) in menus" :key="index" class="menu-item-wrapper">
         <NuxtLink class="menu-item" :to="item.route">
@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import logo from "~/assets/images/logo.png"
+
 const menus = useMenuData()
 </script>
 

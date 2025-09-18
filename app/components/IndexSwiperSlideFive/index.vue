@@ -23,7 +23,7 @@
         </swiper-slide>
       </swiper>
     </div>
-    <p class="section-title">奋斗大唐人</p>
+    <p class="section-title">奋斗华电人</p>
     <div ref="bottomSwiperRef" class="bottom-swiper">
       <swiper
         :slides-per-view="4.5"
