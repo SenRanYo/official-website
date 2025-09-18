@@ -85,9 +85,10 @@ const menu = useMenuData()
   display: flex;
   padding: 60px 12.5%;
   background-color: #fff;
-  justify-content: space-between;
+  justify-content: center;
 
   .company-info {
+    margin-right: 150px;
     .logo {
       width: 220px;
       margin-bottom: 20px;
