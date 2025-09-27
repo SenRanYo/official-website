@@ -25,50 +25,6 @@
           </li>
         </ul>
       </div>
-
-      <!-- 额外的栏目 -->
-      <div class="nav-section">
-        <h4>卓越文化</h4>
-        <ul>
-          <li><NuxtLink to="/culture/intro">文化内涵</NuxtLink></li>
-          <li><NuxtLink to="/culture/vi">华电VI</NuxtLink></li>
-          <li><NuxtLink to="/culture/datang">华电文化</NuxtLink></li>
-          <li><NuxtLink to="/culture/brand">华电品牌</NuxtLink></li>
-        </ul>
-      </div>
-
-      <div class="nav-section">
-        <h4>六电六业</h4>
-        <ul>
-          <li><NuxtLink to="/business/power">电力</NuxtLink></li>
-          <li><NuxtLink to="/business/coal">煤炭化工</NuxtLink></li>
-          <li><NuxtLink to="/business/finance">金融</NuxtLink></li>
-          <li><NuxtLink to="/business/env">环保</NuxtLink></li>
-          <li><NuxtLink to="/business/trade">商贸物流</NuxtLink></li>
-          <li><NuxtLink to="/business/new">新兴产业</NuxtLink></li>
-        </ul>
-      </div>
-
-      <div class="nav-section">
-        <h4>信息公开</h4>
-        <ul>
-          <li><NuxtLink to="/info/basic">基本信息</NuxtLink></li>
-          <li><NuxtLink to="/info/group">集团公告</NuxtLink></li>
-          <li><NuxtLink to="/info/social">社会责任</NuxtLink></li>
-          <li><NuxtLink to="/info/about">关于信息公开</NuxtLink></li>
-        </ul>
-      </div>
-
-      <div class="nav-section">
-        <h4>投资者关系</h4>
-        <ul>
-          <li><NuxtLink to="/investor/power">华电发电</NuxtLink></li>
-          <li><NuxtLink to="/investor/huaneng">华银电力</NuxtLink></li>
-          <li><NuxtLink to="/investor/guodian">华电电力</NuxtLink></li>
-          <li><NuxtLink to="/investor/new">华电新能源</NuxtLink></li>
-          <li><NuxtLink to="/investor/env">华电环境</NuxtLink></li>
-        </ul>
-      </div>
     </div>
   </div>
 </template>
@@ -82,8 +38,10 @@ const menu = useMenuData()
 <style scoped lang="scss">
 .layout-footer {
   width: 100%;
+  height: 400px;
   display: flex;
-  padding: 60px 12.5%;
+  padding-top: 30px;
+  box-sizing: border-box;
   background-color: #fff;
   justify-content: center;
 
@@ -159,7 +117,7 @@ const menu = useMenuData()
     gap: 30px;
     display: flex;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 
     .nav-section {
       width: fit-content;

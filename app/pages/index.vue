@@ -36,7 +36,7 @@ import "swiper/css/pagination"
 import "swiper/css/navigation"
 import "swiper/css/effect-fade"
 import { Swiper } from "swiper"
-import { useElementSize } from "@vueuse/core"
+import { useElementBounding } from "@vueuse/core"
 
 definePageMeta({ layout: "home" })
 
@@ -50,7 +50,7 @@ const swiperSlideThreeRef = ref()
 const swiperSlideFourRef = ref()
 
 const footerRef = ref<HTMLElement>()
-const { height: footerHeight } = useElementSize(footerRef)
+const { height: footerHeight } = useElementBounding(footerRef)
 
 // 监听footer状态变化，控制动画状态
 watch(showFooter, (newVal, oldVal) => {
