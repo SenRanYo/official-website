@@ -17,10 +17,6 @@
         <div class="swiper-slide">
           <IndexSwiperSlideFour ref="swiperSlideFourRef"></IndexSwiperSlideFour>
         </div>
-
-        <div class="swiper-slide">
-          <IndexSwiperSlideFive ref="swiperSlideFiveRef"></IndexSwiperSlideFive>
-        </div>
       </div>
 
       <!-- 分页器 -->
@@ -93,7 +89,6 @@ function initSwiper() {
 
           swiperSlideTwoRef.value.leave()
           swiperSlideThreeRef.value.leave()
-          swiperSlideFourRef.value.leave()
           switch (swiper.realIndex) {
             case 1:
               setTimeout(() => {
@@ -106,9 +101,7 @@ function initSwiper() {
               }, 200)
               break
             case 3:
-              setTimeout(() => {
-                swiperSlideFourRef.value.enter()
-              }, 200)
+              setTimeout(() => {}, 200)
               break
 
             default:
