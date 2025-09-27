@@ -179,10 +179,12 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .index-container {
+  top: 80px;
+  left: 0;
   flex: 1;
   width: 100vw;
   display: flex;
-  margin-top: 80px;
+  position: absolute;
   flex-direction: column;
   transition: all 0.3s ease;
   &.show-footer {
