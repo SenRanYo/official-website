@@ -1,63 +1,60 @@
 <template>
-  <!-- 最小化状态 -->
-  <div v-if="isMinimized && noticeList.length > 0" class="fixed-notice-minimized" @click="restore">
-    <div class="minimized-icon">📢</div>
-    <div v-if="unreadCount > 0" class="minimized-count">{{ unreadCount }}</div>
-  </div>
+  <template v-if="notices.length > 0">
+    <!-- 最小化状态 -->
+    <div v-if="store.isMinimized" class="fixed-notice-minimized" @click="store.restore">
+      <div class="minimized-icon">📢</div>
+      <div v-if="count > 0" class="minimized-count">{{ count }}</div>
+    </div>
 
-  <!-- 正常状态 -->
-  <div v-else-if="!isMinimized && noticeList.length > 0" class="fixed-notice">
-    <!-- 标题栏 -->
-    <div class="notice-header">
-      <div class="header-content">
-        <i class="notice-icon">📢</i>
-        <span class="header-title">公告通知</span>
-        <div class="header-actions">
-          <button class="action-btn minimize-btn" title="最小化" @click="minimize">
-            <i class="action-icon">−</i>
-          </button>
-          <button class="action-btn close-btn" title="关闭" @click="close">
-            <i class="action-icon">×</i>
-          </button>
-          <button class="toggle-btn" :class="{ expanded: isExpanded }" @click="toggleExpand">
-            <i class="toggle-icon">{{ isExpanded ? "▼" : "▲" }}</i>
-          </button>
+    <!-- 正常状态 -->
+    <div v-else class="fixed-notice">
+      <!-- 标题栏 -->
+      <div class="notice-header">
+        <div class="header-content">
+          <i class="notice-icon">📢</i>
+          <span class="header-title">公告通知</span>
+          <div class="header-actions">
+            <button class="action-btn minimize-btn" title="最小化" @click="store.minimize">
+              <i class="action-icon">−</i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 分类标签 -->
-    <div v-if="isExpanded" class="notice-tabs">
-      <button v-for="tab in tabs" :key="tab.key" class="tab-btn" :class="{ active: activeTab === tab.key }" @click="switchTab(tab.key)">
-        {{ tab.label }}
-        <span v-if="getTabCount(tab.key) > 0" class="tab-count">({{ getTabCount(tab.key) }})</span>
-      </button>
-    </div>
+      <!-- 分类标签 -->
+      <div class="notice-tabs">
+        <button v-for="tab in tabs" :key="tab.key" class="tab-btn" :class="{ active: store.activeTab === tab.key }" @click="handleTabSwitch(tab.key)">
+          {{ tab.label }}
+          <span v-if="getTabCount(tab.key) > 0" class="tab-count">({{ getTabCount(tab.key) }})</span>
+        </button>
+      </div>
 
-    <!-- 公告内容区域 -->
-    <div class="notice-content" :class="{ expanded: isExpanded }">
-      <div class="notice-scroll-container" @mouseenter="pauseScroll" @mouseleave="resumeScroll">
-        <div ref="scrollList" class="notice-scroll-list" :style="{ transform: `translateY(${scrollOffset}px)` }">
-          <!-- 渲染两倍数据用于无缝循环 -->
-          <div v-for="(notice, index) in displayNotices" :key="`${notice.id}-${Math.floor(index / currentNotices.length)}`" class="notice-item" @click="handleNoticeClick(notice)">
-            <div class="notice-dot" :class="`dot-${notice.type}`"></div>
-            <div class="notice-text">
-              <span class="notice-title" :title="notice.title">{{ notice.title }}</span>
-              <div class="notice-meta">
-                <span class="notice-date">{{ formatDate(notice.date) }}</span>
-                <span class="notice-type" :class="`type-${notice.type}`">{{ getTypeLabel(notice.type) }}</span>
+      <!-- 公告内容区域 -->
+      <div class="notice-content">
+        <div class="notice-scroll-container" @mouseenter="handleScrollPause" @mouseleave="handleScrollResume">
+          <div ref="scrollList" class="notice-scroll-list" :style="{ transform: `translateY(${scrollOffset}px)` }">
+            <!-- 渲染两倍数据用于无缝循环 -->
+            <div v-for="(notice, index) in displayList" :key="`${notice.id}-${Math.floor(index / filteredNotices.length)}`" class="notice-item" @click="handleNoticeClick(notice)">
+              <div class="notice-dot" :class="`dot-${notice.type}`"></div>
+              <div class="notice-text">
+                <span class="notice-title" :title="notice.title">{{ notice.title }}</span>
+                <div class="notice-meta">
+                  <span class="notice-date">{{ handleDateFormat(notice.date) }}</span>
+                  <span class="notice-type" :class="`type-${notice.type}`">{{ handleTypeLabel(notice.type) }}</span>
+                </div>
               </div>
+              <i class="notice-arrow">→</i>
             </div>
-            <i class="notice-arrow">→</i>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </template>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from "vue"
+import { ref, onMounted, onUnmounted, computed, watch } from "vue"
+import { useFixedNoticeStore } from "~/store/fixedNotice"
 
 interface NoticeItem {
   id: string | number
@@ -70,27 +67,25 @@ interface NoticeItem {
 // Props
 const props = withDefaults(
   defineProps<{
-    notices?: NoticeItem[]
     scrollSpeed?: number
     autoScroll?: boolean
     maxHeight?: string
   }>(),
   {
-    notices: () => [],
     scrollSpeed: 30, // 滚动速度（像素/秒）
     autoScroll: true,
     maxHeight: "240px",
   },
 )
 
+// 使用 store
+const store = useFixedNoticeStore()
+
 // 响应式数据
-const isExpanded = ref(false)
-const isMinimized = ref(false)
-const isClosed = ref(false)
 const scrollOffset = ref(0)
 const isPaused = ref(false)
 const scrollList = ref<HTMLElement>()
-const activeTab = ref<"all" | "factory" | "daily">("all")
+const notices = ref<NoticeItem[]>([])
 
 // 分类标签配置
 const tabs = [
@@ -99,99 +94,102 @@ const tabs = [
   { key: "daily" as const, label: "日常通知" },
 ]
 
-// 模拟公告数据（如果没有传入props）
-const defaultNotices: NoticeItem[] = [
-  {
-    id: 1,
-    title: "关于公司年度工作总结大会的通知",
-    date: "2024-01-15",
-    url: "/notice/1",
-    type: "daily",
-  },
-  {
-    id: 2,
-    title: "春节放假安排及相关工作部署通知",
-    date: "2024-01-10",
-    url: "/notice/2",
-    type: "daily",
-  },
-  {
-    id: 3,
-    title: "生产车间安全规程及操作指南公示",
-    date: "2024-01-08",
-    url: "/notice/3",
-    type: "factory",
-  },
-  {
-    id: 4,
-    title: "办公区域安全检查及整改要求通知",
-    date: "2024-01-05",
-    url: "/notice/4",
-    type: "daily",
-  },
-  {
-    id: 5,
-    title: "环保设施运行状况及排放数据公开",
-    date: "2024-01-03",
-    url: "/notice/5",
-    type: "factory",
-  },
-  {
-    id: 6,
-    title: "员工福利制度及申请流程公示",
-    date: "2024-01-02",
-    url: "/notice/6",
-    type: "factory",
-  },
-]
-
-// 计算属性
-const noticeList = computed(() => (props.notices.length > 0 ? props.notices : defaultNotices))
-
-// 根据当前标签过滤的通知列表
-const currentNotices = computed(() => {
-  if (activeTab.value === "all") {
-    return noticeList.value
-  }
-  return noticeList.value.filter((notice) => notice.type === activeTab.value)
-})
-
-// 用于循环滚动的双倍数据
-const displayNotices = computed(() => [...currentNotices.value, ...currentNotices.value])
-
-// 未读数量计算
-const unreadCount = computed(() => noticeList.value.length)
-
-// 获取标签对应的数量
-const getTabCount = (tabKey: string) => {
-  if (tabKey === "all") return noticeList.value.length
-  return noticeList.value.filter((notice) => notice.type === tabKey).length
-}
-
 // 滚动相关
 let scrollInterval: number | null = null
 const itemHeight = 60 // 每个公告项的高度
 
-// 方法
-const toggleExpand = () => {
-  isExpanded.value = !isExpanded.value
-  if (!isExpanded.value) {
-    stopScroll()
-  } else if (props.autoScroll) {
-    startScroll()
+// 计算属性
+
+// 公告总数
+const count = computed(() => notices.value.length)
+
+// 根据当前标签过滤的通知列表
+const filteredNotices = computed(() => {
+  if (store.activeTab === "all") {
+    return notices.value
   }
+  return notices.value.filter((notice) => notice.type === store.activeTab)
+})
+
+// 用于循环滚动的双倍数据
+const displayList = computed(() => [...filteredNotices.value, ...filteredNotices.value])
+
+// 获取标签对应的数量
+const getTabCount = (tabKey: string) => {
+  if (tabKey === "all") return notices.value.length
+  return notices.value.filter((notice) => notice.type === tabKey).length
 }
 
-const startScroll = () => {
-  if (!props.autoScroll || currentNotices.value.length <= 1) return
+// 方法
 
-  stopScroll()
+/**
+ * 模拟接口获取公告数据
+ */
+const handleFetchNotices = async () => {
+  // 模拟异步请求
+  return new Promise<NoticeItem[]>((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          title: "关于公司年度工作总结大会的通知",
+          date: "2024-01-15",
+          url: "/notice/1",
+          type: "daily",
+        },
+        {
+          id: 2,
+          title: "春节放假安排及相关工作部署通知",
+          date: "2024-01-10",
+          url: "/notice/2",
+          type: "daily",
+        },
+        {
+          id: 3,
+          title: "生产车间安全规程及操作指南公示",
+          date: "2024-01-08",
+          url: "/notice/3",
+          type: "factory",
+        },
+        {
+          id: 4,
+          title: "办公区域安全检查及整改要求通知",
+          date: "2024-01-05",
+          url: "/notice/4",
+          type: "daily",
+        },
+        {
+          id: 5,
+          title: "环保设施运行状况及排放数据公开",
+          date: "2024-01-03",
+          url: "/notice/5",
+          type: "factory",
+        },
+        {
+          id: 6,
+          title: "员工福利制度及申请流程公示",
+          date: "2024-01-02",
+          url: "/notice/6",
+          type: "factory",
+        },
+      ])
+    }, 300)
+  })
+}
+
+/**
+ * 开始滚动
+ */
+const handleScrollStart = () => {
+  if (!props.autoScroll || filteredNotices.value.length <= 1) return
+
+  handleScrollStop()
   scrollInterval = window.setInterval(() => {
-    if (!isPaused.value && isExpanded.value) {
+    if (!isPaused.value) {
       scrollOffset.value -= 1
 
       // 当滚动到一半时重置位置，实现无缝循环
-      const totalHeight = currentNotices.value.length * itemHeight
+      const totalHeight = filteredNotices.value.length * itemHeight
       if (Math.abs(scrollOffset.value) >= totalHeight) {
         scrollOffset.value = 0
       }
@@ -199,21 +197,33 @@ const startScroll = () => {
   }, 1000 / props.scrollSpeed)
 }
 
-const stopScroll = () => {
+/**
+ * 停止滚动
+ */
+const handleScrollStop = () => {
   if (scrollInterval) {
     clearInterval(scrollInterval)
     scrollInterval = null
   }
 }
 
-const pauseScroll = () => {
+/**
+ * 暂停滚动
+ */
+const handleScrollPause = () => {
   isPaused.value = true
 }
 
-const resumeScroll = () => {
+/**
+ * 恢复滚动
+ */
+const handleScrollResume = () => {
   isPaused.value = false
 }
 
+/**
+ * 点击公告项
+ */
 const handleNoticeClick = (notice: NoticeItem) => {
   if (notice.url) {
     // 使用 Nuxt 的路由导航
@@ -221,53 +231,52 @@ const handleNoticeClick = (notice: NoticeItem) => {
   }
 }
 
-const formatDate = (dateStr: string) => {
+/**
+ * 格式化日期
+ */
+const handleDateFormat = (dateStr: string) => {
   const date = new Date(dateStr)
   return `${date.getMonth() + 1}/${date.getDate()}`
 }
 
-// 新增方法
-const minimize = () => {
-  isMinimized.value = true
-  stopScroll()
-}
-
-const restore = () => {
-  isMinimized.value = false
-  isExpanded.value = true
-  if (props.autoScroll && currentNotices.value.length > 1) {
-    startScroll()
-  }
-}
-
-const close = () => {
-  isClosed.value = true
-  stopScroll()
-}
-
-const switchTab = (tabKey: "all" | "factory" | "daily") => {
-  activeTab.value = tabKey
-  scrollOffset.value = 0 // 重置滚动位置
-  if (props.autoScroll && isExpanded.value && currentNotices.value.length > 1) {
-    startScroll()
-  }
-}
-
-const getTypeLabel = (type: "factory" | "daily") => {
+/**
+ * 获取类型标签
+ */
+const handleTypeLabel = (type: "factory" | "daily") => {
   return type === "factory" ? "厂务公开" : "日常通知"
 }
 
+/**
+ * 切换标签
+ */
+const handleTabSwitch = (tabKey: "all" | "factory" | "daily") => {
+  store.switchTab(tabKey)
+}
+
+// 监听状态变化
+watch(
+  () => store.activeTab,
+  () => {
+    scrollOffset.value = 0 // 重置滚动位置
+    if (props.autoScroll && filteredNotices.value.length > 1) {
+      handleScrollStart()
+    }
+  },
+)
+
 // 生命周期
-onMounted(() => {
-  // 默认展开状态，自动开始滚动
-  isExpanded.value = true
-  if (props.autoScroll && currentNotices.value.length > 1) {
-    startScroll()
+onMounted(async () => {
+  // 获取公告数据
+  notices.value = await handleFetchNotices()
+
+  // 开始自动滚动
+  if (props.autoScroll && filteredNotices.value.length > 1) {
+    handleScrollStart()
   }
 })
 
 onUnmounted(() => {
-  stopScroll()
+  handleScrollStop()
 })
 </script>
 
@@ -463,13 +472,8 @@ onUnmounted(() => {
 }
 
 .notice-content {
-  max-height: 0;
+  max-height: v-bind(maxHeight);
   overflow: hidden;
-  transition: max-height $transition-normal ease-in-out;
-
-  &.expanded {
-    max-height: v-bind(maxHeight);
-  }
 }
 
 .notice-scroll-container {

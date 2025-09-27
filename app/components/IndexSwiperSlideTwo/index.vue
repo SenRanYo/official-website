@@ -375,12 +375,12 @@ defineExpose({
 
 <style scoped lang="scss">
 .index-swiper-slide-two {
-  height: 100%;
-  padding: 30px 12.5%;
+  height: 100vh;
+  padding: 2vh 12.5%;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 
   .news-content {
     flex: 1;
@@ -435,8 +435,9 @@ defineExpose({
 
       .featured-news-content {
         display: grid;
-        grid-template-columns: 3fr 2fr;
-        gap: 40px;
+        grid-template-columns: 2fr 1fr;
+        gap: 3vw;
+        min-height: 0;
 
         .swiper-container {
           position: relative;
@@ -446,7 +447,9 @@ defineExpose({
 
           .swiper {
             width: 100%;
-            height: 400px;
+            height: 35vh;
+            min-height: 300px;
+            max-height: 500px;
 
             .swiper-slide {
               position: relative;
@@ -628,12 +631,16 @@ defineExpose({
     .secondary-news-grid {
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 2vh;
+      flex: 1;
+      min-height: 0;
 
       .news-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 30px;
+        gap: 2vw;
+        flex: 1;
+        min-height: 0;
       }
 
       .news-section {
@@ -810,25 +817,52 @@ defineExpose({
 }
 
 // 响应式设计
+@media (max-width: 1600px) {
+  .index-swiper-slide-two {
+    padding: 2vh 8%;
+
+    .news-content .featured-news-section .featured-news-content {
+      grid-template-columns: 2.5fr 1.5fr;
+      gap: 2.5vw;
+    }
+  }
+}
+
 @media (max-width: 1400px) {
   .index-swiper-slide-two {
-    padding: 25px 3% 40px;
+    padding: 2vh 5%;
 
     .news-content .featured-news-section .featured-news-content {
       grid-template-columns: 1fr;
-      gap: 30px;
+      gap: 2vh;
 
       .swiper-container .swiper {
-        height: 300px;
+        height: 30vh;
+        min-height: 250px;
       }
     }
 
     .secondary-news-grid {
-      gap: 25px;
+      gap: 1.5vh;
 
       .news-row {
         grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 1.5vh;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .index-swiper-slide-two {
+    padding: 1.5vh 3%;
+
+    .news-content .featured-news-section {
+      padding: 2vh;
+
+      .featured-news-content .swiper-container .swiper {
+        height: 25vh;
+        min-height: 200px;
       }
     }
   }
@@ -836,25 +870,29 @@ defineExpose({
 
 @media (max-width: 768px) {
   .index-swiper-slide-two {
-    padding: 15px 2% 30px;
+    padding: 1vh 2%;
+    height: auto;
+    min-height: 100vh;
 
     .news-content {
       .featured-news-section {
-        padding: 20px;
+        padding: 1.5vh;
+        margin-bottom: 2vh;
 
         .section-header h3 {
-          font-size: 22px;
+          font-size: 1.5rem;
         }
 
         .featured-news-content {
           .swiper-container .swiper {
-            height: 250px;
+            height: 20vh;
+            min-height: 180px;
 
             .swiper-slide .slide-overlay {
-              padding: 20px;
+              padding: 1.5vh;
 
               .slide-title {
-                font-size: 18px;
+                font-size: 1.1rem;
               }
             }
           }
@@ -862,22 +900,27 @@ defineExpose({
           .featured-news-list .news-item {
             flex-direction: column;
             text-align: center;
+            padding: 1vh 0;
 
             .news-date {
-              margin: 0 0 16px 0;
+              margin: 0 0 1vh 0;
             }
           }
         }
       }
 
       .secondary-news-grid {
+        gap: 1vh;
+
         .news-row {
           grid-template-columns: 1fr;
+          gap: 1vh;
         }
 
         .news-section {
           &.photo-news .photo-news-grid {
             grid-template-columns: 1fr !important;
+            gap: 1vh;
           }
         }
       }
