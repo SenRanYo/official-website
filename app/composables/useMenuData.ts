@@ -74,7 +74,7 @@ export default function () {
       },
       {
         title: "企业文化",
-        route: "/qywh/jtgs",
+        route: "/qywh/main",
         child: [
           {
             title: "集团公司",
