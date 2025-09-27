@@ -24,15 +24,11 @@ const menus = useMenuData()
 
 <style lang="scss">
 .layout-header {
-  top: 0;
-  left: 0;
   width: 100%;
   height: 80px;
   display: flex;
-  position: absolute;
   align-items: center;
   transition: all 0.3s ease;
-  z-index: 1000;
   &:hover {
     background-color: #fff;
   }

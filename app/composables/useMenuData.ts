@@ -92,6 +92,16 @@ export default function () {
           },
         ],
       },
+      {
+        title: "企业文化",
+        route: "/qywh/index",
+        child: [
+          {
+            title: "党建工作",
+            route: "/ddjs/djgz",
+          },
+        ],
+      },
     ]
   })
 }
