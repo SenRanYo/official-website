@@ -23,8 +23,8 @@ export default function () {
             route: "/gsgk/zzjg",
           },
           {
-            title: "大事记",
-            route: "/gsgk/dsj",
+            title: "发展历程",
+            route: "/gsgk/fzlc",
           },
         ],
       },
@@ -32,6 +32,10 @@ export default function () {
         title: "新闻中心",
         route: "/xwzx/gsyw",
         child: [
+          {
+            title: "媒体聚焦",
+            route: "/xwzx/mtjj",
+          },
           {
             title: "公司要闻",
             route: "/xwzx/gsyw",
@@ -41,20 +45,12 @@ export default function () {
             route: "/xwzx/gsxw",
           },
           {
-            title: "媒体聚焦",
-            route: "/xwzx/mtjj",
+            title: "职工园地",
+            route: "/xwzx/zgyd",
           },
           {
             title: "图片新闻",
             route: "/xwzx/tpxw",
-          },
-          {
-            title: "专题聚焦",
-            route: "/xwzx/ztjj",
-          },
-          {
-            title: "职工园地",
-            route: "/xwzx/zgyd",
           },
         ],
       },
@@ -71,34 +67,26 @@ export default function () {
             route: "/ddjs/ghtq",
           },
           {
-            title: "企业文化",
-            route: "/ddjs/qywh",
-          },
-          {
-            title: "厂务公开",
-            route: "/ddjs/cwgk",
-          },
-          {
             title: "党务公开",
             route: "/ddjs/dwgk",
-          },
-          {
-            title: "纪检监察",
-            route: "/ddjs/jjjc",
-          },
-          {
-            title: "人力资源",
-            route: "/ddjs/rlzy",
           },
         ],
       },
       {
         title: "企业文化",
-        route: "/qywh/index",
+        route: "/qywh/jtgs",
         child: [
           {
-            title: "党建工作",
-            route: "/ddjs/djgz",
+            title: "集团公司",
+            route: "/qywh/jtgs",
+          },
+          {
+            title: "四川公司",
+            route: "/qywh/scgs",
+          },
+          {
+            title: "泸定公司",
+            route: "/qywh/ldgs",
           },
         ],
       },
