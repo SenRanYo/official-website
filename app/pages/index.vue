@@ -32,6 +32,7 @@ import "swiper/css/pagination"
 import "swiper/css/navigation"
 import "swiper/css/effect-fade"
 import { Swiper } from "swiper"
+import { Pagination } from "swiper/modules"
 import { useElementBounding } from "@vueuse/core"
 
 definePageMeta({ layout: "home" })
@@ -67,10 +68,12 @@ let isFooterAnimating = false
 function initSwiper() {
   if (swiperRef.value) {
     swiper.value = new Swiper(swiperRef.value, {
+      modules: [Pagination],
       direction: "vertical",
       allowTouchMove: false, // 禁用手动滑动
       allowSlideNext: true,
       allowSlidePrev: true,
+      pagination: { el: ".swiper-pagination", clickable: true },
       on: {
         slideChangeTransitionStart: () => {
           isAnimating = true

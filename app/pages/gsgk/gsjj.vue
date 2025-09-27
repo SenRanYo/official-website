@@ -284,8 +284,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@use "~/assets/css/variables" as *;
-
 .company-intro {
   padding-top: 0;
 }
@@ -307,7 +305,7 @@ onMounted(() => {
     gap: 60px;
     align-items: center;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 40px;
     }
@@ -315,29 +313,29 @@ onMounted(() => {
 
   .overview-text {
     .company-name {
-      font-size: $font-size-4xl;
+      font-size: 2.25rem;
       font-weight: 700;
-      color: $primary-color;
-      margin-bottom: $spacing-lg;
+      color: #2c68b9;
+      margin-bottom: 1.5rem;
       line-height: 1.2;
     }
 
     .company-description {
-      font-size: $font-size-lg;
-      color: $text-color;
+      font-size: 1.125rem;
+      color: #1f2937;
       line-height: 1.8;
-      margin-bottom: $spacing-2xl;
+      margin-bottom: 3rem;
     }
   }
 
   .key-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: $spacing-xl;
+    gap: 2rem;
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: 640px) {
       grid-template-columns: 1fr;
-      gap: $spacing-lg;
+      gap: 1.5rem;
     }
 
     .stat-item {
@@ -345,15 +343,15 @@ onMounted(() => {
 
       .stat-number {
         display: block;
-        font-size: $font-size-3xl;
+        font-size: 1.875rem;
         font-weight: 700;
-        color: $primary-color;
-        margin-bottom: $spacing-sm;
+        color: #2c68b9;
+        margin-bottom: 0.5rem;
       }
 
       .stat-label {
-        font-size: $font-size-sm;
-        color: $text-light;
+        font-size: 0.875rem;
+        color: #6b7280;
         font-weight: 500;
       }
     }
@@ -364,19 +362,21 @@ onMounted(() => {
       width: 100%;
       height: 300px;
       object-fit: cover;
-      border-radius: $border-radius-xl;
-      box-shadow: $shadow-lg;
+      border-radius: 0.75rem;
+      box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
   }
 }
 
 // 通用样式
 .section-title {
-  font-size: $font-size-3xl;
+  font-size: 1.875rem;
   font-weight: 700;
-  color: $text-color;
+  color: #1f2937;
   text-align: center;
-  margin-bottom: $spacing-3xl;
+  margin-bottom: 4rem;
   position: relative;
 
   &::after {
@@ -387,7 +387,7 @@ onMounted(() => {
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: $primary-color;
+    background: #2c68b9;
     border-radius: 2px;
   }
 }
@@ -400,14 +400,16 @@ onMounted(() => {
   .intro-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: $spacing-2xl;
+    gap: 3rem;
   }
 
   .intro-card {
     background: white;
-    padding: $spacing-2xl;
-    border-radius: $border-radius-xl;
-    box-shadow: $shadow-md;
+    padding: 3rem;
+    border-radius: 0.75rem;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
     text-align: center;
     transition:
       transform 0.3s ease,
@@ -415,14 +417,16 @@ onMounted(() => {
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: $shadow-xl;
+      box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
     .card-icon {
       width: 60px;
       height: 60px;
-      margin: 0 auto $spacing-lg;
-      color: $primary-color;
+      margin: 0 auto 1.5rem;
+      color: #2c68b9;
 
       svg {
         width: 100%;
@@ -431,14 +435,14 @@ onMounted(() => {
     }
 
     h3 {
-      font-size: $font-size-xl;
+      font-size: 1.25rem;
       font-weight: 600;
-      color: $text-color;
-      margin-bottom: $spacing-md;
+      color: #1f2937;
+      margin-bottom: 1rem;
     }
 
     p {
-      color: $text-light;
+      color: #6b7280;
       line-height: 1.6;
     }
   }
@@ -456,7 +460,7 @@ onMounted(() => {
   }
 
   .timeline-navigation {
-    margin-bottom: $spacing-xl;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -464,11 +468,13 @@ onMounted(() => {
     .nav-hint {
       display: flex;
       align-items: center;
-      gap: $spacing-md;
+      gap: 1rem;
       background: rgba(255, 255, 255, 0.9);
-      padding: $spacing-md $spacing-xl;
-      border-radius: $border-radius-xl;
-      box-shadow: $shadow-md;
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       animation: pulse-hint 2s infinite;
@@ -476,13 +482,13 @@ onMounted(() => {
       .hint-icon {
         width: 20px;
         height: 20px;
-        color: $primary-color;
+        color: #2c68b9;
         animation: bounce-horizontal 1.5s infinite;
       }
 
       span {
-        font-size: $font-size-sm;
-        color: $text-color;
+        font-size: 0.875rem;
+        color: #1f2937;
         font-weight: 500;
       }
     }
@@ -493,7 +499,7 @@ onMounted(() => {
     overflow: visible;
     position: relative;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: 768px) {
       padding: 0 60px;
     }
   }
@@ -502,30 +508,34 @@ onMounted(() => {
     width: 320px !important;
     height: auto;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: 768px) {
       width: 280px !important;
     }
   }
 
   .timeline-card {
     background: white;
-    border-radius: $border-radius-xl;
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: $shadow-lg;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     height: 100%;
     border: 1px solid rgba(255, 255, 255, 0.1);
 
     &:hover {
       transform: translateY(-8px);
-      box-shadow: $shadow-xl;
+      box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
   }
 
   .card-header {
     position: relative;
-    background: linear-gradient(135deg, $primary-color, #3b82f6);
-    padding: $spacing-lg;
+    background: linear-gradient(135deg, #2c68b9, #3b82f6);
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -543,14 +553,14 @@ onMounted(() => {
 
     .step-number {
       color: white;
-      font-size: $font-size-base;
+      font-size: 1rem;
       font-weight: 700;
     }
   }
 
   .timeline-date {
     color: white;
-    font-size: $font-size-lg;
+    font-size: 1.125rem;
     font-weight: 600;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
@@ -578,22 +588,22 @@ onMounted(() => {
   }
 
   .card-content {
-    padding: $spacing-xl;
+    padding: 2rem;
   }
 
   .timeline-title {
-    font-size: $font-size-lg;
+    font-size: 1.125rem;
     font-weight: 700;
-    color: $text-color;
-    margin-bottom: $spacing-md;
+    color: #1f2937;
+    margin-bottom: 1rem;
     line-height: 1.3;
   }
 
   .timeline-description {
-    font-size: $font-size-sm;
-    color: $text-light;
+    font-size: 0.875rem;
+    color: #6b7280;
     line-height: 1.6;
-    margin-bottom: $spacing-lg;
+    margin-bottom: 1.5rem;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;
@@ -605,15 +615,15 @@ onMounted(() => {
     .detail-item {
       display: flex;
       align-items: flex-start;
-      margin-bottom: $spacing-sm;
-      font-size: $font-size-xs;
-      color: $text-color;
+      margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      color: #1f2937;
 
       .check-icon {
         width: 14px;
         height: 14px;
         color: #10b981;
-        margin-right: $spacing-sm;
+        margin-right: 0.5rem;
         flex-shrink: 0;
         margin-top: 2px;
       }
@@ -625,11 +635,11 @@ onMounted(() => {
   }
 
   .timeline-progress {
-    margin-top: $spacing-xl;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: $spacing-md;
+    gap: 1rem;
 
     .progress-bar {
       width: 200px;
@@ -640,7 +650,7 @@ onMounted(() => {
 
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, $primary-color, #3b82f6);
+        background: linear-gradient(90deg, #2c68b9, #3b82f6);
         width: 12.5%;
         transition: width 0.3s ease;
         border-radius: 2px;
@@ -648,12 +658,12 @@ onMounted(() => {
     }
 
     .progress-text {
-      font-size: $font-size-sm;
-      color: $text-color;
+      font-size: 0.875rem;
+      color: #1f2937;
       font-weight: 500;
 
       .current-step {
-        color: $primary-color;
+        color: #2c68b9;
         font-weight: 700;
       }
     }
@@ -662,7 +672,7 @@ onMounted(() => {
   // Swiper控件样式
   .swiper-pagination {
     position: relative !important;
-    margin-top: $spacing-lg !important;
+    margin-top: 1.5rem !important;
 
     .swiper-pagination-bullet {
       width: 8px !important;
@@ -673,7 +683,7 @@ onMounted(() => {
       transition: all 0.3s ease !important;
 
       &.swiper-pagination-bullet-active {
-        background: $primary-color !important;
+        background: #2c68b9 !important;
         transform: scale(1.5) !important;
       }
     }
@@ -685,7 +695,9 @@ onMounted(() => {
     height: 50px !important;
     background: rgba(255, 255, 255, 0.95) !important;
     border-radius: 50% !important;
-    box-shadow: $shadow-lg !important;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
     transition: all 0.3s ease !important;
     top: 50% !important;
     margin-top: -100px !important;
@@ -697,13 +709,15 @@ onMounted(() => {
     &:hover {
       background: white !important;
       transform: scale(1.1) !important;
-      box-shadow: $shadow-xl !important;
+      box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
     }
 
     svg {
       width: 24px;
       height: 24px;
-      color: $primary-color;
+      color: #2c68b9;
       position: absolute;
     }
 
