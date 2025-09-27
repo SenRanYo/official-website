@@ -1,14 +1,37 @@
 <template>
-  <div v-if="noticeList.length > 0" class="fixed-notice">
+  <!-- 最小化状态 -->
+  <div v-if="isMinimized && noticeList.length > 0" class="fixed-notice-minimized" @click="restore">
+    <div class="minimized-icon">📢</div>
+    <div v-if="unreadCount > 0" class="minimized-count">{{ unreadCount }}</div>
+  </div>
+
+  <!-- 正常状态 -->
+  <div v-else-if="!isMinimized && noticeList.length > 0" class="fixed-notice">
     <!-- 标题栏 -->
     <div class="notice-header">
       <div class="header-content">
         <i class="notice-icon">📢</i>
         <span class="header-title">公告通知</span>
-        <button class="toggle-btn" :class="{ expanded: isExpanded }" @click="toggleExpand">
-          <i class="toggle-icon">{{ isExpanded ? "▼" : "▲" }}</i>
-        </button>
+        <div class="header-actions">
+          <button class="action-btn minimize-btn" title="最小化" @click="minimize">
+            <i class="action-icon">−</i>
+          </button>
+          <button class="action-btn close-btn" title="关闭" @click="close">
+            <i class="action-icon">×</i>
+          </button>
+          <button class="toggle-btn" :class="{ expanded: isExpanded }" @click="toggleExpand">
+            <i class="toggle-icon">{{ isExpanded ? "▼" : "▲" }}</i>
+          </button>
+        </div>
       </div>
+    </div>
+
+    <!-- 分类标签 -->
+    <div v-if="isExpanded" class="notice-tabs">
+      <button v-for="tab in tabs" :key="tab.key" class="tab-btn" :class="{ active: activeTab === tab.key }" @click="switchTab(tab.key)">
+        {{ tab.label }}
+        <span v-if="getTabCount(tab.key) > 0" class="tab-count">({{ getTabCount(tab.key) }})</span>
+      </button>
     </div>
 
     <!-- 公告内容区域 -->
@@ -16,11 +39,14 @@
       <div class="notice-scroll-container" @mouseenter="pauseScroll" @mouseleave="resumeScroll">
         <div ref="scrollList" class="notice-scroll-list" :style="{ transform: `translateY(${scrollOffset}px)` }">
           <!-- 渲染两倍数据用于无缝循环 -->
-          <div v-for="(notice, index) in displayNotices" :key="`${notice.id}-${Math.floor(index / noticeList.length)}`" class="notice-item" @click="handleNoticeClick(notice)">
-            <div class="notice-dot"></div>
+          <div v-for="(notice, index) in displayNotices" :key="`${notice.id}-${Math.floor(index / currentNotices.length)}`" class="notice-item" @click="handleNoticeClick(notice)">
+            <div class="notice-dot" :class="`dot-${notice.type}`"></div>
             <div class="notice-text">
               <span class="notice-title" :title="notice.title">{{ notice.title }}</span>
-              <span class="notice-date">{{ formatDate(notice.date) }}</span>
+              <div class="notice-meta">
+                <span class="notice-date">{{ formatDate(notice.date) }}</span>
+                <span class="notice-type" :class="`type-${notice.type}`">{{ getTypeLabel(notice.type) }}</span>
+              </div>
             </div>
             <i class="notice-arrow">→</i>
           </div>
@@ -38,6 +64,7 @@ interface NoticeItem {
   title: string
   date: string
   url?: string
+  type: "factory" | "daily" // 厂务公开 | 日常通知
 }
 
 // Props
@@ -58,9 +85,19 @@ const props = withDefaults(
 
 // 响应式数据
 const isExpanded = ref(false)
+const isMinimized = ref(false)
+const isClosed = ref(false)
 const scrollOffset = ref(0)
 const isPaused = ref(false)
 const scrollList = ref<HTMLElement>()
+const activeTab = ref<"all" | "factory" | "daily">("all")
+
+// 分类标签配置
+const tabs = [
+  { key: "all" as const, label: "全部" },
+  { key: "factory" as const, label: "厂务公开" },
+  { key: "daily" as const, label: "日常通知" },
+]
 
 // 模拟公告数据（如果没有传入props）
 const defaultNotices: NoticeItem[] = [
@@ -69,38 +106,67 @@ const defaultNotices: NoticeItem[] = [
     title: "关于公司年度工作总结大会的通知",
     date: "2024-01-15",
     url: "/notice/1",
+    type: "daily",
   },
   {
     id: 2,
     title: "春节放假安排及相关工作部署通知",
     date: "2024-01-10",
     url: "/notice/2",
+    type: "daily",
   },
   {
     id: 3,
-    title: "新员工入职培训计划安排通知",
+    title: "生产车间安全规程及操作指南公示",
     date: "2024-01-08",
     url: "/notice/3",
+    type: "factory",
   },
   {
     id: 4,
     title: "办公区域安全检查及整改要求通知",
     date: "2024-01-05",
     url: "/notice/4",
+    type: "daily",
   },
   {
     id: 5,
-    title: "关于更新员工手册的重要通知",
+    title: "环保设施运行状况及排放数据公开",
     date: "2024-01-03",
     url: "/notice/5",
+    type: "factory",
+  },
+  {
+    id: 6,
+    title: "员工福利制度及申请流程公示",
+    date: "2024-01-02",
+    url: "/notice/6",
+    type: "factory",
   },
 ]
 
 // 计算属性
 const noticeList = computed(() => (props.notices.length > 0 ? props.notices : defaultNotices))
 
+// 根据当前标签过滤的通知列表
+const currentNotices = computed(() => {
+  if (activeTab.value === "all") {
+    return noticeList.value
+  }
+  return noticeList.value.filter((notice) => notice.type === activeTab.value)
+})
+
 // 用于循环滚动的双倍数据
-const displayNotices = computed(() => [...noticeList.value, ...noticeList.value])
+const displayNotices = computed(() => [...currentNotices.value, ...currentNotices.value])
+
+// 未读数量计算
+const unreadCount = computed(() => noticeList.value.length)
+
+// 获取标签对应的数量
+const getTabCount = (tabKey: string) => {
+  if (tabKey === "all") return noticeList.value.length
+  return noticeList.value.filter((notice) => notice.type === tabKey).length
+}
 
 // 滚动相关
 let scrollInterval: number | null = null
@@ -117,7 +183,7 @@ const toggleExpand = () => {
 }
 
 const startScroll = () => {
-  if (!props.autoScroll || noticeList.value.length <= 1) return
+  if (!props.autoScroll || currentNotices.value.length <= 1) return
 
   stopScroll()
   scrollInterval = window.setInterval(() => {
@@ -125,7 +191,7 @@ const startScroll = () => {
       scrollOffset.value -= 1
 
       // 当滚动到一半时重置位置，实现无缝循环
-      const totalHeight = noticeList.value.length * itemHeight
+      const totalHeight = currentNotices.value.length * itemHeight
       if (Math.abs(scrollOffset.value) >= totalHeight) {
         scrollOffset.value = 0
       }
@@ -160,11 +226,42 @@ const formatDate = (dateStr: string) => {
   return `${date.getMonth() + 1}/${date.getDate()}`
 }
 
+// 新增方法
+const minimize = () => {
+  isMinimized.value = true
+  stopScroll()
+}
+
+const restore = () => {
+  isMinimized.value = false
+  isExpanded.value = true
+  if (props.autoScroll && currentNotices.value.length > 1) {
+    startScroll()
+  }
+}
+
+const close = () => {
+  isClosed.value = true
+  stopScroll()
+}
+
+const switchTab = (tabKey: "all" | "factory" | "daily") => {
+  activeTab.value = tabKey
+  scrollOffset.value = 0 // 重置滚动位置
+  if (props.autoScroll && isExpanded.value && currentNotices.value.length > 1) {
+    startScroll()
+  }
+}
+
+const getTypeLabel = (type: "factory" | "daily") => {
+  return type === "factory" ? "厂务公开" : "日常通知"
+}
+
 // 生命周期
 onMounted(() => {
   // 默认展开状态，自动开始滚动
   isExpanded.value = true
-  if (props.autoScroll && noticeList.value.length > 1) {
+  if (props.autoScroll && currentNotices.value.length > 1) {
     startScroll()
   }
 })
@@ -177,11 +274,60 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 @use "~/assets/css/variables" as *;
 
+// 最小化状态样式
+.fixed-notice-minimized {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, $primary-color, #1e4a73);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: $shadow-xl;
+  z-index: 1000;
+  transition: all $transition-normal;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .minimized-icon {
+    font-size: 24px;
+    color: white;
+  }
+
+  .minimized-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
 .fixed-notice {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 320px;
+  width: 360px;
   background: white;
   border-radius: $border-radius-lg;
   box-shadow: $shadow-xl;
@@ -191,7 +337,7 @@ onUnmounted(() => {
   transition: all $transition-normal;
 
   @media (max-width: $breakpoint-sm) {
-    width: 280px;
+    width: 320px;
     right: 10px;
     bottom: 10px;
   }
@@ -201,7 +347,6 @@ onUnmounted(() => {
   background: linear-gradient(135deg, $primary-color, #1e4a73);
   color: white;
   padding: 12px 16px;
-  cursor: pointer;
   user-select: none;
 
   .header-content {
@@ -219,6 +364,32 @@ onUnmounted(() => {
     font-weight: 600;
     font-size: $font-size-sm;
     flex: 1;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: $border-radius-sm;
+    transition: all $transition-fast;
+    font-size: 14px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .action-icon {
+      font-size: 14px;
+      font-weight: bold;
+    }
   }
 
   .toggle-btn {
@@ -241,6 +412,52 @@ onUnmounted(() => {
 
     &.expanded .toggle-icon {
       transform: rotate(180deg);
+    }
+  }
+}
+
+// 分类标签样式
+.notice-tabs {
+  display: flex;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+
+  .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    font-size: $font-size-xs;
+    color: $text-light;
+    cursor: pointer;
+    transition: all $transition-fast;
+    position: relative;
+
+    &:hover {
+      background: #e2e8f0;
+      color: $text-color;
+    }
+
+    &.active {
+      color: $primary-color;
+      background: white;
+      font-weight: 600;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $primary-color;
+      }
+    }
+
+    .tab-count {
+      margin-left: 4px;
+      font-weight: normal;
+      opacity: 0.7;
     }
   }
 }
@@ -290,10 +507,17 @@ onUnmounted(() => {
   .notice-dot {
     width: 6px;
     height: 6px;
-    background: $primary-color;
     border-radius: 50%;
     flex-shrink: 0;
     margin-right: 12px;
+
+    &.dot-factory {
+      background: #10b981; // 绿色 - 厂务公开
+    }
+
+    &.dot-daily {
+      background: $primary-color; // 蓝色 - 日常通知
+    }
   }
 
   .notice-text {
@@ -311,9 +535,34 @@ onUnmounted(() => {
       margin-bottom: 2px;
     }
 
+    .notice-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
     .notice-date {
       font-size: $font-size-xs;
       color: $text-light;
+    }
+
+    .notice-type {
+      font-size: $font-size-xs;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: 500;
+      white-space: nowrap;
+
+      &.type-factory {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+
+      &.type-daily {
+        background: #dbeafe;
+        color: #2563eb;
+      }
     }
   }
 
@@ -338,6 +587,25 @@ onUnmounted(() => {
     border-color: #374151;
   }
 
+  .notice-tabs {
+    background: #374151;
+    border-bottom-color: #4b5563;
+
+    .tab-btn {
+      color: #9ca3af;
+
+      &:hover {
+        background: #4b5563;
+        color: #f9fafb;
+      }
+
+      &.active {
+        background: #1f2937;
+        color: #60a5fa;
+      }
+    }
+  }
+
   .notice-item {
     border-bottom-color: #374151;
 
@@ -351,6 +619,18 @@ onUnmounted(() => {
 
     .notice-date {
       color: #9ca3af;
+    }
+
+    .notice-type {
+      &.type-factory {
+        background: #064e3b;
+        color: #34d399;
+      }
+
+      &.type-daily {
+        background: #1e3a8a;
+        color: #93c5fd;
+      }
     }
   }
 }
