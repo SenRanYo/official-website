@@ -313,44 +313,49 @@ onMounted(() => {
 
   .overview-text {
     .company-name {
-      font-size: 2.25rem;
+      font-size: 36px;
       font-weight: 700;
       color: #2c68b9;
-      margin-bottom: 1.5rem;
+      margin-bottom: 24px;
       line-height: 1.2;
     }
 
     .company-description {
-      font-size: 1.125rem;
+      font-size: 18px;
       color: #1f2937;
       line-height: 1.8;
-      margin-bottom: 3rem;
+      margin-bottom: 48px;
     }
   }
 
   .key-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 32px;
 
     @media (max-width: 640px) {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 24px;
     }
 
     .stat-item {
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
 
       .stat-number {
         display: block;
-        font-size: 1.875rem;
+        font-size: 30px;
         font-weight: 700;
         color: #2c68b9;
-        margin-bottom: 0.5rem;
+        margin-bottom: 8px;
       }
 
       .stat-label {
-        font-size: 0.875rem;
+        font-size: 14px;
         color: #6b7280;
         font-weight: 500;
       }
@@ -362,7 +367,7 @@ onMounted(() => {
       width: 100%;
       height: 300px;
       object-fit: cover;
-      border-radius: 0.75rem;
+      border-radius: 12px;
       box-shadow:
         0 10px 15px -3px rgba(0, 0, 0, 0.1),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -372,11 +377,11 @@ onMounted(() => {
 
 // 通用样式
 .section-title {
-  font-size: 1.875rem;
+  font-size: 36px;
   font-weight: 700;
   color: #1f2937;
   text-align: center;
-  margin-bottom: 4rem;
+  margin: 40px 0 64px 0;
   position: relative;
 
   &::after {
@@ -400,13 +405,13 @@ onMounted(() => {
   .intro-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 3rem;
+    gap: 40px;
   }
 
   .intro-card {
     background: white;
-    padding: 3rem;
-    border-radius: 0.75rem;
+    padding: 48px;
+    border-radius: 12px;
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -425,7 +430,8 @@ onMounted(() => {
     .card-icon {
       width: 60px;
       height: 60px;
-      margin: 0 auto 1.5rem;
+      display: flex;
+      margin: 0 auto 24px;
       color: #2c68b9;
 
       svg {
@@ -435,15 +441,19 @@ onMounted(() => {
     }
 
     h3 {
-      font-size: 1.25rem;
+      font-size: 24px;
       font-weight: 600;
       color: #1f2937;
-      margin-bottom: 1rem;
+      display: flex;
+      margin-bottom: 20px;
+      justify-content: center;
     }
 
     p {
+      font-size: 16px;
       color: #6b7280;
-      line-height: 1.6;
+      line-height: 1.7;
+      margin: 0;
     }
   }
 }
@@ -460,7 +470,7 @@ onMounted(() => {
   }
 
   .timeline-navigation {
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -468,10 +478,10 @@ onMounted(() => {
     .nav-hint {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 16px;
       background: rgba(255, 255, 255, 0.9);
-      padding: 1rem 2rem;
-      border-radius: 0.75rem;
+      padding: 16px 32px;
+      border-radius: 12px;
       box-shadow:
         0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -487,7 +497,7 @@ onMounted(() => {
       }
 
       span {
-        font-size: 0.875rem;
+        font-size: 14px;
         color: #1f2937;
         font-weight: 500;
       }
@@ -515,7 +525,7 @@ onMounted(() => {
 
   .timeline-card {
     background: white;
-    border-radius: 0.75rem;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow:
       0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -535,7 +545,7 @@ onMounted(() => {
   .card-header {
     position: relative;
     background: linear-gradient(135deg, #2c68b9, #3b82f6);
-    padding: 1.5rem;
+    padding: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -553,14 +563,14 @@ onMounted(() => {
 
     .step-number {
       color: white;
-      font-size: 1rem;
+      font-size: 16px;
       font-weight: 700;
     }
   }
 
   .timeline-date {
     color: white;
-    font-size: 1.125rem;
+    font-size: 18px;
     font-weight: 600;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
@@ -588,22 +598,22 @@ onMounted(() => {
   }
 
   .card-content {
-    padding: 2rem;
+    padding: 32px;
   }
 
   .timeline-title {
-    font-size: 1.125rem;
+    font-size: 18px;
     font-weight: 700;
     color: #1f2937;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     line-height: 1.3;
   }
 
   .timeline-description {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #6b7280;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;
@@ -615,15 +625,15 @@ onMounted(() => {
     .detail-item {
       display: flex;
       align-items: flex-start;
-      margin-bottom: 0.5rem;
-      font-size: 0.75rem;
+      margin-bottom: 8px;
+      font-size: 12px;
       color: #1f2937;
 
       .check-icon {
         width: 14px;
         height: 14px;
         color: #10b981;
-        margin-right: 0.5rem;
+        margin-right: 8px;
         flex-shrink: 0;
         margin-top: 2px;
       }
@@ -635,11 +645,11 @@ onMounted(() => {
   }
 
   .timeline-progress {
-    margin-top: 2rem;
+    margin-top: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
 
     .progress-bar {
       width: 200px;
@@ -658,7 +668,7 @@ onMounted(() => {
     }
 
     .progress-text {
-      font-size: 0.875rem;
+      font-size: 14px;
       color: #1f2937;
       font-weight: 500;
 
@@ -672,7 +682,7 @@ onMounted(() => {
   // Swiper控件样式
   .swiper-pagination {
     position: relative !important;
-    margin-top: 1.5rem !important;
+    margin-top: 24px !important;
 
     .swiper-pagination-bullet {
       width: 8px !important;

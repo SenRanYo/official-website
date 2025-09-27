@@ -338,7 +338,7 @@ onUnmounted(() => {
   right: 20px;
   width: 360px;
   background: white;
-  border-radius: $border-radius-lg;
+  border-radius: 15px;
   box-shadow: $shadow-xl;
   border: 1px solid $border-color;
   z-index: 1000;
@@ -371,7 +371,7 @@ onUnmounted(() => {
 
   .header-title {
     font-weight: 600;
-    font-size: $font-size-sm;
+    font-size: 14px;
     flex: 1;
   }
 
@@ -436,7 +436,7 @@ onUnmounted(() => {
     background: none;
     border: none;
     padding: 10px 12px;
-    font-size: $font-size-xs;
+    font-size: 12px;
     color: $text-light;
     cursor: pointer;
     transition: all $transition-fast;
@@ -530,7 +530,7 @@ onUnmounted(() => {
 
     .notice-title {
       display: block;
-      font-size: $font-size-sm;
+      font-size: 14px;
       color: $text-color;
       line-height: 1.4;
       white-space: nowrap;
@@ -547,12 +547,12 @@ onUnmounted(() => {
     }
 
     .notice-date {
-      font-size: $font-size-xs;
+      font-size: 12px;
       color: $text-light;
     }
 
     .notice-type {
-      font-size: $font-size-xs;
+      font-size: 12px;
       padding: 2px 6px;
       border-radius: 10px;
       font-weight: 500;

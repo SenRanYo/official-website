@@ -169,7 +169,7 @@ defineExpose({
     background: white;
 
     .gallery-title {
-      font-size: 2.5rem;
+      font-size: 40px;
       font-weight: 700;
       color: $text-color;
       margin: 0 0 16px 0;
@@ -189,7 +189,7 @@ defineExpose({
     }
 
     .gallery-subtitle {
-      font-size: 1.1rem;
+      font-size: 18px;
       color: $text-light;
       margin: 0;
       font-weight: 400;
@@ -267,21 +267,21 @@ defineExpose({
 
             .overlay-content {
               .staff-name {
-                font-size: 1.5rem;
+                font-size: 24px;
                 font-weight: 700;
                 margin: 0 0 8px 0;
                 text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
               }
 
               .staff-position {
-                font-size: 1rem;
+                font-size: 16px;
                 margin: 0 0 6px 0;
                 opacity: 0.9;
                 font-weight: 500;
               }
 
               .staff-department {
-                font-size: 0.875rem;
+                font-size: 14px;
                 opacity: 0.8;
                 background: rgba(255, 255, 255, 0.2);
                 padding: 4px 12px;
@@ -341,7 +341,7 @@ defineExpose({
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 1.1rem;
+        font-size: 18px;
         font-weight: 600;
         color: $text-color;
 
@@ -385,11 +385,11 @@ defineExpose({
       padding: 40px 0 30px;
 
       .gallery-title {
-        font-size: 2rem;
+        font-size: 32px;
       }
 
       .gallery-subtitle {
-        font-size: 1rem;
+        font-size: 16px;
       }
     }
 
@@ -414,15 +414,15 @@ defineExpose({
 
             .overlay-content {
               .staff-name {
-                font-size: 1.25rem;
+                font-size: 20px;
               }
 
               .staff-position {
-                font-size: 0.9rem;
+                font-size: 14px;
               }
 
               .staff-department {
-                font-size: 0.8rem;
+                font-size: 12px;
                 padding: 3px 10px;
               }
             }

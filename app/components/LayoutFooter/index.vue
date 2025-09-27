@@ -40,6 +40,7 @@ const menu = useMenuData()
   width: 100%;
   height: 400px;
   display: flex;
+  overflow: hidden;
   padding-top: 30px;
   box-sizing: border-box;
   background-color: #fff;
@@ -137,6 +138,8 @@ const menu = useMenuData()
         margin: 0;
 
         li {
+          display: flex;
+          height: fit-content;
           margin-bottom: 8px;
 
           a {
