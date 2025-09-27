@@ -1,5 +1,5 @@
 <template>
-  <div class="home-layout">
+  <div class="home-container">
     <LayoutHeader />
     <slot />
     <FixedNotice />
@@ -9,7 +9,7 @@
 <script setup lang="ts"></script>
 
 <style scoped lang="scss">
-.home-layout {
+.home-container {
   width: 100vw;
   height: 100vh;
   display: flex;

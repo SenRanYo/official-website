@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="default-container">
     <LayoutHeader />
     <LayoutBanner />
     <LayoutBreadcrumb />
@@ -10,4 +10,9 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.default-container {
+  display: flex;
+  flex-direction: column;
+}
+</style>

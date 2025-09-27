@@ -327,7 +327,7 @@ defineExpose({
         box-shadow: 0 4px 12px rgba(44, 104, 185, 0.3);
 
         &:hover {
-          background: darken($primary-color, 10%);
+          background: #1d4ed8;
           transform: scale(1.1);
           box-shadow: 0 6px 16px rgba(44, 104, 185, 0.4);
         }

@@ -1,15 +1,17 @@
 <template>
-  <div class="layout-header">
-    <img class="logo" :src="logo" alt="" />
-    <div class="menu">
-      <div v-for="(item, index) in menus" :key="index" class="menu-item-wrapper">
-        <NuxtLink class="menu-item" :to="item.route">
-          {{ item.title }}
-        </NuxtLink>
-        <div v-if="item.child && item.child.length > 0" class="submenu">
-          <NuxtLink v-for="(subItem, subIndex) in item.child" :key="subIndex" class="submenu-item" :to="subItem.route">
-            {{ subItem.title }}
+  <div class="header">
+    <div class="content">
+      <img class="logo" :src="logo" alt="" />
+      <div class="menu">
+        <div v-for="(item, index) in menus" :key="index" class="menu-item-wrapper">
+          <NuxtLink class="menu-item" :to="item.route">
+            {{ item.title }}
           </NuxtLink>
+          <div v-if="item.child && item.child.length > 0" class="submenu">
+            <NuxtLink v-for="(subItem, subIndex) in item.child" :key="subIndex" class="submenu-item" :to="subItem.route">
+              {{ subItem.title }}
+            </NuxtLink>
+          </div>
         </div>
       </div>
     </div>
@@ -23,21 +25,31 @@ const menus = useMenuData()
 </script>
 
 <style lang="scss">
-.layout-header {
+.header {
   top: 0;
   left: 0;
   width: 100%;
   height: 80px;
   z-index: 1;
   display: flex;
+  padding: 0 30px;
   flex-shrink: 0;
-  position: absolute;
+  position: fixed;
   align-items: center;
   transition: all 0.3s ease;
   background-color: #fff;
+  justify-content: center;
+  .content {
+    flex: 1;
+    border: none;
+    display: flex;
+    max-width: 1920px;
+    align-items: center;
+    justify-content: space-between;
+  }
   .logo {
     height: 50px;
-    margin: 0 100px;
+    margin-right: 80px;
   }
   .menu {
     flex: 1;
@@ -53,6 +65,7 @@ const menus = useMenuData()
 
       .menu-item {
         padding: 10px 0;
+        font-size: 16px;
         text-decoration: none;
         color: inherit;
         height: 100%;
@@ -102,6 +115,7 @@ const menus = useMenuData()
           display: flex;
           justify-content: center;
           padding: 12px 20px;
+          font-size: 16px;
           text-decoration: none;
           color: #333;
           border-bottom: 1px solid #f0f0f0;
