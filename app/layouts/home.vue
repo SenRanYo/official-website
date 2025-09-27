@@ -1,12 +1,20 @@
 <template>
-  <div>
+  <div class="home-layout">
     <LayoutHeader />
     <slot />
     <FixedNotice />
-    <LayoutFooter />
   </div>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.home-layout {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+}
+</style>
