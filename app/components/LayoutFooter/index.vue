@@ -32,7 +32,9 @@
 <script setup lang="ts">
 import logo from "~/assets/images/logo.png"
 
-const menu = useMenuData()
+const menu = useFooterMenuData()
+
+console.log("🚀 ~ menu:", menu)
 </script>
 
 <style scoped lang="scss">
@@ -117,8 +119,6 @@ const menu = useMenuData()
   .main-navigation {
     gap: 30px;
     display: flex;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
 
     .nav-section {
       width: fit-content;
