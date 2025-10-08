@@ -90,28 +90,7 @@ export default function () {
           },
         ],
       },
-      {
-        title: "政府机构",
-        route: "/zfjg/main",
-        child: [
-          {
-            title: "四川省人民政府网站",
-            route: "/zfjg/scsrmzfwz",
-          },
-          {
-            title: "四川省人力资源和社会保障厅",
-            route: "/zfjg/scsrlzyshbzt",
-          },
-          {
-            title: "四川省发展和改革委员会",
-            route: "/zfjg/scsfzhggwyh",
-          },
-          {
-            title: "甘孜藏族自治州人民政府网站",
-            route: "/zfjg/gzzzzzrmzfwz",
-          },
-        ],
-      },
+
       {
         title: "新闻媒体",
         route: "/xwmt/main",
@@ -165,6 +144,28 @@ export default function () {
           {
             title: "财务共享平台",
             route: "/hdwq/cwgxpt",
+          },
+        ],
+      },
+      {
+        title: "政府机构",
+        route: "/zfjg/main",
+        child: [
+          {
+            title: "四川省人民政府网站",
+            route: "/zfjg/scsrmzfwz",
+          },
+          {
+            title: "四川省人力资源和社会保障厅",
+            route: "/zfjg/scsrlzyshbzt",
+          },
+          {
+            title: "四川省发展和改革委员会",
+            route: "/zfjg/scsfzhggwyh",
+          },
+          {
+            title: "甘孜藏族自治州人民政府网站",
+            route: "/zfjg/gzzzzzrmzfwz",
           },
         ],
       },
