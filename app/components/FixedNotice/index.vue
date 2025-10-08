@@ -287,33 +287,38 @@ onUnmounted(() => {
 .fixed-notice-minimized {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 0;
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, $primary-color, #1e4a73);
+  background: linear-gradient(135deg, rgba($primary-color, 0.5), rgba(#1e4a73, 0.5));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: $shadow-xl;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   transition: all $transition-normal;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateX(30px); // 默认只显示一半
 
   &:hover {
-    transform: scale(1.1);
+    transform: translateX(0); // hover时不完全吸附，留一点边距
+    background: linear-gradient(135deg, $primary-color, #1e4a73);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   }
 
   .minimized-icon {
     font-size: 24px;
     color: white;
+    transition: all $transition-normal;
   }
 
   .minimized-count {
     position: absolute;
     top: -5px;
-    right: -5px;
+    right: 0;
     background: #ff4757;
     color: white;
     border-radius: 50%;
@@ -324,11 +329,35 @@ onUnmounted(() => {
     justify-content: center;
     font-size: 12px;
     font-weight: 600;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all $transition-normal;
+  }
+
+  &:hover .minimized-count {
+    opacity: 1;
+    transform: scale(1);
   }
 
   @media (max-width: $breakpoint-sm) {
-    right: 10px;
     bottom: 10px;
+    width: 50px;
+    height: 50px;
+    transform: translateX(25px);
+
+    &:hover {
+      transform: translateX(5px);
+    }
+
+    .minimized-icon {
+      font-size: 20px;
+    }
+
+    .minimized-count {
+      width: 16px;
+      height: 16px;
+      font-size: 10px;
+    }
   }
 }
 
