@@ -2,7 +2,7 @@
   <div class="index-swiper-slide-four">
     <div class="caursel3d-container">
       <div class="caursel3d">
-        <div class="caursel">
+        <div class="caursel" :class="{ paused: isHovered }" @mouseenter="pauseRotation" @mouseleave="resumeRotation">
           <figure v-for="(item, index) in items" :key="index" class="caursel-item">
             <img class="item-img" :src="item" alt="" />
           </figure>
@@ -21,6 +21,15 @@ import swiper5 from "~/assets/images/swiper/swiper-5.jpg"
 import swiper6 from "~/assets/images/swiper/swiper-6.jpg"
 
 const items = ref([swiper1, swiper2, swiper3, swiper4, swiper5, swiper6, swiper4, swiper5])
+const isHovered = ref(false)
+
+const pauseRotation = () => {
+  isHovered.value = true
+}
+
+const resumeRotation = () => {
+  isHovered.value = false
+}
 </script>
 
 <style scoped lang="scss">
@@ -57,6 +66,10 @@ const items = ref([swiper1, swiper2, swiper3, swiper4, swiper5, swiper6, swiper4
         animation-timing-function: linear;
         animation-iteration-count: infinite;
         animation-name: rotation;
+
+        &.paused {
+          animation-play-state: paused;
+        }
       }
       .caursel-item {
         top: 10px;
@@ -94,6 +107,12 @@ const items = ref([swiper1, swiper2, swiper3, swiper4, swiper5, swiper6, swiper4
         .item-img {
           width: 100%;
           height: 100%;
+          transition: transform 0.3s ease;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.1);
+          }
         }
       }
 
