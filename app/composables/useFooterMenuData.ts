@@ -2,11 +2,6 @@ export default function () {
   return useState("footerMenuData", () => {
     return [
       {
-        title: "首页",
-        route: "/",
-        child: [],
-      },
-      {
         title: "公司概况",
         route: "/gsgk/gsjj",
         child: [
