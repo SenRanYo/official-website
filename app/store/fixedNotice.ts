@@ -36,14 +36,14 @@ function saveState(state: FixedNoticeState) {
 }
 
 export const useFixedNoticeStore = defineStore("fixedNotice", () => {
-  // 从 localStorage 恢复状态
-  const savedState = loadState()
-
-  // 状态（只恢复最小化和关闭状态，展开状态和标签状态保持默认值）
+  // 状态（初始化为默认值，稍后在客户端恢复）
   const isExpanded = ref(true) // 展开状态不持久化，总是默认为 true
-  const isMinimized = ref(savedState.isMinimized ?? false) // 恢复最小化状态
-  const isClosed = ref(savedState.isClosed ?? false) // 恢复关闭状态
+  const isMinimized = ref(false) // 初始化为 false，稍后恢复
+  const isClosed = ref(false) // 初始化为 false，稍后恢复
   const activeTab = ref<"all" | "factory" | "daily">("all") // 标签状态不持久化，总是默认为 "all"
+
+  // 标记是否已经初始化过
+  const isInitialized = ref(false)
 
   // 计算属性
   const shouldShow = computed(() => !isClosed.value)
@@ -63,6 +63,23 @@ export const useFixedNoticeStore = defineStore("fixedNotice", () => {
     },
     { deep: true },
   )
+
+  // 初始化方法 - 在客户端环境中恢复状态
+  const initialize = () => {
+    if (isInitialized.value || typeof window === "undefined") return
+
+    const savedState = loadState()
+
+    // 只恢复最小化和关闭状态
+    if (savedState.isMinimized !== undefined) {
+      isMinimized.value = savedState.isMinimized
+    }
+    if (savedState.isClosed !== undefined) {
+      isClosed.value = savedState.isClosed
+    }
+
+    isInitialized.value = true
+  }
 
   // 方法
   const toggleExpand = () => {
@@ -118,11 +135,13 @@ export const useFixedNoticeStore = defineStore("fixedNotice", () => {
     isMinimized,
     isClosed,
     activeTab,
+    isInitialized,
     // 计算属性
     shouldShow,
     isMinimizedState,
     isExpandedState,
     // 方法
+    initialize,
     toggleExpand,
     minimize,
     restore,

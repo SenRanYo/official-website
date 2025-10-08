@@ -1,55 +1,62 @@
 <template>
-  <template v-if="notices.length > 0">
-    <!-- 最小化状态 -->
-    <div v-if="store.isMinimized" class="fixed-notice-minimized" @click="store.restore">
-      <div class="minimized-icon">📢</div>
-      <div v-if="count > 0" class="minimized-count">{{ count }}</div>
-    </div>
+  <ClientOnly>
+    <template v-if="notices.length > 0">
+      <!-- 最小化状态 -->
+      <div v-if="store.isMinimized" class="fixed-notice-minimized" @click="store.restore">
+        <div class="minimized-icon">📢</div>
+        <div v-if="count > 0" class="minimized-count">{{ count }}</div>
+      </div>
 
-    <!-- 正常状态 -->
-    <div v-else class="fixed-notice">
-      <!-- 标题栏 -->
-      <div class="notice-header">
-        <div class="header-content">
-          <i class="notice-icon">📢</i>
-          <span class="header-title">公告通知</span>
-          <div class="header-actions">
-            <button class="action-btn minimize-btn" title="最小化" @click="store.minimize">
-              <i class="action-icon">−</i>
-            </button>
+      <!-- 正常状态 -->
+      <div v-else class="fixed-notice">
+        <!-- 标题栏 -->
+        <div class="notice-header">
+          <div class="header-content">
+            <i class="notice-icon">📢</i>
+            <span class="header-title">公告通知</span>
+            <div class="header-actions">
+              <button class="action-btn minimize-btn" title="最小化" @click="store.minimize">
+                <i class="action-icon">−</i>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 分类标签 -->
-      <div class="notice-tabs">
-        <button v-for="tab in tabs" :key="tab.key" class="tab-btn" :class="{ active: store.activeTab === tab.key }" @click="handleTabSwitch(tab.key)">
-          {{ tab.label }}
-          <span v-if="getTabCount(tab.key) > 0" class="tab-count">({{ getTabCount(tab.key) }})</span>
-        </button>
-      </div>
+        <!-- 分类标签 -->
+        <div class="notice-tabs">
+          <button v-for="tab in tabs" :key="tab.key" class="tab-btn" :class="{ active: store.activeTab === tab.key }" @click="handleTabSwitch(tab.key)">
+            {{ tab.label }}
+            <span v-if="getTabCount(tab.key) > 0" class="tab-count">({{ getTabCount(tab.key) }})</span>
+          </button>
+        </div>
 
-      <!-- 公告内容区域 -->
-      <div class="notice-content">
-        <div class="notice-scroll-container" @mouseenter="handleScrollPause" @mouseleave="handleScrollResume">
-          <div ref="scrollList" class="notice-scroll-list" :style="{ transform: `translateY(${scrollOffset}px)` }">
-            <!-- 渲染两倍数据用于无缝循环 -->
-            <div v-for="(notice, index) in displayList" :key="`${notice.id}-${Math.floor(index / filteredNotices.length)}`" class="notice-item" @click="handleNoticeClick(notice)">
-              <div class="notice-dot" :class="`dot-${notice.type}`"></div>
-              <div class="notice-text">
-                <span class="notice-title" :title="notice.title">{{ notice.title }}</span>
-                <div class="notice-meta">
-                  <span class="notice-date">{{ handleDateFormat(notice.date) }}</span>
-                  <span class="notice-type" :class="`type-${notice.type}`">{{ handleTypeLabel(notice.type) }}</span>
+        <!-- 公告内容区域 -->
+        <div class="notice-content">
+          <div class="notice-scroll-container" @mouseenter="handleScrollPause" @mouseleave="handleScrollResume">
+            <div ref="scrollList" class="notice-scroll-list" :style="{ transform: `translateY(${scrollOffset}px)` }">
+              <!-- 渲染两倍数据用于无缝循环 -->
+              <div
+                v-for="(notice, index) in displayList"
+                :key="`${notice.id}-${Math.floor(index / filteredNotices.length)}`"
+                class="notice-item"
+                @click="handleNoticeClick(notice)"
+              >
+                <div class="notice-dot" :class="`dot-${notice.type}`"></div>
+                <div class="notice-text">
+                  <span class="notice-title" :title="notice.title">{{ notice.title }}</span>
+                  <div class="notice-meta">
+                    <span class="notice-date">{{ handleDateFormat(notice.date) }}</span>
+                    <span class="notice-type" :class="`type-${notice.type}`">{{ handleTypeLabel(notice.type) }}</span>
+                  </div>
                 </div>
+                <i class="notice-arrow">→</i>
               </div>
-              <i class="notice-arrow">→</i>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </template>
+    </template>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -266,6 +273,9 @@ watch(
 
 // 生命周期
 onMounted(async () => {
+  // 初始化 store 状态（从 localStorage 恢复）
+  store.initialize()
+
   // 获取公告数据
   notices.value = await handleFetchNotices()
 
