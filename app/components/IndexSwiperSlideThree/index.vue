@@ -1,95 +1,111 @@
 <template>
   <div class="index-swiper-slide-three">
-    <!-- 顶部模块标签 -->
-    <div class="module-tabs" :class="{ 'tabs-visible': isVisible }">
-      <div v-for="module in moduleList" :key="module.id" class="tab-item" :class="{ active: selectedModule === module.id }" @click="selectModule(module.id)">
-        <span class="tab-text">{{ module.name }}</span>
-        <span class="tab-count">{{ getModuleTotalCount(module.id) }}</span>
+    <!-- 图片网格视图（初始状态） -->
+    <div v-if="showGridView" class="module-grid" :class="{ 'grid-visible': isVisible }">
+      <div v-for="module in moduleList" :key="module.id" class="module-card" @click="selectModuleFromGrid(module.id)">
+        <img :src="module.image" alt="" />
       </div>
     </div>
 
-    <div class="content">
-      <!-- 左侧年份目录 -->
-      <div class="year-sidebar" :class="{ 'sidebar-visible': isVisible }">
-        <div class="year-list">
-          <div v-for="year in currentModuleYears" :key="year.year" class="year-item" :class="{ active: selectedYear === year.year }" @click="selectYear(year.year)">
-            <span class="year-text">{{ year.year }}</span>
-            <span class="year-count">{{ year.count }}项</span>
-          </div>
+    <!-- 详细视图（原有内容） -->
+    <div v-else class="detail-view">
+      <!-- 顶部模块标签 -->
+      <div class="module-tabs" :class="{ 'tabs-visible': isVisible }">
+        <div v-for="module in moduleList" :key="module.id" class="tab-item" :class="{ active: selectedModule === module.id }" @click="selectModule(module.id)">
+          <span class="tab-text">{{ module.name }}</span>
+          <span class="tab-count">{{ getModuleTotalCount(module.id) }}</span>
         </div>
       </div>
 
-      <!-- 右侧内容列表 -->
-      <div class="content-main" :class="{ 'main-visible': isVisible }">
-        <div v-if="isLoading" class="loading-overlay">
-          <div class="loading-spinner"></div>
-        </div>
-
-        <!-- 空状态提示 -->
-        <div v-if="!selectedModule || !selectedYear" class="empty-state">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z"
-              stroke="#d1d5db"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <polyline points="14,2 14,8 20,8" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <h3>请选择模块和年份</h3>
-          <p>点击左侧模块，然后选择年份查看文件列表</p>
-        </div>
-
-        <!-- 文件列表 -->
-        <transition-group v-else-if="!isLoading" name="list" tag="div" class="file-list" @before-enter="beforeEnter" @enter="enterItem">
-          <div v-for="(file, index) in currentFileData" :key="`${selectedModule}-${selectedYear}-${file.id}`" class="file-item" :data-index="index">
-            <div class="file-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-            <div class="file-info">
-              <h3 class="file-name">{{ file.fileName }}</h3>
-              <p class="file-description">{{ file.description }}</p>
-            </div>
-            <div class="file-meta">
-              <span class="file-size">{{ file.size }}</span>
-              <span class="file-date">{{ file.date }}</span>
-            </div>
-            <div class="file-actions">
-              <button class="action-btn view-btn" title="查看" @click="viewFile(file)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
-              <button class="action-btn download-btn" title="下载" @click="downloadFile(file)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
+      <div class="content">
+        <!-- 左侧年份目录 -->
+        <div class="year-sidebar" :class="{ 'sidebar-visible': isVisible }">
+          <div class="year-list">
+            <div v-for="year in currentModuleYears" :key="year.year" class="year-item" :class="{ active: selectedYear === year.year }" @click="selectYear(year.year)">
+              <span class="year-text">{{ year.year }}</span>
+              <span class="year-count">{{ year.count }}项</span>
             </div>
           </div>
-        </transition-group>
+        </div>
+
+        <!-- 右侧内容列表 -->
+        <div class="content-main" :class="{ 'main-visible': isVisible }">
+          <div v-if="isLoading" class="loading-overlay">
+            <div class="loading-spinner"></div>
+          </div>
+
+          <!-- 空状态提示 -->
+          <div v-if="!selectedModule || !selectedYear" class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z"
+                stroke="#d1d5db"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <polyline points="14,2 14,8 20,8" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <h3>请选择模块和年份</h3>
+            <p>点击左侧模块，然后选择年份查看文件列表</p>
+          </div>
+
+          <!-- 文件列表 -->
+          <transition-group v-else-if="!isLoading" name="list" tag="div" class="file-list" @before-enter="beforeEnter" @enter="enterItem">
+            <div v-for="(file, index) in currentFileData" :key="`${selectedModule}-${selectedYear}-${file.id}`" class="file-item" :data-index="index">
+              <div class="file-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div class="file-info">
+                <h3 class="file-name">{{ file.fileName }}</h3>
+                <p class="file-description">{{ file.description }}</p>
+              </div>
+              <div class="file-meta">
+                <span class="file-size">{{ file.size }}</span>
+                <span class="file-date">{{ file.date }}</span>
+              </div>
+              <div class="file-actions">
+                <button class="action-btn view-btn" title="查看" @click="viewFile(file)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <button class="action-btn download-btn" title="下载" @click="downloadFile(file)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </transition-group>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import image1 from "~/assets/images/j-1.png"
+import image2 from "~/assets/images/j-2.png"
+import image3 from "~/assets/images/j-3.png"
+import image4 from "~/assets/images/j-4.png"
+
 // 数据接口定义
 interface ModuleData {
   id: string
+  image: string
   name: string
 }
 
@@ -113,13 +129,15 @@ const isVisible = ref(false)
 const isLoading = ref(false)
 const selectedModule = ref<string>("")
 const selectedYear = ref<string>("")
+// 控制是否显示图片网格视图（初始状态）还是详细视图
+const showGridView = ref(true)
 
 // 模块数据
 const moduleList = ref<ModuleData[]>([
-  { id: "party-central", name: "党中央重要精神" },
-  { id: "company-speech", name: "上级公司讲话" },
-  { id: "safety-production", name: "安全生产" },
-  { id: "discipline-supervision", name: "纪检监督" },
+  { id: "party-central", image: image1, name: "党中央重要精神" },
+  { id: "company-speech", image: image2, name: "上级公司讲话" },
+  { id: "safety-production", image: image3, name: "安全生产" },
+  { id: "discipline-supervision", image: image4, name: "纪检监督" },
 ])
 
 // 每个模块的年份数据
@@ -319,7 +337,31 @@ function getModuleTotalCount(moduleId: string): number {
   return Object.values(moduleData).reduce((total, yearFiles) => total + yearFiles.length, 0)
 }
 
-// 选择模块
+// 从网格视图选择模块（跳转到详细视图）
+async function selectModuleFromGrid(moduleId: string) {
+  // 切换到详细视图
+  showGridView.value = false
+
+  // 立即清除当前内容
+  selectedYear.value = ""
+  isLoading.value = true
+  selectedModule.value = moduleId
+
+  // 默认选中第一个年份
+  const years = moduleYearData.value[moduleId]
+  if (years && years.length > 0) {
+    const firstYear = years[0]
+    if (firstYear) {
+      selectedYear.value = firstYear.year
+    }
+  }
+
+  // 模拟加载延迟
+  await new Promise((resolve) => setTimeout(resolve, 300))
+  isLoading.value = false
+}
+
+// 选择模块（在详细视图中切换模块）
 async function selectModule(moduleId: string) {
   if (moduleId === selectedModule.value) return
 
@@ -410,13 +452,8 @@ function enterItem(el: Element, done: () => void) {
 
 // 初始化
 onMounted(() => {
-  // 默认选中第一个模块
-  if (moduleList.value && moduleList.value.length > 0) {
-    const firstModule = moduleList.value[0]
-    if (firstModule) {
-      selectModule(firstModule.id)
-    }
-  }
+  // 默认显示网格视图，不自动选择模块
+  // 用户需要点击图片来选择模块并进入详细视图
 })
 
 // 导出方法供父组件调用
@@ -428,11 +465,154 @@ defineExpose({
 
 <style scoped lang="scss">
 .index-swiper-slide-three {
-  height: calc(100% - 80px);
+  height: 100%;
   display: flex;
   padding: 30px 12.5%;
+  align-items: center;
   flex-direction: column;
   background-color: #f8f9fa;
+
+  // 图片网格视图样式
+  .module-grid {
+    display: flex;
+    flex-wrap: wrap;
+    opacity: 0;
+    margin: auto;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+
+    &.grid-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .module-card {
+      width: 48%;
+      margin: 10px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 280px;
+      img {
+        height: 100%;
+        object-fit: fill;
+      }
+
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .module-image {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+
+        .image-placeholder {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(1px);
+          }
+
+          .placeholder-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            padding: 0 20px;
+            line-height: 1.3;
+          }
+        }
+
+        // 为不同模块设置不同的渐变色
+        &:nth-child(1) .image-placeholder {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        &:nth-child(2) .image-placeholder {
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        &:nth-child(3) .image-placeholder {
+          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        &:nth-child(4) .image-placeholder {
+          background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+      }
+
+      // 为每个卡片设置不同的渐变色
+      &:nth-child(1) .module-image .image-placeholder {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      &:nth-child(2) .module-image .image-placeholder {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      &:nth-child(3) .module-image .image-placeholder {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+
+      &:nth-child(4) .module-image .image-placeholder {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+
+      .module-info {
+        height: 60px;
+        padding: 20px;
+        background: #fff;
+        border-top: 1px solid #f1f5f9;
+
+        .module-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: #1e293b;
+          margin: 0 0 8px 0;
+          line-height: 1.3;
+        }
+
+        .module-count {
+          font-size: 14px;
+          color: #64748b;
+          background: #f1f5f9;
+          padding: 4px 12px;
+          border-radius: 20px;
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  // 详细视图样式
+  .detail-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
   .module-tabs {
     display: flex;
@@ -863,6 +1043,33 @@ defineExpose({
   .index-swiper-slide-three {
     padding: 0 5%;
     padding-top: 80px;
+
+    .module-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 400px;
+
+      .module-card {
+        min-height: 200px;
+
+        .module-image .image-placeholder .placeholder-text {
+          font-size: 16px;
+        }
+
+        .module-info {
+          padding: 16px;
+
+          .module-title {
+            font-size: 15px;
+          }
+
+          .module-count {
+            font-size: 13px;
+          }
+        }
+      }
+    }
 
     .title {
       font-size: 24px;
