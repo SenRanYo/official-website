@@ -72,17 +72,6 @@
       <div class="container">
         <h2 class="section-title" data-aos="fade-up" data-aos-duration="600">发展历程</h2>
         <div class="timeline-container" data-aos="fade-up" data-aos-delay="200">
-          <div class="timeline-navigation">
-            <div class="nav-hint">
-              <svg class="hint-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14.71 6.71a.996.996 0 0 0-1.41 0L8.71 11.3a.996.996 0 0 0 0 1.41l4.59 4.59a.996.996 0 1 0 1.41-1.41L10.83 12l3.88-3.88c.39-.39.38-1.03 0-1.41z" />
-              </svg>
-              <span>横向滑动查看发展历程</span>
-              <svg class="hint-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9.29 6.71a.996.996 0 0 0 0 1.41L13.17 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L9.71 6.71a.996.996 0 0 0-1.42 0z" />
-              </svg>
-            </div>
-          </div>
           <div class="swiper timeline-swiper-container">
             <div class="swiper-wrapper">
               <div v-for="(item, index) in timelineData" :key="index" class="swiper-slide">
