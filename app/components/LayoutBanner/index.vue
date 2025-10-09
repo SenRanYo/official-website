@@ -8,9 +8,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue"
-import banner1 from "~/assets/images/banner1.jpg"
-import banner2 from "~/assets/images/banner2.jpg"
-import banner3 from "~/assets/images/banner3.jpg"
+import banner1 from "~/assets/images/swiper/swiper-1.jpg"
+import banner2 from "~/assets/images/swiper/swiper-5.jpg"
+import banner3 from "~/assets/images/swiper/swiper-6.jpg"
 
 // 轮播图数据
 const bannerImages = [
