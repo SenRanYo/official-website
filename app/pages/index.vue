@@ -1,5 +1,7 @@
 <template>
-  <div class="view-container">13</div>
+  <div class="view-container">
+    <IndexBanner />
+  </div>
 </template>
 
 <script setup lang="ts"></script>
