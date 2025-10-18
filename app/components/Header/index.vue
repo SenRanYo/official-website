@@ -14,6 +14,26 @@
           </div>
         </div>
       </div>
+      <div class="header__msg">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8C18 4.67 15.31 2 12 2c-3.31 0-6 2.67-6 6v4l-3 3v2h18v-2l-3-3V8z"></path>
+          <circle cx="12" cy="22" r="1"></circle>
+          <path d="M9.5 21h5"></path>
+        </svg>
+      </div>
+      <div class="header__search">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </div>
+      <div class="header__login">
+        <svg class="login-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span class="login-text">登录/注册</span>
+      </div>
     </div>
   </div>
 </template>
@@ -40,7 +60,7 @@ function goHome() {
   &__content {
     top: 0;
     left: 50%;
-    width: 1200px;
+    width: 100%;
     height: 100%;
     display: flex;
     position: absolute;
@@ -49,7 +69,8 @@ function goHome() {
   }
   &__logo {
     overflow: hidden;
-    margin-right: 120px;
+    margin-left: 60px;
+    margin-right: 60px;
     .logo {
       cursor: pointer;
       height: 50px;
@@ -57,12 +78,13 @@ function goHome() {
     }
   }
   &__menu {
-    display: flex;
+    flex: 1;
     height: 100%;
+    display: flex;
     align-items: center;
     &__item {
       height: 100%;
-      margin: 0 20px;
+      margin: 0 30px;
       display: flex;
       position: relative;
       align-items: center;
@@ -131,6 +153,48 @@ function goHome() {
           }
         }
       }
+    }
+  }
+  &__msg,
+  &__search {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    margin-right: 30px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #f0f0f0;
+    }
+    .icon {
+      width: 22px;
+      height: 22px;
+      color: #333;
+    }
+  }
+  &__login {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 0 30px;
+    background-color: $primary-color;
+    transition: all 0.3s ease;
+    &:hover {
+      opacity: 0.9;
+    }
+    .login-icon {
+      width: 24px;
+      height: 24px;
+      color: #fff;
+    }
+    .login-text {
+      font-size: 14px;
+      color: #fff;
     }
   }
 }
