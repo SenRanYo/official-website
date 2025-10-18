@@ -1,6 +1,7 @@
 <template>
   <div class="view-container">
     <IndexBanner />
+    <IndexNews />
   </div>
 </template>
 
