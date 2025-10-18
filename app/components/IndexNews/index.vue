@@ -50,14 +50,19 @@
               <p class="item-description">{{ item.description }}</p>
             </div>
           </div>
-          <div v-if="isLoading" class="loading-placeholder">
-            <span class="loading-text">正在加载中...</span>
-          </div>
         </div>
         <div class="view-more">
           <a href="#" class="view-more-btn">查看更多</a>
         </div>
       </div>
+      <Transition name="loading-modal">
+        <div v-if="isLoading" class="loading-overlay">
+          <div class="loading-placeholder">
+            <div class="loading-spinner"></div>
+            <span class="loading-text">正在加载中...</span>
+          </div>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -88,7 +93,7 @@ const fetchNewsData = async () => {
   try {
     const news = await getNewsList({ category: activeTab.value })
     if (news) {
-      newsList.value = news
+      newsList.value = news.slice(0, 6)
     }
   } catch (error) {
     console.error("Failed to fetch news data:", error)
@@ -101,7 +106,6 @@ const handleTabChange = (index: number) => {
 
   activeTab.value = index
   isLoading.value = true
-  newsList.value = []
 
   // 模拟数据加载延迟，实际环境中会由 API 请求决定
   setTimeout(() => {
@@ -127,15 +131,25 @@ const newsData = [
 </script>
 
 <style scoped lang="scss">
-@keyframes slideInFromRight {
+// Loading spinner animation
+@keyframes spin {
   from {
-    opacity: 0;
-    transform: translateX(100px);
+    transform: rotate(0deg);
   }
   to {
-    opacity: 1;
-    transform: translateX(0);
+    transform: rotate(360deg);
   }
+}
+
+// Loading modal transition
+.loading-modal-enter-active,
+.loading-modal-leave-active {
+  transition: all 0.3s ease;
+}
+
+.loading-modal-enter-from,
+.loading-modal-leave-to {
+  opacity: 0;
 }
 
 .index-news {
@@ -194,6 +208,7 @@ const newsData = [
   &__bottom {
     gap: 30px;
     display: flex;
+    position: relative;
 
     .bottom-left {
       width: 450px;
@@ -291,6 +306,10 @@ const newsData = [
         gap: 20px;
         margin-bottom: 20px;
 
+        .news-list-inner {
+          display: contents;
+        }
+
         .news-list-item {
           gap: 16px;
           cursor: pointer;
@@ -298,26 +317,6 @@ const newsData = [
           border-radius: 4px;
           align-items: center;
           transition: all 0.3s ease;
-          animation: slideInFromRight 0.5s ease-out forwards;
-
-          &:nth-child(1) {
-            animation-delay: 0.1s;
-          }
-          &:nth-child(2) {
-            animation-delay: 0.2s;
-          }
-          &:nth-child(3) {
-            animation-delay: 0.3s;
-          }
-          &:nth-child(4) {
-            animation-delay: 0.4s;
-          }
-          &:nth-child(5) {
-            animation-delay: 0.5s;
-          }
-          &:nth-child(6) {
-            animation-delay: 0.6s;
-          }
 
           &:hover {
             .item-content {
@@ -383,21 +382,6 @@ const newsData = [
             }
           }
         }
-
-        .loading-placeholder {
-          grid-column: 1 / -1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 200px;
-          animation: slideInFromRight 0.5s ease-out forwards;
-
-          .loading-text {
-            font-size: 14px;
-            color: #9ca3af;
-            font-weight: 500;
-          }
-        }
       }
 
       .view-more {
@@ -415,6 +399,42 @@ const newsData = [
             text-decoration: underline;
           }
         }
+      }
+    }
+  }
+
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+
+    .loading-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e5e7eb;
+        border-top-color: #108cf0;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .loading-text {
+        font-size: 16px;
+        color: #4b5563;
+        font-weight: 500;
       }
     }
   }
