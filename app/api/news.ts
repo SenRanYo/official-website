@@ -17,8 +17,8 @@ export const getAllNews = () => {
 /**
  * 获取指定分类的新闻列表
  */
-export const getNewsList = (category: number) => {
-  return Http.Post<NewsItem[]>("/api/news/list", { category })
+export const getNewsList = (params: { category: number }) => {
+  return Http.Get<NewsItem[]>("/api/news/list", { params })
 }
 
 export type { NewsItem }

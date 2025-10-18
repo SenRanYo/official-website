@@ -3,9 +3,9 @@ import { defineMock } from "@alova/mock"
 
 export default defineMock(
   {
-    "/api/news/all": () => {
+    "/api/news/list": () => {
       const data = Mock.mock({
-        "list|1-10": [
+        "list|5-10": [
           {
             date: "@date('yyyy.MM')",
             day: "@integer(1, 30)",
