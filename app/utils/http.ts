@@ -1,24 +1,28 @@
-import type { VueHookType } from "alova/vue"
+import mockNews from "../mock/news"
 import statesHook from "alova/vue"
 import { createAlova } from "alova"
 import { axiosRequestAdapter } from "@alova/adapter-axios"
-import { createServerTokenAuthentication } from "alova/client"
+import { createAlovaMockAdapter } from "@alova/mock"
 
-const { onResponseRefreshToken } = createServerTokenAuthentication<VueHookType, typeof axiosRequestAdapter>({
-  assignToken: (method) => {
-    method.config.headers.Authorization = "666"
-  },
-  refreshTokenOnError: {
-    isExpired: () => {
-      return false
-    },
-    handler: async () => {},
-  },
-  refreshTokenOnSuccess: {
-    isExpired: () => {
-      return false
-    },
-    handler: async () => {},
+const mockAdapter = createAlovaMockAdapter([mockNews /** ... */], {
+  // 全局控制是否启用mock接口，默认为true
+  enable: true,
+  // 非模拟请求适配器，用于未匹配mock接口时发送请求
+  httpAdapter: axiosRequestAdapter(),
+  // 是否打印mock接口请求信息
+  mockRequestLogger: true,
+  onMockResponse: (data) => {
+    return {
+      response: {
+        status: 200,
+        data: {
+          code: 0,
+          data: data.body,
+          success: true,
+        },
+      },
+      headers: data.responseHeaders,
+    } as any
   },
 })
 
@@ -26,8 +30,8 @@ const Http = createAlova({
   baseURL: import.meta.env.VITE_API_PREFIX ?? import.meta.env.VITE_API_BASE_URL,
   timeout: 30 * 1000,
   statesHook,
-  requestAdapter: axiosRequestAdapter(),
-  responded: onResponseRefreshToken({
+  requestAdapter: mockAdapter,
+  responded: {
     onSuccess: async (response) => {
       if (response.status === 200) {
         const result: any = response.data
@@ -59,11 +63,12 @@ const Http = createAlova({
       }
     },
     onError: (error, method) => {
+      console.log("🚀 ~ error:", error)
       const message = `[${method.type}] - [${method.url}] - ${error.message}`
       // ElMessage.error(message)
       throw new Error(message)
     },
-  }),
+  },
 })
 
 export { Http }

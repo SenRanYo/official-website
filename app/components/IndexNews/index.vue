@@ -65,6 +65,7 @@ import "swiper/css/pagination"
 import { ref, onMounted } from "vue"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, Pagination } from "swiper/modules"
+import { getAllNews, type NewsItem } from "~/api/news"
 import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
 import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
 import swiper3 from "~/assets/images/swiper/swiper-3.jpg"
@@ -72,28 +73,19 @@ import swiper4 from "~/assets/images/swiper/swiper-4.jpg"
 import swiper5 from "~/assets/images/swiper/swiper-5.jpg"
 import swiper6 from "~/assets/images/swiper/swiper-6.jpg"
 
-interface NewsItem {
-  date: string
-  day: string
-  title: string
-  description: string
-}
-
 const activeTab = ref(0)
 
 const tabs = [{ label: "公司要闻" }, { label: "媒体聚焦" }, { label: "公司新闻" }, { label: "职工园地" }, { label: "图片新闻" }]
 
-const newsListDataMap: Record<number, NewsItem[]> = {}
+const allNewsData = ref<NewsItem[]>([])
 const newsList = ref<NewsItem[]>([])
 
-// 从 mock API 获取数据
+// 从 API 获取数据
 const fetchNewsData = async () => {
   try {
-    const response = await fetch("/api/news/all")
-    const res = await response.json()
-    console.log("🚀 ~ fetchNewsData ~ res:", res)
-    if (res.code === 200) {
-      Object.assign(newsListDataMap, res.data)
+    const news = await getAllNews()
+    if (news) {
+      allNewsData.value = news
       updateNewsList()
     }
   } catch (error) {
@@ -102,7 +94,11 @@ const fetchNewsData = async () => {
 }
 
 const updateNewsList = () => {
-  newsList.value = newsListDataMap[activeTab.value] || []
+  // 每个 tab 显示 6 条新闻，根据 tab 索引截取对应的数据
+  const itemsPerTab = 6
+  const startIndex = activeTab.value * itemsPerTab
+  const endIndex = startIndex + itemsPerTab
+  newsList.value = allNewsData.value.slice(startIndex, endIndex)
 }
 
 // 监听 tab 切换
@@ -198,6 +194,7 @@ const newsData = [
 
     .bottom-left {
       width: 450px;
+      height: 320px;
       position: relative;
 
       .news-swiper {
