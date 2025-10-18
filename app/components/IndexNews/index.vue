@@ -64,6 +64,7 @@
         </div>
       </Transition>
     </div>
+    <!-- <WaveAnimation /> -->
   </div>
 </template>
 
