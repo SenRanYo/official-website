@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <!-- 背景 -->
-    <div class="footer__bg" />
+    <div class="footer__bg" :style="{ backgroundImage: `url(${footerBg})` }" />
 
     <!-- 内容区域 -->
     <div class="footer__wrapper">
@@ -97,7 +97,8 @@
 </template>
 
 <script setup lang="ts">
-import qrcode from "~/assets/images/logo.png"
+import qrcode from "~/assets/images/qrcode.webp"
+import footerBg from "~/assets/images/footer-bg.webp"
 </script>
 
 <style lang="scss" scoped>
@@ -105,8 +106,8 @@ import qrcode from "~/assets/images/logo.png"
 
 .footer {
   width: 100%;
-  position: relative;
   display: flex;
+  position: relative;
   justify-content: center;
 
   // 背景
@@ -117,7 +118,9 @@ import qrcode from "~/assets/images/logo.png"
     width: 100%;
     height: 100%;
     position: absolute;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 242, 245, 0.95) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center bottom;
   }
 
   // 内容包裹
@@ -125,8 +128,8 @@ import qrcode from "~/assets/images/logo.png"
     gap: 80px;
     width: 100%;
     display: flex;
-    padding: 30px 100px;
-    align-items: flex-start;
+    padding: 50px 100px;
+    align-items: center;
     justify-content: space-between;
   }
 
@@ -207,8 +210,8 @@ import qrcode from "~/assets/images/logo.png"
 
   // 二维码
   &__qrcode {
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
     display: flex;
     flex-shrink: 0;
     align-items: center;
