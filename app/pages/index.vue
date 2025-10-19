@@ -3,6 +3,7 @@
     <IndexBanner />
     <IndexNews />
     <IndexTopic />
+    <IndexStaff />
   </div>
 </template>
 
