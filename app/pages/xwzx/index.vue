@@ -6,7 +6,7 @@
     <!-- 分类标签 -->
     <Tabs v-model="activeTab" :list="tabs" />
 
-    <div class="px-[100px] py-[30px]">
+    <div class="px-[100px]">
       <News :list="newsList" :col="2" />
     </div>
 

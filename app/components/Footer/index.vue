@@ -102,8 +102,6 @@ import footerBg from "~/assets/images/footer-bg.webp"
 </script>
 
 <style lang="scss" scoped>
-@use "~/assets/css/variables.scss";
-
 .footer {
   width: 100%;
   display: flex;
@@ -182,10 +180,10 @@ import footerBg from "~/assets/images/footer-bg.webp"
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: color $transition-normal;
+    transition: color 300ms ease-in-out;
 
     &:hover {
-      color: $primary-color;
+      color: #108cf0;
     }
   }
 
@@ -196,15 +194,15 @@ import footerBg from "~/assets/images/footer-bg.webp"
     margin-top: 8px;
     font-size: 13px;
     font-weight: 500;
-    color: $primary-color;
+    color: #108cf0;
     text-align: left;
     display: block;
     cursor: pointer;
     background-color: transparent;
-    transition: color $transition-normal;
+    transition: color 300ms ease-in-out;
 
     &:hover {
-      color: darken($primary-color, 10%);
+      color: #108cf0;
     }
   }
 
