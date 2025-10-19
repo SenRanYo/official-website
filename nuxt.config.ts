@@ -23,6 +23,10 @@ export default defineNuxtConfig({
     },
   },
 
+  pages: {
+    pattern: ["**/*.vue", "!**/*.spec.*", "!components/**"],
+  },
+
   postcss: {
     plugins: {},
   },
