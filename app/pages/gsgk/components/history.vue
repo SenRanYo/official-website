@@ -5,16 +5,44 @@
         <h2 class="history__title">发展历程</h2>
       </div>
     </div>
-    <div class="history__list">
-      <div v-for="(item, index) in list" :key="index" class="history__item">
-        <div class="history__timeline"></div>
-        <div class="history__item-date">{{ item.date }}</div>
-        <div class="history__item-title">{{ item.title }}</div>
-        <div class="history__item-desc">{{ item.desc }}</div>
-        <div class="history__steps">
-          <div v-for="(step, stepIndex) in item.steps" :key="stepIndex" class="history__step">
-            <span class="history__step-icon">✓</span>
-            <span class="history__step-text">{{ step }}</span>
+    <div class="history__content">
+      <!-- 左侧时间列表 -->
+      <div class="history__left">
+        <div class="history__timeline-list">
+          <!-- 时间列表容器 -->
+          <div ref="timelineRef" class="history__timeline-wrapper">
+            <div class="history__timeline-inner">
+              <div v-for="(item, index) in years" :key="index" class="history__year" :class="{ 'history__year--active': item === year }" @click="handleYearClick(item)">
+                {{ item }}
+              </div>
+            </div>
+            <!-- 指示箭头 -->
+            <div class="history__timeline-indicator" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧内容展示 -->
+      <div class="history__right">
+        <div class="history__details">
+          <div class="history__details-content">
+            <div class="flex items-center">
+              <div class="history__details-indicator" />
+              <div class="history__details-text">
+                <span class="history__details-title">远控中心投运</span>
+                <span class="history__details-desc">成都远控中心正式投入运行，实现电站智能化管理，成都远控中心正式投入运行，</span>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="history__details-indicator" />
+              <div class="history__details-text">
+                <span class="history__details-title">远控中心投运</span>
+                <span class="history__details-desc">成都远控中心正式投入运行，实现电站智能化管理，成都远控中心正式投入运行，</span>
+              </div>
+            </div>
+          </div>
+          <div class="history__details-image">
+            <img :src="image" />
           </div>
         </div>
       </div>
@@ -23,75 +51,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, computed } from "vue"
+import image from "~/assets/images/swiper/swiper-2.jpg"
 import historyBg from "~/assets/images/history-bg.webp"
 
-/**
- * 发展历程数据结构
- */
-interface HistoryItem {
-  date: string
-  title: string
-  desc: string
-  steps: string[]
-}
+const year = ref("2025")
+const years = computed(() => {
+  const currentYear = parseInt(year.value)
+  const list = []
+  // 生成前后5个年份，共11个年份
+  for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+    list.push(i.toString())
+  }
+  return list
+})
 
-const list = ref<HistoryItem[]>([
-  {
-    date: "2004年6月",
-    title: "项目筹建",
-    desc: "电站开始筹建工作，标志着泸定水电站建设的正式启动",
-    steps: ["完成项目前期调研", "组件项目筹建团队", "启动可行性研究"],
-  },
-  {
-    date: "2005年12月",
-    title: "前期工程开工",
-    desc: '"三通一平"等前期工程正式开工，为主体建设奠定基础',
-    steps: ["完成场地平整", "建设临时道路", "完善基础设施"],
-  },
-  {
-    date: "2006年6月",
-    title: "公司成立",
-    desc: "四川华电泸定水电有限公司正式注册成立，由华电国际负资设立",
-    steps: ["公司正式注册", "完成组织架构", "建立管理体系"],
-  },
-  {
-    date: "2009年3月",
-    title: "项目核准",
-    desc: "获得国家发改委项目核准，成为四川地片首个核准的大型水电站",
-    steps: ["获得国家批准", "完成环保审批", "启动主题施工"],
-  },
-  {
-    date: "2009年11月",
-    title: "大江截留",
-    desc: "成功实现大江截流，这是水电站建设的重要里程碑节点",
-    steps: ["完成截留工程", "实现水流改道", "确保施工安全"],
-  },
-  {
-    date: "2011年10月",
-    title: "首台机组投产",
-    desc: "首台机组成功投产发电，标志着电站开始发挥经济效益",
-    steps: ["首台机组并网", "开始商业发电", "验证设备性能"],
-  },
-  {
-    date: "2012年6月",
-    title: "全面投产",
-    desc: "4台机组全部投入商业运营，电站建设目标全面实现",
-    steps: ["全部机组投运", "达到设计容量", "进入稳定运营期"],
-  },
-  {
-    date: "2014年7月",
-    title: "远控中心投运",
-    desc: "成都远控中心正式投入运行，实现电站智能化管理",
-    steps: ["智能化管理", "远程监控系统", "提升运营效率"],
-  },
-])
+/**
+ * 处理年份点击事件，滚动到中间
+ */
+const handleYearClick = async (item: string) => {
+  year.value = item
+}
 </script>
 
 <style scoped lang="scss">
-/* 发展历程组件样式 - BEM命名规范 */
+@import "~/assets/css/variables.scss";
+
+/**
+ * 发展历程组件样式 - BEM命名规范
+ */
 .history {
-  gap: 15px;
+  gap: 30px;
+  width: 100%;
   display: flex;
   padding: 60px 100px;
   position: relative;
@@ -103,114 +94,217 @@ const list = ref<HistoryItem[]>([
 
   /* ============ 头部样式 ============ */
 
-  /* 头部容器 */
+  /**
+   * 头部容器
+   */
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  /* 标题包装器 */
+  /**
+   * 标题包装器
+   */
   &__title-wrapper {
     display: flex;
     flex-direction: column;
   }
 
-  /* 标题 */
+  /**
+   * 标题
+   */
   &__title {
     margin: 0;
-    color: #1f2937;
     font-size: 24px;
     font-weight: bold;
+    color: #1f2937;
   }
 
-  /* ============ 列表样式 ============ */
+  /* ============ 内容布局 ============ */
 
-  /* 列表容器 */
-  &__list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+  /**
+   * 内容区域
+   */
+  &__content {
+    height: 400px;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /**
+   * 左侧时间列表
+   */
+  &__left {
+    flex: 0 0 150px;
+    display: flex;
+    position: relative;
+    border-right: 1px solid $primary-color;
+  }
+
+  /**
+   * 时间列表
+   */
+  &__timeline-list {
+    width: 100%;
+    display: flex;
+    position: relative;
+    align-items: center;
+  }
+
+  /**
+   * 时间列表包装器（滚动容器）
+   */
+  &__timeline-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     position: relative;
   }
 
-  /* 列表项 */
-  &__item {
+  /**
+   * 时间列表内容
+   */
+  &__timeline-inner {
+    top: 50%;
+    left: 0%;
     display: flex;
+    position: absolute;
+    flex-direction: column;
+    transform: translateY(-50%);
+  }
+
+  /**
+   * 指示箭头
+   */
+  &__timeline-indicator {
+    top: 50%;
+    right: 50px;
+    z-index: 10;
+    width: 0;
+    height: 0;
+    position: absolute;
+    transform: translateY(-50%);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 16px solid $primary-color;
+  }
+
+  /**
+   * 年份项
+   */
+  &__year {
+    width: 80px;
+    display: flex;
+    margin: 15px 0;
+    cursor: pointer;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    &--active {
+      font-size: 26px;
+      font-weight: bold;
+    }
+  }
+
+  /**
+   * 右侧内容展示
+   */
+  &__right {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /**
+   * 详细内容
+   */
+  &__details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: fadeIn $transition-normal ease-in-out;
+
+    &-indicator {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-left: 16px solid $primary-color;
+      border-bottom: 10px solid transparent;
+    }
+    &-text {
+      gap: 10px;
+      display: flex;
+      margin-left: 30px;
+      flex-direction: column;
+    }
+  }
+
+  /**
+   * 详细内容文字部分
+   */
+  &__details-content {
+    gap: 60px;
+    display: flex;
+    margin-left: 30px;
     flex-direction: column;
   }
 
-  /* 时间线点 */
-  &__timeline {
-    position: relative;
-    margin-bottom: 30px;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: $primary-color;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 3px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: #d8d8d8;
-    }
-  }
-
-  /* 项目日期 */
-  &__item-date {
-    margin-bottom: 10px;
-    color: #333;
+  /**
+   * 日期
+   */
+  &__details-date {
     font-size: 14px;
-  }
-
-  /* 项目标题 */
-  &__item-title {
-    margin-bottom: 5px;
-    color: #333;
-    font-size: 14px;
+    color: #999;
     font-weight: 500;
   }
 
-  /* 项目描述 */
-  &__item-desc {
-    color: #999;
-    font-size: 14px;
-    line-height: 1.5;
+  /**
+   * 标题
+   */
+  &__details-title {
+    font-size: 18px;
+    font-weight: bold;
   }
 
-  /* ============ 步骤列表样式 ============ */
+  /**
+   * 描述
+   */
+  &__details-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.8;
+  }
 
-  /* 步骤容器 */
-  &__steps {
+  /**
+   * 步骤列表
+   */
+  &__details-steps {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
-  /* 单个步骤项 */
+  /**
+   * 单个步骤
+   */
   &__step {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  /* 步骤图标 */
+  /**
+   * 步骤图标
+   */
   &__step-icon {
     flex: 0 0 auto;
-    min-width: 20px;
+    width: 20px;
     height: 20px;
     display: flex;
     align-items: center;
@@ -220,12 +314,46 @@ const list = ref<HistoryItem[]>([
     font-weight: bold;
   }
 
-  /* 步骤文本 */
+  /**
+   * 步骤文本
+   */
   &__step-text {
     flex: 1;
-    color: #666;
     font-size: 12px;
+    color: #666;
     line-height: 1.5;
+  }
+
+  /**
+   * 详细内容图片
+   */
+  &__details-image {
+    width: 350px;
+    height: 200px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+/* ============ 动画 ============ */
+
+/**
+ * 淡入动画
+ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
