@@ -76,9 +76,14 @@ import entry4 from "~/assets/images/entry/j-4.png"
 
   &__bottom {
     gap: 30px;
+    height: 400px;
     display: grid;
     position: relative;
     grid-template-columns: repeat(2, 1fr);
+    background-size: 90% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("~/assets/images/bg_3d.png");
   }
 }
 </style>
