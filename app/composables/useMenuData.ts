@@ -30,27 +30,27 @@ export default function () {
       },
       {
         title: "新闻中心",
-        route: "/xwzx/gsyw",
+        route: "/xwzx",
         child: [
           {
-            title: "媒体聚焦",
-            route: "/xwzx/mtjj",
-          },
-          {
             title: "公司要闻",
-            route: "/xwzx/gsyw",
+            route: "/xwzx?tab=gsyw",
           },
           {
-            title: "公司新闻",
-            route: "/xwzx/gsxw",
+            title: "公司动态",
+            route: "/xwzx?tab=gsdt",
           },
           {
-            title: "职工园地",
-            route: "/xwzx/zgyd",
+            title: "公司公告",
+            route: "/xwzx?tab=gsgg",
           },
           {
-            title: "图片新闻",
-            route: "/xwzx/tpxw",
+            title: "媒体聚焦",
+            route: "/xwzx?tab=mtjj",
+          },
+          {
+            title: "专题聚焦",
+            route: "/xwzx?tab=ztjj",
           },
         ],
       },
