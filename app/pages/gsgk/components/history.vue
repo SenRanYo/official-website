@@ -1,5 +1,5 @@
 <template>
-  <div class="history">
+  <div class="history" :style="{ backgroundImage: `url(${historyBg})` }">
     <div class="history__header">
       <div class="history__title-wrapper">
         <h2 class="history__title">发展历程</h2>
@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
+import historyBg from "~/assets/images/history-bg.webp"
 
 /**
  * 发展历程数据结构
@@ -90,11 +91,15 @@ const list = ref<HistoryItem[]>([
 <style scoped lang="scss">
 /* 发展历程组件样式 - BEM命名规范 */
 .history {
-  display: flex;
-  flex-direction: column;
   gap: 15px;
+  display: flex;
   padding: 60px 100px;
+  position: relative;
+  flex-direction: column;
   background-color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
 
   /* ============ 头部样式 ============ */
 
