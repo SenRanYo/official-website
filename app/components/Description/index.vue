@@ -1,8 +1,6 @@
 <template>
   <div class="description" :style="{ backgroundImage: image ? `url(${image})` : 'none' }">
-    <div class="description-content">
-      <h1 class="description-text">{{ text }}</h1>
-    </div>
+    <h1 class="description-text">{{ text }}</h1>
   </div>
 </template>
 
@@ -39,22 +37,17 @@ defineProps<Props>()
     background-color: rgba(0, 0, 0, 0.3);
   }
 
-  .description-content {
+  .description-text {
+    top: 80px;
+    left: 100px;
+    margin: 0;
     z-index: 2;
-    width: 100%;
-    padding: 0 20px;
-    position: relative;
-    margin-bottom: 100px;
-
-    .description-text {
-      margin: 0;
-      color: white;
-      font-size: 32px;
-      text-indent: 80px;
-      font-weight: bold;
-      line-height: 1.4;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    }
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    position: absolute;
+    line-height: 1.4;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   }
 
   @media (max-width: 768px) {

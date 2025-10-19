@@ -1,9 +1,10 @@
 /**
  * 锚点导航 Composable
  * 用于管理页面锚点导航，实现以下功能：
- * 1. 点击tab自动滚动到对应区块
- * 2. 滚动时自动激活对应的tab
- * 3. 处理hash路由（#锚点）
+ * 1. 通过 data-anchor 属性自动查找锚点元素
+ * 2. 点击tab自动滚动到对应区块
+ * 3. 滚动时自动激活对应的tab
+ * 4. 处理hash路由（#锚点）
  */
 import { ref, nextTick, onMounted, onUnmounted } from "vue"
 
@@ -11,23 +12,16 @@ export function useAnchorNavigation() {
   // 当前激活的锚点id
   const activeAnchor = ref<string>("")
 
-  // 所有锚点区块的元素引用集合
-  const sectionRefs = ref<Map<string, HTMLElement>>(new Map())
-
   // 滚动监听的防抖计时器
   let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 
   /**
-   * 注册锚点区块的DOM引用
-   * @param id - 区块的唯一标识符
-   * @param el - DOM元素
+   * 通过 data-anchor 属性获取锚点元素
+   * @param anchorId - 要查找的锚点id
+   * @returns 对应的DOM元素，如果未找到返回null
    */
-  const registerSection = (id: string, el: HTMLElement | null) => {
-    if (el) {
-      sectionRefs.value.set(id, el)
-    } else {
-      sectionRefs.value.delete(id)
-    }
+  const getAnchorElement = (anchorId: string): HTMLElement | null => {
+    return document.querySelector(`[data-anchor="${anchorId}"]`) as HTMLElement | null
   }
 
   /**
@@ -35,7 +29,7 @@ export function useAnchorNavigation() {
    * @param anchorId - 要滚动到的锚点id
    */
   const scrollToAnchor = (anchorId: string) => {
-    const element = sectionRefs.value.get(anchorId)
+    const element = getAnchorElement(anchorId)
     if (element) {
       // 使用平滑滚动效果
       element.scrollIntoView({
@@ -47,6 +41,24 @@ export function useAnchorNavigation() {
       // 立即更新激活状态
       activeAnchor.value = anchorId
     }
+  }
+
+  /**
+   * 获取所有设置了 data-anchor 属性的元素
+   * @returns 所有锚点元素的数组
+   */
+  const getAllAnchorElements = (): Array<{ id: string; element: HTMLElement }> => {
+    const anchors: Array<{ id: string; element: HTMLElement }> = []
+    const elements = document.querySelectorAll("[data-anchor]")
+
+    elements.forEach((element) => {
+      const anchorId = element.getAttribute("data-anchor")
+      if (anchorId && element instanceof HTMLElement) {
+        anchors.push({ id: anchorId, element })
+      }
+    })
+
+    return anchors
   }
 
   /**
@@ -62,11 +74,15 @@ export function useAnchorNavigation() {
       // 获取视口顶部距离页面顶部的距离
       const viewportTop = window.scrollY + 100 // 100px的偏移量用于提前激活
 
+      const allAnchors = getAllAnchorElements()
+
+      if (allAnchors.length === 0) return
+
       let closestAnchor = ""
       let closestDistance = Infinity
 
       // 遍历所有锚点区块，找到最接近视口的区块
-      sectionRefs.value.forEach((element, id) => {
+      allAnchors.forEach(({ id, element }) => {
         const elementTop = element.getBoundingClientRect().top + window.scrollY
         const distance = Math.abs(viewportTop - elementTop)
 
@@ -128,8 +144,6 @@ export function useAnchorNavigation() {
   return {
     // 当前激活的锚点
     activeAnchor,
-    // 注册区块的ref
-    registerSection,
     // 滚动到指定锚点
     scrollToAnchor,
   }

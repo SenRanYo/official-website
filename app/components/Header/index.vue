@@ -57,20 +57,19 @@ function goHome() {
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
   &__content {
     top: 0;
-    left: 50%;
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: 80px;
     display: flex;
-    position: absolute;
+    position: fixed;
     align-items: center;
-    transform: translateX(-50%);
+    background-color: #fff;
   }
   &__logo {
     overflow: hidden;
-    margin-left: 60px;
+    margin-left: 65px;
     margin-right: 60px;
     .logo {
       cursor: pointer;

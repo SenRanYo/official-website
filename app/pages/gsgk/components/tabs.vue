@@ -57,29 +57,28 @@ const handleTabClick = (anchorId: string) => {
 /* 锚点导航栏样式 */
 .anchor-nav {
   position: sticky;
-  top: 0;
+  top: 80px;
   left: 0;
   right: 0;
-  z-index: 100;
   width: 100%;
+  z-index: 100;
+  padding: 0 100px;
   background-color: white;
+  border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
 
   .anchor-nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    gap: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
-    gap: 0;
-    height: 60px;
   }
 
   /* 锚点tab项样式 */
   .anchor-tab {
-    padding: 0 24px;
     height: 60px;
     border: none;
+    padding: 0;
     background: none;
     cursor: pointer;
     font-size: 16px;
@@ -87,6 +86,7 @@ const handleTabClick = (anchorId: string) => {
     position: relative;
     transition: all 0.3s ease;
     white-space: nowrap;
+    display: inline-block;
 
     &:hover {
       color: #0066ff;
@@ -101,8 +101,8 @@ const handleTabClick = (anchorId: string) => {
         content: "";
         position: absolute;
         bottom: 0;
-        left: 24px;
-        right: 24px;
+        left: 0;
+        width: 100%;
         height: 3px;
         background: linear-gradient(90deg, #0066ff, #00a8ff);
         border-radius: 2px 2px 0 0;
