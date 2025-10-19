@@ -3,6 +3,8 @@
     <div class="overview__container">
       <!-- 上面部分：左图右文+指标 -->
       <div class="overview__top">
+        <!-- 背景图 -->
+        <img :src="overviewBg" alt="背景" class="overview__top-bg" />
         <div class="overview__wrapper">
           <!-- 左侧图片 -->
           <div class="overview__image">
@@ -78,6 +80,7 @@ import { ref, onMounted, onUnmounted } from "vue"
 import image1 from "~/assets/images/swiper/swiper-1.jpg"
 import image2 from "~/assets/images/swiper/swiper-2.jpg"
 import image3 from "~/assets/images/swiper/swiper-3.jpg"
+import overviewBg from "~/assets/images/overview-top-bg.webp"
 
 // 数据定义
 interface OverviewItem {
@@ -148,14 +151,26 @@ onUnmounted(() => {
 <style scoped lang="scss">
 /* 公司介绍区块样式 - BEM命名规范 */
 .overview {
+  width: 100%;
   position: relative;
   background-color: #ffffff;
   scroll-margin-top: 60px;
-  width: 100%;
 
   /* ============ 上部分样式 ============ */
   &__top {
     padding: 60px 100px;
+    position: relative;
+  }
+
+  /* 背景图 */
+  &__top-bg {
+    top: 230px;
+    right: 0;
+    z-index: 0;
+    width: 60%;
+    height: auto;
+    position: absolute;
+    pointer-events: none;
   }
 
   /* 包装器：两列式布局容器 */
@@ -163,6 +178,8 @@ onUnmounted(() => {
     display: flex;
     align-items: flex-start;
     gap: 60px;
+    position: relative;
+    z-index: 1;
   }
 
   /* 左侧图片区域 */
