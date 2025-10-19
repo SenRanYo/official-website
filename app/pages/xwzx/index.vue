@@ -6,41 +6,12 @@
     <!-- 分类标签 -->
     <Tabs v-model="activeTab" :list="tabs" />
 
-    <!-- 新闻列表容器 -->
-    <div class="xwzx-content">
-      <!-- 加载状态 -->
-      <div v-if="isLoading" class="xwzx-loading">
-        <span>加载中...</span>
-      </div>
-
-      <!-- 新闻列表 -->
-      <div v-else-if="newsList.length > 0" class="news-list">
-        <div v-for="item in newsList" :key="item.id || item.title" class="news-item">
-          <!-- 日期信息 -->
-          <div class="news-item__date">
-            <span class="news-item__year-month">{{ formatDate(item.date).month }}</span>
-            <span class="news-item__day">{{ formatDate(item.date).day }}</span>
-          </div>
-
-          <!-- 新闻内容 -->
-          <div class="news-item__content">
-            <h3 class="news-item__title">{{ item.title }}</h3>
-            <p class="news-item__description">{{ item.description }}</p>
-          </div>
-
-          <!-- 箭头 -->
-          <div class="news-item__arrow">›</div>
-        </div>
-      </div>
-
-      <!-- 空状态 -->
-      <div v-else class="news-empty">
-        <p>暂无新闻数据</p>
-      </div>
-
-      <!-- 分页组件 -->
-      <Pagination v-model="currentPage" :total-pages="totalPages" :total="total" :page-size="pageSize" show-jump show-page-size show-stats @change="handlePaginationChange" />
+    <div class="px-[100px] py-[30px]">
+      <News :list="newsList" :col="2" />
     </div>
+
+    <!-- 分页组件 -->
+    <Pagination v-model="currentPage" :total-pages="totalPages" :total="total" :page-size="pageSize" show-jump show-page-size show-stats @change="handlePaginationChange" />
   </div>
 </template>
 
@@ -97,39 +68,6 @@ const isLoading = ref(false)
 const totalPages = computed(() => Math.ceil(total.value / pageSize.value))
 
 // ==================== 方法 ====================
-
-/**
- * 格式化日期
- * @param dateStr - 日期字符串 (format: "2024.01" 或 "2024-01-15")
- */
-const formatDate = (dateStr: string) => {
-  try {
-    // 处理 "2024.01" 格式
-    if (dateStr.includes(".")) {
-      const parts = dateStr.split(".")
-      return {
-        month: `${parts[0]}.${parts[1]}`,
-        day: "01",
-      }
-    }
-
-    // 处理标准日期格式
-    const date = new Date(dateStr)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, "0")
-    const day = String(date.getDate()).padStart(2, "0")
-
-    return {
-      month: `${year}.${month}`,
-      day,
-    }
-  } catch {
-    return {
-      month: "未知",
-      day: "01",
-    }
-  }
-}
 
 /**
  * 加载新闻列表
@@ -204,6 +142,7 @@ onMounted(() => {
 .xwzx-page {
   width: 100%;
   min-height: 100vh;
+  background-color: #fff;
 }
 
 /* 内容区域 */
