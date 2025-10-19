@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import Tabs from "./components/tabs.vue"
 import { getNewsList } from "~/api/news"
-import image from "~/assets/images/swiper/swiper-4.jpg"
+import image from "~/assets/images/news-bg.webp"
 
 /**
  * 新闻项目数据接口
