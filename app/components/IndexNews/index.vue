@@ -71,10 +71,10 @@
 <script setup lang="ts">
 import "swiper/css"
 import "swiper/css/pagination"
+import { getNewsList } from "~/api/news"
 import { ref, onMounted } from "vue"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, Pagination } from "swiper/modules"
-import { getNewsList, type NewsItem } from "~/api/news"
 import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
 import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
 import swiper3 from "~/assets/images/swiper/swiper-3.jpg"
@@ -86,7 +86,7 @@ const activeTab = ref(0)
 
 const tabs = [{ label: "公司要闻" }, { label: "媒体聚焦" }, { label: "公司新闻" }, { label: "职工园地" }, { label: "图片新闻" }]
 
-const newsList = ref<NewsItem[]>([])
+const newsList = ref<any[]>([])
 const isLoading = ref(false)
 
 // 从 API 获取数据

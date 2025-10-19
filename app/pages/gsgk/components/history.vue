@@ -9,14 +9,12 @@
       <!-- 左侧时间列表 -->
       <div class="history__left">
         <div class="history__timeline-list">
-          <!-- 时间列表容器 -->
           <div ref="timelineRef" class="history__timeline-wrapper">
             <div class="history__timeline-inner">
               <div v-for="(item, index) in years" :key="index" class="history__year" :class="{ 'history__year--active': item === year }" @click="handleYearClick(item)">
                 {{ item }}
               </div>
             </div>
-            <!-- 指示箭头 -->
             <div class="history__timeline-indicator" />
           </div>
         </div>
@@ -26,18 +24,11 @@
       <div class="history__right">
         <div class="history__details">
           <div class="history__details-content">
-            <div class="history__details-item">
+            <div v-for="item in currentData" :key="item.id" class="history__details-item">
               <div class="history__details-indicator" />
               <div class="history__details-text">
-                <span class="history__details-title">远控中心投运</span>
-                <span class="history__details-desc">成都远控中心正式投入运行，实现电站智能化管理，成都远控中心正式投入运行，</span>
-              </div>
-            </div>
-            <div class="history__details-item">
-              <div class="history__details-indicator" />
-              <div class="history__details-text">
-                <span class="history__details-title">远控中心投运</span>
-                <span class="history__details-desc">成都远控中心正式投入运行，实现电站智能化管理，成都远控中心正式投入运行，</span>
+                <span class="history__details-title">{{ item.title }}</span>
+                <span class="history__details-desc">{{ item.desc }}</span>
               </div>
             </div>
           </div>
@@ -45,6 +36,15 @@
             <img :src="image" :alt="year" />
           </div>
         </div>
+        <!-- 加载状态 -->
+        <Transition name="loading-modal">
+          <div v-if="isLoading" class="history__loading-overlay">
+            <div class="history__loading-placeholder">
+              <div class="history__loading-spinner" />
+              <span class="history__loading-text">正在加载中...</span>
+            </div>
+          </div>
+        </Transition>
       </div>
     </div>
   </div>
@@ -52,41 +52,78 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue"
+import { getHistoryList } from "~/api/news"
 import image from "~/assets/images/swiper/swiper-2.jpg"
 import historyBg from "~/assets/images/history-bg.webp"
 
 const year = ref("2025")
+const isLoading = ref(false)
+const currentData = ref<any[]>([])
+
 const years = computed(() => {
   const currentYear = parseInt(year.value)
   const list = []
-  // 生成前后5个年份，共11个年份
   for (let i = currentYear - 5; i <= currentYear + 5; i++) {
     list.push(i.toString())
   }
   return list
 })
 
-/**
- * 处理年份点击事件
- */
-const handleYearClick = (item: string) => {
-  year.value = item
+// 获取历史数据
+const fetchHistoryData = async (y: string) => {
+  const list = await getHistoryList({ date: y })
+  currentData.value = list
 }
+
+// 处理年份点击事件
+const handleYearClick = async (item: string) => {
+  if (item === year.value) return
+
+  isLoading.value = true
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  year.value = item
+  await fetchHistoryData(item)
+  isLoading.value = false
+}
+
+// 初始化数据
+fetchHistoryData("2025")
 </script>
 
 <style scoped lang="scss">
 @import "~/assets/css/variables.scss";
 
+// Loading spinner animation
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Loading modal transition
+.loading-modal-enter-active,
+.loading-modal-leave-active {
+  transition: all 0.3s ease;
+}
+
+.loading-modal-enter-from,
+.loading-modal-leave-to {
+  opacity: 0;
+}
+
 /**
  * 发展历程组件 - BEM 命名规范
  */
 .history {
-  width: 100%;
-  padding: 60px 100px;
   gap: 30px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  padding: 60px 100px;
   position: relative;
+  flex-direction: column;
   background-color: #fff;
   background-size: cover;
   background-repeat: no-repeat;
@@ -113,9 +150,10 @@ const handleYearClick = (item: string) => {
 
   /* ============ 内容布局 ============ */
   &__content {
-    height: 400px;
+    height: 350px;
     display: flex;
     overflow: hidden;
+    margin-top: 30px;
   }
 
   /* ============ 左侧时间线 ============ */
@@ -187,15 +225,16 @@ const handleYearClick = (item: string) => {
     flex: 1;
     padding: 60px;
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: center;
   }
 
   &__details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     gap: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     animation: fadeIn $transition-normal ease-in-out;
   }
 
@@ -230,7 +269,7 @@ const handleYearClick = (item: string) => {
   }
 
   &__details-date {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     color: #999;
   }
@@ -247,50 +286,54 @@ const handleYearClick = (item: string) => {
     line-height: 1.8;
   }
 
-  &__details-steps {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  &__step {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  &__step-icon {
-    flex: 0 0 auto;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #16a34a;
-  }
-
-  &__step-text {
-    flex: 1;
-    font-size: 12px;
-    color: #666;
-    line-height: 1.5;
-  }
-
   &__details-image {
     flex: 0 0 350px;
     width: 350px;
     height: 200px;
     overflow: hidden;
-    border-radius: 8px;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+  }
+
+  /* ============ 加载状态 ============ */
+  &__loading-overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &__loading-placeholder {
+    gap: 12px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e5e7eb;
+    border-top-color: $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  &__loading-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
   }
 }
 
