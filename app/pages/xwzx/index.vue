@@ -7,7 +7,7 @@
     <Tabs v-model="category" :list="categorys" @change="onCategoryChange" />
 
     <div class="px-[100px]">
-      <News :list="newsList" :col="2" />
+      <News :list="newsList" :col="2" @click="onNewsClick" />
     </div>
 
     <!-- 分页组件 -->
@@ -112,9 +112,12 @@ const handlePaginationChange = (params: { page: number; pageSize: number }) => {
   loadNews(params.page, params.pageSize)
 }
 
-/**
- * 处理标签切换
- */
+function onNewsClick(value: any) {
+  router.push({
+    path: `/news/detail/${value.id}`,
+  })
+}
+
 function handleTabChange() {
   currentPage.value = 1
   loadNews(1, pageSize.value)
