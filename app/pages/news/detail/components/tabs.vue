@@ -1,6 +1,7 @@
 <template>
   <nav class="tabs">
     <div class="tabs-container">
+      <!-- 循环渲染每个tab项 -->
       <div v-for="item in list" :key="item.value" class="tabs-item" :class="{ active: modelValue === item.value }" @click="handleTabClick(item.value)">
         {{ item.title }}
       </div>
@@ -34,7 +35,6 @@ interface Props {
  * @event update:modelValue - 当用户点击tab时触发，用于 v-model 双向绑定
  */
 interface Emits {
-  change: [value: string]
   "update:modelValue": [value: string]
 }
 
@@ -49,19 +49,18 @@ const emit = defineEmits<Emits>()
  */
 const handleTabClick = (value: string) => {
   emit("update:modelValue", value)
-  emit("change", value)
 }
 </script>
 
 <style scoped lang="scss">
 /* 标签导航栏样式 */
 .tabs {
+  position: sticky;
   top: 80px;
   left: 0;
   right: 0;
   width: 100%;
   z-index: 100;
-  position: sticky;
   padding: 0 100px;
   background-color: white;
   border-top: 1px solid #f0f0f0;
@@ -105,6 +104,31 @@ const handleTabClick = (value: string) => {
         background: linear-gradient(90deg, #0066ff, #00a8ff);
         border-radius: 2px 2px 0 0;
       }
+    }
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tabs {
+    .tabs-container {
+      height: 50px;
+      gap: 0;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+
+      /* 隐藏滚动条 */
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .tabs-item {
+      padding: 0 16px;
+      height: 50px;
+      font-size: 14px;
     }
   }
 }

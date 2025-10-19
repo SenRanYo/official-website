@@ -4,7 +4,7 @@
     <Description text="新闻中心" :image="image" />
 
     <!-- 分类标签 -->
-    <Tabs v-model="activeTab" :list="tabs" />
+    <Tabs v-model="category" :list="categorys" @change="onCategoryChange" />
 
     <div class="px-[100px]">
       <News :list="newsList" :col="2" />
@@ -17,27 +17,14 @@
 
 <script setup lang="ts">
 import Tabs from "./components/tabs.vue"
-import { getNewsList } from "~/api/news"
 import image from "~/assets/images/news-bg.webp"
+import { getNewsList } from "~/api/news"
 
-/**
- * 新闻项目数据接口
- */
-interface NewsItem {
-  id?: string
-  date: string
-  day?: number
-  title: string
-  description: string
-}
+const route = useRoute()
+const router = useRouter()
 
-// ==================== 状态管理 ====================
-
-/** 当前选中的标签 */
-const activeTab = ref("gsyw")
-
-/** 标签列表 */
-const tabs = ref<any[]>([
+const category = ref("gsyw")
+const categorys = ref<any[]>([
   { title: "公司要闻", value: "gsyw" },
   { title: "公司动态", value: "gsdt" },
   { title: "公司公告", value: "gsgg" },
@@ -55,7 +42,7 @@ const pageSize = ref(10)
 const total = ref(0)
 
 /** 新闻列表 */
-const newsList = ref<NewsItem[]>([])
+const newsList = ref<any[]>([])
 
 /** 加载状态 */
 const isLoading = ref(false)
@@ -66,6 +53,17 @@ const isLoading = ref(false)
  * 计算总页数
  */
 const totalPages = computed(() => Math.ceil(total.value / pageSize.value))
+
+watch(() => category.value, handleTabChange)
+watch(
+  () => route.query.category,
+  (value) => {
+    if (value) {
+      category.value = value as string
+    }
+  },
+  { immediate: true },
+)
 
 // ==================== 方法 ====================
 
@@ -80,7 +78,7 @@ const loadNews = async (page: number = currentPage.value, size: number = pageSiz
   try {
     // 调用 API 获取新闻列表
     const response = await getNewsList({
-      category: activeTab.value,
+      category: category.value,
       page,
       pageSize: size,
     })
@@ -117,17 +115,17 @@ const handlePaginationChange = (params: { page: number; pageSize: number }) => {
 /**
  * 处理标签切换
  */
-const handleTabChange = () => {
+function handleTabChange() {
   currentPage.value = 1
   loadNews(1, pageSize.value)
 }
 
-// ==================== 生命周期 ====================
-
-/**
- * 监听标签改变
- */
-watch(() => activeTab.value, handleTabChange)
+function onCategoryChange(value: string) {
+  router.push({
+    path: "/xwzx",
+    query: { category: value },
+  })
+}
 
 /**
  * 组件挂载时加载初始数据

@@ -30,7 +30,7 @@ withDefaults(defineProps<Props>(), {
  */
 .description {
   width: 100%;
-  height: 300px;
+  height: 250px;
   display: flex;
   position: relative;
   overflow: hidden;
