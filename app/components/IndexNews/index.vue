@@ -94,7 +94,7 @@ const fetchNewsData = async () => {
   try {
     const news = await getNewsList({ category: activeTab.value })
     if (news) {
-      newsList.value = news.slice(0, 6)
+      newsList.value = news.list.slice(0, 6)
     }
   } catch (error) {
     console.error("Failed to fetch news data:", error)

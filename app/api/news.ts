@@ -11,7 +11,7 @@ export const getAllNews = () => {
  * 获取指定分类的新闻列表
  */
 export const getNewsList = (params: any) => {
-  return Http.Get<any[]>("/api/news/list", { params })
+  return Http.Get<any>("/api/news/list", { params })
 }
 
 /**
