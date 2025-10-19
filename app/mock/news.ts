@@ -3,18 +3,40 @@ import { defineMock } from "@alova/mock"
 
 export default defineMock(
   {
-    "/api/news/list": () => {
-      const data = Mock.mock({
-        "list|5-10": [
+    "/api/news/list": (options: any) => {
+      // 解析请求参数
+      const query = options.queryString || ""
+      const params = new URLSearchParams(query)
+      const page = parseInt(params.get("page") || "1")
+      const pageSize = parseInt(params.get("pageSize") || "10")
+
+      // 生成100条新闻数据
+      const allNews = Mock.mock({
+        "list|100": [
           {
+            id: () => Mock.Random.guid(),
             date: "@date('yyyy.MM')",
-            day: "@integer(1, 30)",
+            day: "@integer(1, 28)",
             title: "@ctitle(10, 30)",
             description: "@csentence(20, 50)",
           },
         ],
-      })
-      return data.list
+      }).list
+
+      // 分页处理
+      const start = (page - 1) * pageSize
+      const end = start + pageSize
+      const paginatedData = allNews.slice(start, end)
+
+      // 返回分页结果
+      return {
+        data: paginatedData,
+        list: paginatedData,
+        total: 100,
+        page,
+        pageSize,
+        totalPages: Math.ceil(100 / pageSize),
+      }
     },
 
     "/api/history/list": (options: any) => {
