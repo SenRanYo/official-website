@@ -1,6 +1,6 @@
 <template>
   <div class="gsgk-page">
-    <Description text="公司概况" :image="bannerImage" />
+    <Description text="四川华电泸定水电有限公司" :image="bannerImage" />
 
     <Tabs :anchors="anchors" :active-anchor="activeAnchor" @change="scrollToAnchor" />
 
