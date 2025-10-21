@@ -14,6 +14,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <!-- 右侧固定元素容器 -->
+    <div class="header__right">
       <div class="header__msg">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 8C18 4.67 15.31 2 12 2c-3.31 0-6 2.67-6 6v4l-3 3v2h18v-2l-3-3V8z"></path>
@@ -57,15 +60,18 @@ function goHome() {
   position: relative;
   align-items: center;
   justify-content: center;
+  background-color: #fff;
+
   &__content {
     top: 0;
-    left: 0;
+    left: 50%;
     width: 100%;
     height: 80px;
     display: flex;
     position: fixed;
+    max-width: 1200px;
     align-items: center;
-    background-color: #fff;
+    transform: translateX(-50%);
   }
   &__logo {
     overflow: hidden;
@@ -156,12 +162,20 @@ function goHome() {
       }
     }
   }
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: fixed;
+    right: 0;
+    height: 80px;
+    top: 0;
+  }
   &__msg,
   &__search {
     width: 40px;
     height: 40px;
     display: flex;
-    margin-right: 30px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -177,12 +191,12 @@ function goHome() {
     }
   }
   &__login {
-    height: 100%;
-    display: flex;
-    align-items: center;
     gap: 8px;
+    height: 80px;
+    display: flex;
     cursor: pointer;
     padding: 0 30px;
+    align-items: center;
     background-color: $primary-color;
     transition: all 0.3s ease;
     &:hover {
