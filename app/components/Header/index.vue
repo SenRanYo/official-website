@@ -75,7 +75,6 @@ function goHome() {
   }
   &__logo {
     overflow: hidden;
-    margin-left: 65px;
     margin-right: 60px;
     .logo {
       cursor: pointer;

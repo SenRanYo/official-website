@@ -1,26 +1,28 @@
 <template>
-  <div class="index-topic">
-    <div class="index-topic__top">
-      <div class="top-left">
-        <div class="title-section">
-          <p class="title-en">In Focus</p>
-          <h2 class="title-cn">专题聚焦</h2>
+  <div class="index-topic-wrapper">
+    <div class="index-topic">
+      <div class="index-topic__top">
+        <div class="index-topic__top--left">
+          <div class="index-topic__title-section">
+            <p class="index-topic__title-en">In Focus</p>
+            <h2 class="index-topic__title-cn">专题聚焦</h2>
+          </div>
         </div>
+        <div class="index-topic__top--right"></div>
       </div>
-      <div class="top-right"></div>
-    </div>
-    <div class="index-topic__bottom">
-      <div class="entry-item">
-        <img :src="entry1" alt="entry-item-image" />
-      </div>
-      <div class="entry-item">
-        <img :src="entry2" alt="entry-item-image" />
-      </div>
-      <div class="entry-item">
-        <img :src="entry3" alt="entry-item-image" />
-      </div>
-      <div class="entry-item">
-        <img :src="entry4" alt="entry-item-image" />
+      <div class="index-topic__bottom">
+        <div class="index-topic__entry-item">
+          <img :src="entry1" alt="entry-item-image" />
+        </div>
+        <div class="index-topic__entry-item">
+          <img :src="entry2" alt="entry-item-image" />
+        </div>
+        <div class="index-topic__entry-item">
+          <img :src="entry3" alt="entry-item-image" />
+        </div>
+        <div class="index-topic__entry-item">
+          <img :src="entry4" alt="entry-item-image" />
+        </div>
       </div>
     </div>
   </div>
@@ -34,28 +36,45 @@ import entry4 from "~/assets/images/entry/j-4.png"
 </script>
 
 <style scoped lang="scss">
+// 最外层容器
+.index-topic-wrapper {
+  width: 100%;
+  display: flex;
+}
+
+// 块容器 - 主容器
 .index-topic {
   gap: 15px;
-  padding: 60px;
+  width: 1200px;
+  padding: 60px 0;
+  margin: 0 auto;
   display: flex;
+  max-width: 1200px;
+  overflow: hidden;
   flex-direction: column;
 
-  &__top {
+  // 顶部区域
+  .index-topic__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .top-left {
-      .title-section {
+
+    // 顶部左侧 - 标题部分
+    .index-topic__top--left {
+      .index-topic__title-section {
         display: flex;
         flex-direction: column;
-        .title-en {
+
+        // 英文标题 - 短规则
+        .index-topic__title-en {
+          color: #e5e5e5;
           font-size: 20px;
           line-height: 0;
-          color: #e5e5e5;
           margin-bottom: 10px;
         }
 
-        .title-cn {
+        // 中文标题 - 短规则
+        .index-topic__title-cn {
           color: #1f2937;
           font-size: 24px;
           line-height: 0;
@@ -63,38 +82,22 @@ import entry4 from "~/assets/images/entry/j-4.png"
         }
       }
     }
-
-    .top-right {
-      .tabs {
-        gap: 20px;
-        display: flex;
-
-        .tab-item {
-          font-size: 14px;
-          color: #1f2937;
-          font-weight: 500;
-          cursor: pointer;
-          padding: 5px;
-          transition: color 0.3s ease;
-
-          &:hover,
-          &.active {
-            color: #108cf0;
-          }
-        }
-      }
-    }
   }
 
-  &__bottom {
+  // 底部区域 - 中等规则
+  .index-topic__bottom {
     gap: 30px;
     display: grid;
     position: relative;
     grid-template-columns: repeat(2, 1fr);
-    .entry-item {
+
+    // 条目项 - 中等规则
+    .index-topic__entry-item {
       height: 250px;
       overflow: hidden;
       cursor: pointer;
+
+      // 图片元素 - 短规则
       img {
         width: 100%;
         height: 100%;

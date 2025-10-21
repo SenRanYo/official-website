@@ -7,14 +7,14 @@
       :effect="'slide'"
       :autoplay="{ delay: 5000, disableOnInteraction: false }"
       :pagination="{ clickable: true }"
-      class="banner-swiper"
+      class="index-banner__swiper"
     >
       <SwiperSlide v-for="(item, index) in bannerData" :key="index">
-        <img :src="item.image" :alt="`banner-${index}`" class="banner-image" />
-        <div class="banner-content">
-          <div class="banner-label">{{ item.label }}</div>
-          <h2 class="banner-title">{{ item.title }}</h2>
-          <p class="banner-description">{{ item.description }}</p>
+        <img :src="item.image" :alt="`banner-${index}`" class="index-banner__image" />
+        <div class="index-banner__content">
+          <div class="index-banner__label">{{ item.label }}</div>
+          <h2 class="index-banner__title">{{ item.title }}</h2>
+          <p class="index-banner__description">{{ item.description }}</p>
         </div>
       </SwiperSlide>
     </Swiper>
@@ -77,6 +77,7 @@ const bannerData = [
 </script>
 
 <style scoped lang="scss">
+// 动画定义
 @keyframes slideInContent {
   from {
     opacity: 0;
@@ -88,88 +89,92 @@ const bannerData = [
   }
 }
 
+// 块容器
 .index-banner {
   width: 100%;
-  height: 600px;
+  height: 100%;
   overflow: hidden;
 
-  .banner-swiper {
+  // Swiper 容器元素
+  .index-banner__swiper {
     width: 100%;
     height: 100%;
 
-    :deep(.swiper-slide) {
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
-
-    .banner-image {
+    // 图片元素 - 短规则
+    .index-banner__image {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .banner-content {
-      position: absolute;
+    // Swiper 分页符号 - 中等长度规则
+    :deep(.swiper-pagination-bullet) {
+      width: 40px;
+      height: 4px;
+      gap: 6px;
+      margin: 8px 0;
+      opacity: 1;
+      border-radius: 2px;
+      background-color: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    // Swiper 分页活跃状态 - 短规则
+    :deep(.swiper-pagination-bullet-active) {
+      opacity: 1;
+      background-color: #108cf0;
+    }
+
+    // 内容容器元素 - 长规则
+    .index-banner__content {
       left: 0;
-      top: 50%;
+      top: 300px;
       z-index: 10;
       color: #fff;
-      max-width: 600px;
-      padding: 0 60px;
       opacity: 0;
-      transform: translateY(-50%) translateX(-50px);
+      padding: 0 60px;
+      max-width: 600px;
+      position: absolute;
       animation: slideInContent 0.8s ease-out 0.3s forwards;
 
-      .banner-label {
+      // 标签元素 - 中等长度
+      .index-banner__label {
+        margin-bottom: 12px;
         font-size: 14px;
         font-weight: 500;
         opacity: 0.9;
-        margin-bottom: 12px;
         letter-spacing: 0.5px;
       }
 
-      .banner-title {
+      // 标题元素 - 较长规则
+      .index-banner__title {
+        margin-top: 0;
+        margin-bottom: 16px;
+        padding-top: 2px;
         font-size: 48px;
         font-weight: bold;
         line-height: 1.3;
-        margin-bottom: 16px;
-        margin-top: 0;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        padding-top: 2px;
-        border-top: 2px solid #fff;
         white-space: nowrap;
+        border-top: 2px solid #fff;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       }
 
-      .banner-description {
+      // 描述元素 - 中等长度
+      .index-banner__description {
+        margin: 0;
         font-size: 16px;
         font-weight: 500;
         opacity: 0.95;
-        margin: 0;
         letter-spacing: 0.5px;
       }
     }
 
-    :deep(.swiper-pagination-bullet) {
-      background-color: rgba(255, 255, 255, 0.6);
-      opacity: 1;
-      transition: all 0.3s ease;
-      width: 40px;
-      height: 4px;
-      border-radius: 2px;
-      margin: 8px 0;
-    }
-
-    :deep(.swiper-pagination-bullet-active) {
-      background-color: #108cf0;
-      opacity: 1;
-    }
-
+    // Swiper 分页容器 - 中等长度规则
     :deep(.swiper-pagination) {
       gap: 6px;
       left: 60px;
       right: auto;
-      bottom: 150px;
+      top: 400px;
       width: auto;
       display: flex;
       align-items: flex-start;

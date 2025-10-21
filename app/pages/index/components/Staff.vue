@@ -1,21 +1,23 @@
 <template>
-  <div class="index-staff">
-    <div class="index-staff__top">
-      <div class="top-left">
-        <div class="title-section">
-          <p class="title-en">In Focus</p>
-          <h2 class="title-cn">职工风采</h2>
+  <div class="index-staff-wrapper">
+    <div class="index-staff">
+      <div class="index-staff__top">
+        <div class="index-staff__top--left">
+          <div class="index-staff__title-section">
+            <p class="index-staff__title-en">In Focus</p>
+            <h2 class="index-staff__title-cn">职工风采</h2>
+          </div>
         </div>
+        <div class="index-staff__top--right"></div>
       </div>
-      <div class="top-right"></div>
-    </div>
-    <div class="index-staff__bottom">
-      <div class="caursel3d-container">
-        <div class="caursel3d">
-          <div class="caursel" :class="{ paused: isHovered }" @mouseenter="pauseRotation" @mouseleave="resumeRotation">
-            <figure v-for="(item, index) in items" :key="index" class="caursel-item">
-              <img class="item-img" :src="item" alt="" />
-            </figure>
+      <div class="index-staff__bottom">
+        <div class="index-staff__carousel-container">
+          <div class="index-staff__carousel-3d">
+            <div class="index-staff__carousel" :class="{ 'index-staff__carousel--paused': isHovered }" @mouseenter="pauseRotation" @mouseleave="resumeRotation">
+              <figure v-for="(item, index) in items" :key="index" class="index-staff__carousel-item">
+                <img class="index-staff__carousel-img" :src="item" alt="" />
+              </figure>
+            </div>
           </div>
         </div>
       </div>
@@ -45,29 +47,56 @@ const resumeRotation = () => {
 </script>
 
 <style scoped lang="scss">
+// 3D旋转动画
+@keyframes rotation {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-360deg);
+  }
+}
+
+// 最外层容器
+.index-staff-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: #fff;
+}
+
+// 块容器 - 主容器
 .index-staff {
   gap: 15px;
-  padding: 60px;
+  width: 1200px;
+  padding: 60px 0;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   background-color: #fff;
 
-  &__top {
+  // 顶部区域
+  .index-staff__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .top-left {
-      .title-section {
+
+    // 顶部左侧 - 标题部分
+    .index-staff__top--left {
+      .index-staff__title-section {
         display: flex;
         flex-direction: column;
-        .title-en {
+
+        // 英文标题 - 短规则
+        .index-staff__title-en {
+          color: #e5e5e5;
           font-size: 20px;
           line-height: 0;
-          color: #e5e5e5;
           margin-bottom: 10px;
         }
 
-        .title-cn {
+        // 中文标题 - 短规则
+        .index-staff__title-cn {
           color: #1f2937;
           font-size: 24px;
           line-height: 0;
@@ -75,30 +104,10 @@ const resumeRotation = () => {
         }
       }
     }
-
-    .top-right {
-      .tabs {
-        gap: 20px;
-        display: flex;
-
-        .tab-item {
-          font-size: 14px;
-          color: #1f2937;
-          font-weight: 500;
-          cursor: pointer;
-          padding: 5px;
-          transition: color 0.3s ease;
-
-          &:hover,
-          &.active {
-            color: #108cf0;
-          }
-        }
-      }
-    }
   }
 
-  &__bottom {
+  // 底部区域 - 中等规则
+  .index-staff__bottom {
     gap: 30px;
     height: 400px;
     display: flex;
@@ -110,7 +119,8 @@ const resumeRotation = () => {
     background-position: center;
     background-image: url("~/assets/images/bg_3d.png");
 
-    .caursel3d-container {
+    // 轮播容器 - 中等规则
+    .index-staff__carousel-container {
       width: 100%;
       height: 100%;
       display: flex;
@@ -118,14 +128,16 @@ const resumeRotation = () => {
       align-items: center;
       justify-content: center;
 
-      .caursel3d {
+      // 3D 旋转容器 - 中等规则
+      .index-staff__carousel-3d {
         width: 330px;
         height: 210px;
         margin: 0 auto;
         position: relative;
         perspective: 2100px;
 
-        .caursel {
+        // 轮播容器 - 中等规则
+        .index-staff__carousel {
           width: 100%;
           height: 100%;
           margin: auto;
@@ -136,64 +148,59 @@ const resumeRotation = () => {
           animation-iteration-count: infinite;
           animation-name: rotation;
 
-          &.paused {
+          // 暂停状态
+          &.index-staff__carousel--paused {
             animation-play-state: paused;
           }
-        }
 
-        .caursel-item {
-          top: 10px;
-          left: 10px;
-          margin: 0;
-          width: 250px;
-          display: block;
-          height: 170px;
-          overflow: hidden;
-          position: absolute;
+          // 轮播项 - 较长规则
+          .index-staff__carousel-item {
+            top: 10px;
+            left: 10px;
+            margin: 0;
+            width: 250px;
+            height: 170px;
+            display: block;
+            overflow: hidden;
+            position: absolute;
 
-          &:nth-child(1) {
-            transform: rotateY(0deg) translateZ(370px);
-          }
-          &:nth-child(2) {
-            transform: rotateY(45deg) translateZ(370px);
-          }
-          &:nth-child(3) {
-            transform: rotateY(90deg) translateZ(370px);
-          }
-          &:nth-child(4) {
-            transform: rotateY(135deg) translateZ(370px);
-          }
-          &:nth-child(5) {
-            transform: rotateY(180deg) translateZ(370px);
-          }
-          &:nth-child(6) {
-            transform: rotateY(225deg) translateZ(370px);
-          }
-          &:nth-child(7) {
-            transform: rotateY(270deg) translateZ(370px);
-          }
-          &:nth-child(8) {
-            transform: rotateY(315deg) translateZ(370px);
-          }
-
-          .item-img {
-            width: 100%;
-            height: 100%;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-
-            &:hover {
-              transform: scale(1.1);
+            &:nth-child(1) {
+              transform: rotateY(0deg) translateZ(370px);
             }
-          }
-        }
+            &:nth-child(2) {
+              transform: rotateY(45deg) translateZ(370px);
+            }
+            &:nth-child(3) {
+              transform: rotateY(90deg) translateZ(370px);
+            }
+            &:nth-child(4) {
+              transform: rotateY(135deg) translateZ(370px);
+            }
+            &:nth-child(5) {
+              transform: rotateY(180deg) translateZ(370px);
+            }
+            &:nth-child(6) {
+              transform: rotateY(225deg) translateZ(370px);
+            }
+            &:nth-child(7) {
+              transform: rotateY(270deg) translateZ(370px);
+            }
+            &:nth-child(8) {
+              transform: rotateY(315deg) translateZ(370px);
+            }
 
-        @keyframes rotation {
-          from {
-            transform: rotateY(0deg);
-          }
-          to {
-            transform: rotateY(-360deg);
+            // 图片元素 - 中等规则
+            .index-staff__carousel-img {
+              width: 100%;
+              height: 100%;
+              cursor: pointer;
+              transition: transform 0.3s ease;
+              object-fit: cover;
+
+              &:hover {
+                transform: scale(1.1);
+              }
+            }
           }
         }
       }
