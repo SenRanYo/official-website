@@ -45,10 +45,10 @@ import { ref, onMounted, onUnmounted, computed, watch } from "vue"
 import "swiper/css"
 import "swiper/css/pagination"
 
-import News from "./components/news.vue"
-import Topic from "./components/topic.vue"
-import Staff from "./components/staff.vue"
-import Banner from "./components/banner.vue"
+import News from "./components/News.vue"
+import Topic from "./components/Topic.vue"
+import Staff from "./components/Staff.vue"
+import Banner from "./components/Banner.vue"
 
 // 配置 Swiper 模块
 
