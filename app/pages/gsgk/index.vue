@@ -20,8 +20,12 @@ import Overview from "./components/overview.vue"
 import Leadership from "./components/leadership.vue"
 import Structure from "./components/structure.vue"
 import History from "./components/history.vue"
-import { useAnchorNavigation } from "~/composables/useAnchorNavigation"
 import bannerImage from "~/assets/images/swiper/swiper-4.jpg"
+import { useAnchorNavigation } from "~/composables/useAnchorNavigation"
+
+definePageMeta({
+  layout: "others",
+})
 
 /**
  * 锚点列表配置

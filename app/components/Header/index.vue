@@ -56,7 +56,7 @@ function goHome() {
   width: 100%;
   height: 80px;
   display: flex;
-  z-index: 10;
+  z-index: 100;
   position: relative;
   align-items: center;
   justify-content: center;
@@ -66,11 +66,13 @@ function goHome() {
     top: 0;
     left: 50%;
     width: 100%;
+    z-index: 100;
     height: 80px;
     display: flex;
     position: fixed;
     align-items: center;
     transform: translateX(-50%);
+    background-color: #fff;
   }
   &__logo {
     overflow: hidden;
