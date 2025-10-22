@@ -69,12 +69,12 @@ function goHome() {
     height: 80px;
     display: flex;
     position: fixed;
-    max-width: 1200px;
     align-items: center;
     transform: translateX(-50%);
   }
   &__logo {
     overflow: hidden;
+    margin-left: 60px;
     margin-right: 60px;
     .logo {
       cursor: pointer;

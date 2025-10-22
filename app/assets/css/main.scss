@@ -26,3 +26,10 @@ a {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* 以 1920 设计稿，目标：在 1920 时 1rem ≈ 16px，越小屏越小，越大屏适度放大 */
+html {
+  /* 100vw / (设计宽 / 目标根字级)  → 在 1920px 时约 16px */
+  font-size: clamp(16px, calc(100vw / 120), 20px);
+  /* 解释：100vw / 120 ≈ 16px（当视口 = 1920 时）；并限制最小16px、最大20px */
+}

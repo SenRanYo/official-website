@@ -171,8 +171,7 @@ const newsData = [
 // 块容器 - 主容器
 .index-news {
   gap: 15px;
-  width: 1200px;
-  padding: 60px 0;
+  padding: 60px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

@@ -12,7 +12,8 @@
 <style scoped lang="scss">
 .layouts-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   flex-direction: column;
 }
 </style>

@@ -28,7 +28,15 @@ export default defineNuxtConfig({
   },
 
   postcss: {
-    plugins: {},
+    plugins: {
+      "postcss-pxtorem": {
+        rootValue: 16, // 基准值：1rem = 16px
+        propList: ["*"], // 哪些属性需要转换
+        minPixelValue: 2, // 小于2px的值不转换（防止边框问题）
+        mediaQuery: true, // 媒体查询里的px也转换
+        selectorBlackList: [], // 哪些选择器不应用转换
+      },
+    },
   },
 
   components: {

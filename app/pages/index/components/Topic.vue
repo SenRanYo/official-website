@@ -45,11 +45,9 @@ import entry4 from "~/assets/images/entry/j-4.png"
 // 块容器 - 主容器
 .index-topic {
   gap: 15px;
-  width: 1200px;
-  padding: 60px 0;
-  margin: 0 auto;
+  width: 100%;
+  padding: 60px;
   display: flex;
-  max-width: 1200px;
   overflow: hidden;
   flex-direction: column;
 
