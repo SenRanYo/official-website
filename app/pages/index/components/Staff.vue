@@ -92,6 +92,7 @@ const resumeRotation = () => {
           color: #e5e5e5;
           font-size: 27px;
           line-height: 0;
+          font-weight: bold;
           margin-bottom: 13px;
         }
 

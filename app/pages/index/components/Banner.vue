@@ -128,19 +128,20 @@ const bannerData = [
     // 内容容器元素 - 长规则
     .index-banner__content {
       left: 0;
-      top: 300px;
+      top: 50%;
       z-index: 10;
       color: #fff;
       opacity: 0;
       padding: 0 60px;
       max-width: 600px;
       position: absolute;
+      transform: translateY(-50%);
       animation: slideInContent 0.8s ease-out 0.3s forwards;
 
       // 标签元素 - 中等长度
       .index-banner__label {
         margin-bottom: 12px;
-        font-size: 14px;
+        font-size: 20px;
         font-weight: 500;
         opacity: 0.9;
         letter-spacing: 0.5px;
@@ -151,7 +152,7 @@ const bannerData = [
         margin-top: 0;
         margin-bottom: 16px;
         padding-top: 2px;
-        font-size: 48px;
+        font-size: 56px;
         font-weight: bold;
         line-height: 1.3;
         white-space: nowrap;
@@ -162,7 +163,7 @@ const bannerData = [
       // 描述元素 - 中等长度
       .index-banner__description {
         margin: 0;
-        font-size: 16px;
+        font-size: 20px;
         font-weight: 500;
         opacity: 0.95;
         letter-spacing: 0.5px;
@@ -172,12 +173,15 @@ const bannerData = [
     // Swiper 分页容器 - 中等长度规则
     :deep(.swiper-pagination) {
       gap: 6px;
+      top: 50%;
       left: 60px;
       right: auto;
-      top: 400px;
       width: auto;
       display: flex;
+      height: fit-content;
+      margin-top: 130px;
       align-items: flex-start;
+      transform: translateY(-50%);
     }
   }
 }

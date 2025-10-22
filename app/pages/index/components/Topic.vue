@@ -70,6 +70,7 @@ import entry4 from "~/assets/images/entry/j-4.png"
           color: #e5e5e5;
           font-size: 27px;
           line-height: 0;
+          font-weight: bold;
           margin-bottom: 13px;
         }
 
