@@ -100,7 +100,6 @@ const resumeRotation = () => {
         .index-staff__title-cn {
           color: #1f2937;
           font-size: 32px;
-          line-height: 0;
           font-weight: bold;
         }
       }

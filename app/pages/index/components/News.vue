@@ -203,7 +203,6 @@ const newsData = [
         .index-news__title-cn {
           color: #1f2937;
           font-size: 32px;
-          line-height: 0;
           font-weight: bold;
         }
       }
@@ -369,12 +368,12 @@ const newsData = [
 
           // 日期框 - 较长规则
           .index-news__list-item-date {
-            aspect-ratio: 1/1;
-            min-width: 107px;
+            width: 80px;
+            height: 100px;
+            height: 15 0px;
             flex-shrink: 0;
             display: flex;
             text-align: center;
-            border-radius: 5px;
             align-items: center;
             flex-direction: column;
             justify-content: center;
@@ -390,7 +389,7 @@ const newsData = [
             // 日期数字 - 短规则
             .index-news__list-date-day {
               color: #1f2937;
-              font-size: 32px;
+              font-size: 28px;
               font-weight: bold;
             }
           }

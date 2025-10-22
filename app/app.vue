@@ -1,19 +1,21 @@
 <template>
   <NuxtRouteAnnouncer />
   <NuxtLoadingIndicator color="var(--color-brand)" :height="2" />
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <UApp>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
 </template>
 
 <style lang="scss" scoped>
-  :global(body) {
-    background-color: $background-color;
-    color: $text-color;
-    font-family: $font-family-base;
+:global(body) {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: $font-family-base;
 
-    @include mobile {
-      font-size: $font-size-sm;
-    }
+  @include mobile {
+    font-size: $font-size-sm;
   }
+}
 </style>

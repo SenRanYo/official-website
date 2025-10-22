@@ -5,9 +5,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
-  modules: ["@nuxt/eslint", "@nuxt/image", "@nuxt/scripts", "@nuxt/test-utils", "@nuxt/ui", "@unocss/nuxt", "nuxt-aos", "v-gsap-nuxt", "@pinia/nuxt"],
+  modules: ["@nuxt/ui", "@nuxt/eslint", "@nuxt/image", "@nuxt/scripts", "@nuxt/test-utils", "nuxt-aos", "v-gsap-nuxt", "@pinia/nuxt"],
 
-  css: ["~/assets/css/main.scss"],
+  css: ["~/assets/css/main.css"],
 
   vite: {
     plugins: [tailwindcss()],
