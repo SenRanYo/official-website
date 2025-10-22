@@ -165,13 +165,15 @@ const newsData = [
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: center;
   background-color: #fff;
 }
 
 // 块容器 - 主容器
 .index-news {
-  gap: 15px;
-  padding: 60px;
+  gap: 20px;
+  width: 100%;
+  padding: 80px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -191,15 +193,15 @@ const newsData = [
         // 英文标题 - 短规则
         .index-news__title-en {
           color: #e5e5e5;
-          font-size: 20px;
+          font-size: 27px;
           line-height: 0;
-          margin-bottom: 10px;
+          margin-bottom: 13px;
         }
 
         // 中文标题 - 短规则
         .index-news__title-cn {
           color: #1f2937;
-          font-size: 24px;
+          font-size: 32px;
           line-height: 0;
           font-weight: bold;
         }
@@ -209,13 +211,13 @@ const newsData = [
     // 顶部右侧 - 标签页部分
     .index-news__top--right {
       .index-news__tabs {
-        gap: 20px;
+        gap: 27px;
         display: flex;
 
         // 标签项 - 中等规则
         .index-news__tab-item {
-          padding: 5px;
-          font-size: 14px;
+          padding: 7px;
+          font-size: 19px;
           color: #1f2937;
           font-weight: 500;
           cursor: pointer;
@@ -232,14 +234,14 @@ const newsData = [
 
   // 底部区域
   .index-news__bottom {
-    gap: 30px;
+    gap: 40px;
     display: flex;
     position: relative;
 
     // 底部左侧 - 轮播图
     .index-news__bottom--left {
-      width: 450px;
-      height: 320px;
+      width: 600px;
+      height: 427px;
       position: relative;
 
       // 轮播容器 - 中等规则
@@ -249,8 +251,8 @@ const newsData = [
 
         // Swiper 分页符号 - 短规则
         :deep(.swiper-pagination-bullet) {
-          width: 6px;
-          height: 6px;
+          width: 8px;
+          height: 8px;
           opacity: 1;
           background-color: rgba(255, 255, 255, 0.6);
         }
@@ -264,8 +266,8 @@ const newsData = [
         // Swiper 分页容器 - 短规则
         :deep(.swiper-pagination) {
           left: auto;
-          right: 20px;
-          bottom: 18px;
+          right: 27px;
+          bottom: 24px;
           width: fit-content;
         }
 
@@ -290,8 +292,8 @@ const newsData = [
 
         // 日期容器 - 中等规则
         .index-news__slide-date {
-          top: 20px;
-          right: 20px;
+          top: 27px;
+          right: 27px;
           z-index: 10;
           text-align: right;
           position: absolute;
@@ -299,14 +301,14 @@ const newsData = [
           // 年月文本 - 短规则
           .index-news__date-year-month {
             color: #fff;
-            font-size: 14px;
+            font-size: 19px;
             font-weight: 500;
           }
 
           // 日期数字 - 短规则
           .index-news__date-day {
             color: #fff;
-            font-size: 32px;
+            font-size: 43px;
             font-weight: bold;
             line-height: 1;
           }
@@ -315,12 +317,12 @@ const newsData = [
         // 标题文本 - 中等规则
         .index-news__slide-title {
           width: 60%;
-          bottom: 15px;
-          left: 20px;
-          right: 20px;
+          bottom: 20px;
+          left: 27px;
+          right: 27px;
           z-index: 10;
           color: #fff;
-          font-size: 16px;
+          font-size: 21px;
           font-weight: 500;
           line-height: 1.4;
           position: absolute;
@@ -342,16 +344,16 @@ const newsData = [
       // 新闻列表容器 - 中等规则
       .index-news__list {
         display: grid;
-        gap: 20px;
-        margin-bottom: 20px;
+        gap: 27px;
+        margin-bottom: 27px;
         grid-template-columns: 1fr 1fr;
 
         // 列表项 - 中等规则
         .index-news__list-item {
-          gap: 16px;
+          gap: 21px;
           display: flex;
           cursor: pointer;
-          border-radius: 4px;
+          border-radius: 5px;
           align-items: center;
           transition: all 0.3s ease;
 
@@ -366,11 +368,11 @@ const newsData = [
           // 日期框 - 较长规则
           .index-news__list-item-date {
             aspect-ratio: 1/1;
-            min-width: 80px;
+            min-width: 107px;
             flex-shrink: 0;
             display: flex;
             text-align: center;
-            border-radius: 4px;
+            border-radius: 5px;
             align-items: center;
             flex-direction: column;
             justify-content: center;
@@ -379,14 +381,14 @@ const newsData = [
             // 日期文本 - 短规则
             .index-news__list-date-text {
               color: #6b7280;
-              font-size: 12px;
-              margin-bottom: 4px;
+              font-size: 16px;
+              margin-bottom: 5px;
             }
 
             // 日期数字 - 短规则
             .index-news__list-date-day {
               color: #1f2937;
-              font-size: 24px;
+              font-size: 32px;
               font-weight: bold;
             }
           }
@@ -398,8 +400,8 @@ const newsData = [
 
             // 标题 - 中等规则
             .index-news__list-item-title {
-              margin: 0 0 8px 0;
-              font-size: 14px;
+              margin: 0 0 11px 0;
+              font-size: 19px;
               color: #1f2937;
               font-weight: 600;
               line-height: 1.4;
@@ -414,7 +416,7 @@ const newsData = [
             // 描述 - 中等规则
             .index-news__list-item-description {
               margin: 0;
-              font-size: 12px;
+              font-size: 16px;
               color: #9ca3af;
               line-height: 1.4;
               display: -webkit-box;
@@ -434,7 +436,7 @@ const newsData = [
         // 查看更多按钮 - 中等规则
         .index-news__view-more-btn {
           color: #108cf0;
-          font-size: 14px;
+          font-size: 19px;
           font-weight: 500;
           text-decoration: none;
           transition: all 0.3s ease;
@@ -463,7 +465,7 @@ const newsData = [
 
     // 加载占位符容器 - 中等规则
     .index-news__loading-placeholder {
-      gap: 12px;
+      gap: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -471,10 +473,10 @@ const newsData = [
 
       // 加载旋转器 - 短规则
       .index-news__loading-spinner {
-        width: 40px;
-        height: 40px;
+        width: 54px;
+        height: 54px;
         border-radius: 50%;
-        border: 3px solid #e5e7eb;
+        border: 4px solid #e5e7eb;
         border-top-color: #108cf0;
         animation: spin 1s linear infinite;
       }
@@ -482,7 +484,7 @@ const newsData = [
       // 加载文本 - 短规则
       .index-news__loading-text {
         color: #4b5563;
-        font-size: 16px;
+        font-size: 21px;
         font-weight: 500;
       }
     }

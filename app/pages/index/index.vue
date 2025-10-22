@@ -202,7 +202,7 @@ watch(
   // 分页器容器元素 - 较长规则
   .view-container__pagination {
     top: 50%;
-    right: 60px;
+    right: 10px;
     z-index: 20;
     gap: 20px;
     width: 50px;
