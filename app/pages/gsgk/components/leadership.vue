@@ -1,14 +1,11 @@
 <template>
   <section class="section section-ldbz" data-anchor="ldbz">
-    <div class="section-container">
-      <h2 class="section-title">领导班子</h2>
-      <!-- 占位符：领导班子内容将在这里呈现 -->
-      <div class="section-placeholder">领导班子内容区域</div>
-    </div>
+    <img :src="ldbz" alt="" />
   </section>
 </template>
 
 <script setup lang="ts">
+import ldbz from "~/assets/images/ldbz.png"
 // 此组件无需任何逻辑
 // 只需设置 data-anchor 属性，useAnchorNavigation 会自动找到这个元素
 </script>
@@ -20,6 +17,15 @@
   padding: 80px 20px;
   scroll-margin-top: 60px; /* 固定导航栏高度 */
   background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 
   .section-container {
     max-width: 1200px;

@@ -1,14 +1,12 @@
 <template>
   <section class="section section-zzjg" data-anchor="zzjg">
-    <div class="section-container">
-      <h2 class="section-title">组织机构</h2>
-      <!-- 占位符：组织机构内容将在这里呈现 -->
-      <div class="section-placeholder">组织机构内容区域</div>
-    </div>
+    <img :src="zzjg" alt="" />
   </section>
 </template>
 
 <script setup lang="ts">
+import zzjg from "~/assets/images/zzjg.png"
+
 // 此组件无需任何逻辑
 // 只需设置 data-anchor 属性，useAnchorNavigation 会自动找到这个元素
 </script>
@@ -20,6 +18,15 @@
   padding: 80px 20px;
   scroll-margin-top: 60px; /* 固定导航栏高度 */
   background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 
   .section-container {
     max-width: 1200px;
