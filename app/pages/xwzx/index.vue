@@ -20,6 +20,10 @@ import Tabs from "./components/tabs.vue"
 import image from "~/assets/images/news-bg.webp"
 import { getNewsList } from "~/api/news"
 
+definePageMeta({
+  layout: "others",
+})
+
 const route = useRoute()
 const router = useRouter()
 
