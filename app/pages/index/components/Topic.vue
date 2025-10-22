@@ -47,7 +47,7 @@ import entry4 from "~/assets/images/entry/j-4.png"
 .index-topic {
   gap: 15px;
   width: 100%;
-  padding: 60px;
+  padding: 80px 160px;
   display: flex;
   overflow: hidden;
   flex-direction: column;

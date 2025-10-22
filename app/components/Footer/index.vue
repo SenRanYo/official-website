@@ -126,7 +126,7 @@ import footerBg from "~/assets/images/footer-bg.webp"
     gap: 80px;
     width: 100%;
     display: flex;
-    padding: 50px 100px;
+    padding: 50px 160px;
     align-items: center;
     justify-content: space-between;
   }

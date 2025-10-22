@@ -70,7 +70,7 @@ const resumeRotation = () => {
 .index-staff {
   gap: 15px;
   width: 100%;
-  padding: 60px;
+  padding: 80px 160px;
   display: flex;
   flex-direction: column;
   background-color: #fff;

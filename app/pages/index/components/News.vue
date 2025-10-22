@@ -173,7 +173,7 @@ const newsData = [
 .index-news {
   gap: 20px;
   width: 100%;
-  padding: 80px;
+  padding: 80px 160px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
