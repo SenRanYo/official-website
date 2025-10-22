@@ -317,16 +317,20 @@ const newsData = [
 
         // 标题文本 - 中等规则
         .index-news__slide-title {
-          width: 60%;
-          bottom: 20px;
-          left: 27px;
-          right: 27px;
+          width: 100%;
+          left: 0;
+          height: 65px;
+          bottom: 0;
+          right: 0;
           z-index: 10;
           color: #fff;
-          font-size: 21px;
+          font-size: 20px;
+          line-height: 60px;
+          padding-left: 30px;
           font-weight: 500;
-          line-height: 1.4;
+          padding-right: 180px;
           position: absolute;
+          background: linear-gradient(to bottom, transparent, #000);
           display: -webkit-box;
           -webkit-line-clamp: 1;
           line-clamp: 1;
