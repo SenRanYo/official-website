@@ -217,7 +217,7 @@ const newsData = [
         // 标签项 - 中等规则
         .index-news__tab-item {
           padding: 7px;
-          font-size: 19px;
+          font-size: 20px;
           color: #1f2937;
           font-weight: 500;
           cursor: pointer;

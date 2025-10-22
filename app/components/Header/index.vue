@@ -97,7 +97,7 @@ function goHome() {
         height: 100%;
         cursor: pointer;
         display: flex;
-        font-size: 18px;
+        font-size: 20px;
         position: relative;
         align-items: center;
         transition: all 0.3s ease;
@@ -141,7 +141,7 @@ function goHome() {
         &__item {
           width: 100%;
           display: flex;
-          font-size: 18px;
+          font-size: 20px;
           align-items: center;
           flex-direction: column;
           .child-link {
@@ -150,7 +150,7 @@ function goHome() {
             cursor: pointer;
             margin: 5px 0;
             padding: 5px 0;
-            font-size: 18px;
+            font-size: 20px;
             position: relative;
             align-items: center;
             justify-content: center;

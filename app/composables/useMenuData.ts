@@ -54,42 +54,42 @@ export default function () {
           },
         ],
       },
-      // {
-      //   title: "党的建设",
-      //   route: "/ddjs/djgz",
-      //   child: [
-      //     {
-      //       title: "党建工作",
-      //       route: "/ddjs/djgz",
-      //     },
-      //     {
-      //       title: "工会团青",
-      //       route: "/ddjs/ghtq",
-      //     },
-      //     {
-      //       title: "党务公开",
-      //       route: "/ddjs/dwgk",
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: "企业文化",
-      //   route: "/qywh/main",
-      //   child: [
-      //     {
-      //       title: "集团公司",
-      //       route: "/qywh/jtgs",
-      //     },
-      //     {
-      //       title: "四川公司",
-      //       route: "/qywh/scgs",
-      //     },
-      //     {
-      //       title: "泸定公司",
-      //       route: "/qywh/ldgs",
-      //     },
-      //   ],
-      // },
+      {
+        title: "党的建设",
+        route: "/ddjs/djgz",
+        child: [
+          {
+            title: "党建工作",
+            route: "/ddjs/djgz",
+          },
+          {
+            title: "工会团青",
+            route: "/ddjs/ghtq",
+          },
+          {
+            title: "党务公开",
+            route: "/ddjs/dwgk",
+          },
+        ],
+      },
+      {
+        title: "企业文化",
+        route: "/qywh/main",
+        child: [
+          {
+            title: "集团公司",
+            route: "/qywh/jtgs",
+          },
+          {
+            title: "四川公司",
+            route: "/qywh/scgs",
+          },
+          {
+            title: "泸定公司",
+            route: "/qywh/ldgs",
+          },
+        ],
+      },
     ]
   })
 }
