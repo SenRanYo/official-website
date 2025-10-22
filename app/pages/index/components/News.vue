@@ -221,6 +221,7 @@ const newsData = [
           color: #1f2937;
           font-weight: 500;
           cursor: pointer;
+          font-size: 22px;
           transition: color 0.3s ease;
 
           &:hover,

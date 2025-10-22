@@ -97,6 +97,7 @@ function goHome() {
         height: 100%;
         cursor: pointer;
         display: flex;
+        font-size: 18px;
         position: relative;
         align-items: center;
         transition: all 0.3s ease;
@@ -140,6 +141,7 @@ function goHome() {
         &__item {
           width: 100%;
           display: flex;
+          font-size: 18px;
           align-items: center;
           flex-direction: column;
           .child-link {
@@ -148,6 +150,7 @@ function goHome() {
             cursor: pointer;
             margin: 5px 0;
             padding: 5px 0;
+            font-size: 18px;
             position: relative;
             align-items: center;
             justify-content: center;
@@ -207,8 +210,8 @@ function goHome() {
       color: #fff;
     }
     .login-text {
-      font-size: 14px;
       color: #fff;
+      font-size: 16px;
     }
   }
 }

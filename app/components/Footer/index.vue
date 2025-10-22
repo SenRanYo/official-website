@@ -149,7 +149,7 @@ import footerBg from "~/assets/images/footer-bg.webp"
   // 列标题
   &__column-title {
     margin: 0;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 600;
     color: #333333;
     letter-spacing: 0.5px;
@@ -173,7 +173,7 @@ import footerBg from "~/assets/images/footer-bg.webp"
   // 链接
   &__link {
     max-width: 160px;
-    font-size: 14px;
+    font-size: 18px;
     color: #666666;
     line-height: 1.5;
     text-decoration: none;
@@ -192,7 +192,7 @@ import footerBg from "~/assets/images/footer-bg.webp"
     border: none;
     padding: 0;
     margin-top: 8px;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
     color: #108cf0;
     text-align: left;

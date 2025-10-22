@@ -39,6 +39,7 @@ import entry4 from "~/assets/images/entry/j-4.png"
 // 最外层容器
 .index-topic-wrapper {
   width: 100%;
+  height: 100%;
   display: flex;
 }
 
@@ -50,6 +51,7 @@ import entry4 from "~/assets/images/entry/j-4.png"
   display: flex;
   overflow: hidden;
   flex-direction: column;
+  justify-content: center;
 
   // 顶部区域
   .index-topic__top {
@@ -66,15 +68,15 @@ import entry4 from "~/assets/images/entry/j-4.png"
         // 英文标题 - 短规则
         .index-topic__title-en {
           color: #e5e5e5;
-          font-size: 20px;
+          font-size: 27px;
           line-height: 0;
-          margin-bottom: 10px;
+          margin-bottom: 13px;
         }
 
         // 中文标题 - 短规则
         .index-topic__title-cn {
           color: #1f2937;
-          font-size: 24px;
+          font-size: 32px;
           line-height: 0;
           font-weight: bold;
         }
@@ -91,7 +93,7 @@ import entry4 from "~/assets/images/entry/j-4.png"
 
     // 条目项 - 中等规则
     .index-topic__entry-item {
-      height: 250px;
+      height: 300px;
       overflow: hidden;
       cursor: pointer;
 

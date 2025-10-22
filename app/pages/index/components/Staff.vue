@@ -62,6 +62,7 @@ const resumeRotation = () => {
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: center;
   background-color: #fff;
 }
 
@@ -89,15 +90,15 @@ const resumeRotation = () => {
         // 英文标题 - 短规则
         .index-staff__title-en {
           color: #e5e5e5;
-          font-size: 20px;
+          font-size: 27px;
           line-height: 0;
-          margin-bottom: 10px;
+          margin-bottom: 13px;
         }
 
         // 中文标题 - 短规则
         .index-staff__title-cn {
           color: #1f2937;
-          font-size: 24px;
+          font-size: 32px;
           line-height: 0;
           font-weight: bold;
         }
@@ -108,7 +109,7 @@ const resumeRotation = () => {
   // 底部区域 - 中等规则
   .index-staff__bottom {
     gap: 30px;
-    height: 400px;
+    height: 500px;
     display: flex;
     position: relative;
     align-items: center;
@@ -129,8 +130,8 @@ const resumeRotation = () => {
 
       // 3D 旋转容器 - 中等规则
       .index-staff__carousel-3d {
-        width: 330px;
-        height: 210px;
+        width: 440px;
+        height: 280px;
         margin: 0 auto;
         position: relative;
         perspective: 2100px;
@@ -157,35 +158,35 @@ const resumeRotation = () => {
             top: 10px;
             left: 10px;
             margin: 0;
-            width: 250px;
-            height: 170px;
+            width: 333px;
+            height: 227px;
             display: block;
             overflow: hidden;
             position: absolute;
 
             &:nth-child(1) {
-              transform: rotateY(0deg) translateZ(370px);
+              transform: rotateY(0deg) translateZ(493px);
             }
             &:nth-child(2) {
-              transform: rotateY(45deg) translateZ(370px);
+              transform: rotateY(45deg) translateZ(493px);
             }
             &:nth-child(3) {
-              transform: rotateY(90deg) translateZ(370px);
+              transform: rotateY(90deg) translateZ(493px);
             }
             &:nth-child(4) {
-              transform: rotateY(135deg) translateZ(370px);
+              transform: rotateY(135deg) translateZ(493px);
             }
             &:nth-child(5) {
-              transform: rotateY(180deg) translateZ(370px);
+              transform: rotateY(180deg) translateZ(493px);
             }
             &:nth-child(6) {
-              transform: rotateY(225deg) translateZ(370px);
+              transform: rotateY(225deg) translateZ(493px);
             }
             &:nth-child(7) {
-              transform: rotateY(270deg) translateZ(370px);
+              transform: rotateY(270deg) translateZ(493px);
             }
             &:nth-child(8) {
-              transform: rotateY(315deg) translateZ(370px);
+              transform: rotateY(315deg) translateZ(493px);
             }
 
             // 图片元素 - 中等规则
