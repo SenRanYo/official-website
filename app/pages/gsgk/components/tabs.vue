@@ -62,7 +62,7 @@ const handleTabClick = (anchorId: string) => {
   right: 0;
   width: 100%;
   z-index: 10;
-  padding: 0 160px;
+  padding: 0 250px;
   background-color: white;
   border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;

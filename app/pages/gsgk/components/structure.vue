@@ -15,7 +15,7 @@ import zzjg from "~/assets/images/zzjg.png"
 /* 组织机构区块样式 */
 .section {
   width: 100%;
-  padding: 80px 160px;
+  padding: 80px 250px;
   scroll-margin-top: 60px; /* 固定导航栏高度 */
   background-color: #ffffff;
   display: flex;
@@ -29,7 +29,6 @@ import zzjg from "~/assets/images/zzjg.png"
   }
 
   .section-container {
-    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
   }
