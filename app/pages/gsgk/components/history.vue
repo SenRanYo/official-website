@@ -121,7 +121,7 @@ fetchHistoryData("2025")
   gap: 30px;
   width: 100%;
   display: flex;
-  padding: 60px 100px;
+  padding: 60px 160px;
   position: relative;
   flex-direction: column;
   background-color: #fff;

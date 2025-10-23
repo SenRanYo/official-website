@@ -158,7 +158,7 @@ onUnmounted(() => {
 
   /* ============ 上部分样式 ============ */
   &__top {
-    padding: 60px 100px;
+    padding: 60px 160px;
     position: relative;
   }
 
