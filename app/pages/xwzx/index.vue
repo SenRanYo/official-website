@@ -6,7 +6,7 @@
     <!-- 分类标签 -->
     <Tabs v-model="category" :list="categorys" @change="onCategoryChange" />
 
-    <div class="px-[100px]">
+    <div class="px-[250px]">
       <News :list="newsList" :col="2" @click="onNewsClick" />
     </div>
 

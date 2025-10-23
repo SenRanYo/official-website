@@ -62,7 +62,7 @@ const handleTabClick = (value: string) => {
   width: 100%;
   z-index: 100;
   position: sticky;
-  padding: 0 100px;
+  padding: 0 250px;
   background-color: white;
   border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
