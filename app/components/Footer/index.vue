@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import qrcode from "~/assets/images/qrcode.webp"
-import footerBg from "~/assets/images/footer-bg.webp"
+import footerBg from "~/assets/images/footer-bg.png"
 
 // 新闻媒体
 const mediaItems = ref(["央视网", "人民网", "新华网", "共产党员网"])
@@ -63,6 +63,7 @@ const systemValue = ref("华电集团门户网站")
   width: 100%;
   display: flex;
   position: relative;
+  padding-bottom: 50px;
   justify-content: center;
 
   // 背景
@@ -73,9 +74,8 @@ const systemValue = ref("华电集团门户网站")
     width: 100%;
     height: 100%;
     position: absolute;
-    background-size: cover;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-position: center bottom;
   }
 
   // 内容包裹

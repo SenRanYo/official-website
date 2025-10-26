@@ -1,5 +1,6 @@
 <template>
   <div class="index-news-wrapper">
+    <img :src="bg" class="index-news-wrapper__bg" />
     <div class="index-news">
       <div class="index-news__top">
         <div class="index-news__top--left">
@@ -82,6 +83,7 @@ import { getNewsList } from "~/api/news"
 import { ref, onMounted } from "vue"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, Pagination } from "swiper/modules"
+import bg from "~/assets/images/bg-2.png"
 import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
 import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
 import swiper3 from "~/assets/images/swiper/swiper-3.jpg"
@@ -167,6 +169,14 @@ const newsData = [
   display: flex;
   align-items: center;
   background-color: #fff;
+  &__bg {
+    position: absolute;
+    top: 430px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 // 块容器 - 主容器

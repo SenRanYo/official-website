@@ -1,6 +1,6 @@
 <template>
   <div class="gsgk-page">
-    <Description text="四川华电泸定水电有限公司" :image="bannerImage" />
+    <Description text="四川华电泸定水电有限公司" :image="hdbg" />
 
     <Tabs :anchors="anchors" :active-anchor="activeAnchor" @change="scrollToAnchor" />
 
@@ -20,7 +20,7 @@ import Overview from "./components/overview.vue"
 import Leadership from "./components/leadership.vue"
 import Structure from "./components/structure.vue"
 import History from "./components/history.vue"
-import bannerImage from "~/assets/images/swiper/swiper-4.jpg"
+import hdbg from "~/assets/images/hd-bg.png"
 import { useAnchorNavigation } from "~/composables/useAnchorNavigation"
 
 definePageMeta({

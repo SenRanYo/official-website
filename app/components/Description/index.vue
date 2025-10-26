@@ -36,7 +36,7 @@ withDefaults(defineProps<Props>(), {
   overflow: hidden;
   align-items: center;
   justify-content: center;
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
 
@@ -49,13 +49,13 @@ withDefaults(defineProps<Props>(), {
     z-index: 1;
     content: "";
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.3);
+    // background-color: rgba(0, 0, 0, 0.3);
   }
 
   /* 标题文字 */
   &-text {
     top: 80px;
-    left: 100px;
+    left: 160px;
     margin: 0;
     z-index: 2;
     color: white;

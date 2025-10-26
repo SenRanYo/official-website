@@ -15,5 +15,6 @@
   height: 100vh;
   overflow: hidden;
   flex-direction: column;
+  background-color: #fff;
 }
 </style>

@@ -53,7 +53,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
-import image from "~/assets/images/news-bg.webp"
+import image from "~/assets/images/news-bg.png"
+
+definePageMeta({
+  layout: "others",
+})
 
 // 新闻数据接口
 interface NewsData {
@@ -126,7 +130,7 @@ onMounted(() => {
 // 新闻详情主容器
 .news-detail {
   width: 100%;
-  padding: 80px 160px;
+  padding: 80px 250px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
