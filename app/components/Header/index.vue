@@ -56,6 +56,15 @@
                 <div class="notification-item__time">{{ item.time }}</div>
               </div>
             </div>
+            <!-- 更多按钮 -->
+            <div class="notification-footer">
+              <button class="notification-more-btn" @click="handleViewMoreNotifications">
+                <span>查看更多</span>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
         </Transition>
       </div>
@@ -147,6 +156,13 @@ const filteredNotifications = computed(() => {
 /** 通知菜单 - 切换菜单显示 */
 function toggleNotificationMenu() {
   showNotificationMenu.value = !showNotificationMenu.value
+}
+
+/** 通知菜单 - 查看更多通知 */
+function handleViewMoreNotifications() {
+  showNotificationMenu.value = false
+  // 跳转到新闻中心的公告页面
+  navigateTo("/xwzx?category=gsgg")
 }
 
 /** 通知菜单 - 全局点击监听，点击外部关闭菜单 */
@@ -523,6 +539,60 @@ function goHome() {
         color: #999;
         white-space: nowrap;
         flex-shrink: 0;
+      }
+    }
+  }
+
+  // 通知菜单页脚 - 查看更多按钮
+  .notification-footer {
+    padding: 12px 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
+
+    .notification-more-btn {
+      gap: 8px;
+      border: none;
+      padding: 0;
+      display: flex;
+      font-size: 13px;
+      align-items: center;
+      color: $primary-color;
+      background-color: transparent;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: $primary-color;
+        transition: width 0.3s ease;
+      }
+
+      &:hover {
+        opacity: 0.8;
+
+        &::after {
+          width: 100%;
+        }
+
+        .icon {
+          transform: translateX(3px);
+        }
+      }
+
+      .icon {
+        width: 14px;
+        height: 14px;
+        color: $primary-color;
+        transition: transform 0.3s ease;
       }
     }
   }

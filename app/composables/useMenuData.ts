@@ -90,6 +90,10 @@ export default function () {
           },
         ],
       },
+      {
+        title: "公告通知",
+        route: "/qywh/main",
+      },
     ]
   })
 }
