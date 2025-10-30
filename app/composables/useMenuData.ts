@@ -92,7 +92,29 @@ export default function () {
       },
       {
         title: "公告通知",
-        route: "/qywh/main",
+        route: "/ggtz/cwgk",
+        child: [
+          {
+            title: "厂务公开",
+            route: "/ggtz/cwgk",
+          },
+          {
+            title: "工会团青",
+            route: "/ggtz/ghtq",
+          },
+          {
+            title: "纪检监察",
+            route: "/ggtz/jjjc",
+          },
+          {
+            title: "人力资源",
+            route: "/ggtz/rlzy",
+          },
+          {
+            title: "日常通知",
+            route: "/ggtz/rctz",
+          },
+        ],
       },
     ]
   })
