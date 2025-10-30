@@ -33,23 +33,23 @@ export default function () {
         route: "/xwzx?category=gsyw",
         child: [
           {
-            title: "公司要闻",
+            title: "媒体聚焦",
             route: "/xwzx?category=gsyw",
           },
           {
-            title: "公司动态",
+            title: "公司要闻",
             route: "/xwzx?category=gsdt",
           },
           {
-            title: "公司公告",
+            title: "公司新闻",
             route: "/xwzx?category=gsgg",
           },
           {
-            title: "媒体聚焦",
+            title: "职工园地",
             route: "/xwzx?category=mtjj",
           },
           {
-            title: "专题聚焦",
+            title: "图片新闻",
             route: "/xwzx?category=ztjj",
           },
         ],
