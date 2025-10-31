@@ -374,7 +374,7 @@ function goHome() {
     right: 0;
     height: 80px;
     top: 0;
-    z-index: 100;
+    z-index: 1002;
   }
   &__msg,
   &__search {
