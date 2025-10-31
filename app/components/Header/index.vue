@@ -256,7 +256,7 @@ function goHome() {
   width: 100%;
   height: 80px;
   display: flex;
-  z-index: 100;
+  z-index: 1001;
   position: relative;
   align-items: center;
   justify-content: center;
@@ -266,7 +266,7 @@ function goHome() {
     top: 0;
     left: 50%;
     width: 100%;
-    z-index: 100;
+    z-index: 1001;
     height: 80px;
     display: flex;
     position: fixed;
