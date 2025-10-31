@@ -55,24 +55,6 @@ export default function () {
         ],
       },
       {
-        title: "党的建设",
-        route: "/ddjs/djgz",
-        child: [
-          {
-            title: "党建工作",
-            route: "/ddjs/djgz",
-          },
-          {
-            title: "工会团青",
-            route: "/ddjs/ghtq",
-          },
-          {
-            title: "党务公开",
-            route: "/ddjs/dwgk",
-          },
-        ],
-      },
-      {
         title: "企业文化",
         route: "/qywh/main",
         child: [
@@ -113,6 +95,10 @@ export default function () {
           {
             title: "日常通知",
             route: "/ggtz/rctz",
+          },
+          {
+            title: "党务公开",
+            route: "/ggtz/dwgk",
           },
         ],
       },

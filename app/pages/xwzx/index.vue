@@ -29,11 +29,11 @@ const router = useRouter()
 
 const category = ref("gsyw")
 const categorys = ref<any[]>([
-  { title: "公司要闻", value: "gsyw" },
-  { title: "公司动态", value: "gsdt" },
-  { title: "公司公告", value: "gsgg" },
-  { title: "媒体聚焦", value: "mtjj" },
-  { title: "专题聚焦", value: "ztjj" },
+  { title: "媒体聚焦", value: "gsyw" },
+  { title: "公司要闻", value: "gsdt" },
+  { title: "公司新闻", value: "gsgg" },
+  { title: "职工园地", value: "mtjj" },
+  { title: "图片新闻", value: "ztjj" },
 ])
 
 /** 当前页码 */
