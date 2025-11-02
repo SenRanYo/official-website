@@ -1,5 +1,5 @@
 <template>
-  <div class="history" :style="{ backgroundImage: `url(${historyBg})` }">
+  <div class="history" :style="{ backgroundImage: `url(${historyBg})` }" data-anchor="fzlc">
     <div class="history__header">
       <div class="history__title-wrapper">
         <h2 class="history__title">发展历程</h2>

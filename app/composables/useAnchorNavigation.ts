@@ -6,14 +6,24 @@
  * 3. 滚动时自动激活对应的tab
  * 4. 处理hash路由（#锚点）
  */
-import { ref, nextTick, onMounted, onUnmounted } from "vue"
+import { ref, nextTick, onMounted, onUnmounted, watch } from "vue"
+import { useRouter } from "#app"
 
 export function useAnchorNavigation() {
   // 当前激活的锚点id
   const activeAnchor = ref<string>("")
+  
+  // 当前hash值，用于检测hash变化
+  const currentHash = ref<string>("")
 
   // 滚动监听的防抖计时器
   let scrollTimeout: ReturnType<typeof setTimeout> | null = null
+
+  // 用于存储hashchange监听器的清理函数
+  let cleanupHashChange: (() => void) | null = null
+  
+  // 获取路由实例
+  const router = useRouter()
 
   /**
    * 通过 data-anchor 属性获取锚点元素
@@ -29,6 +39,18 @@ export function useAnchorNavigation() {
    * @param anchorId - 要滚动到的锚点id
    */
   const scrollToAnchor = (anchorId: string) => {
+    // 特殊处理：公司简介滚动到顶部
+    if (anchorId === "gsjj") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
+      window.history.pushState(null, "", `#${anchorId}`)
+      activeAnchor.value = anchorId
+      return
+    }
+
+    // 正常处理：滚动到指定锚点
     const element = getAnchorElement(anchorId)
     if (element) {
       // 使用平滑滚动效果
@@ -111,10 +133,39 @@ export function useAnchorNavigation() {
     // 检查URL中是否有hash，如果有则滚动到对应位置
     const hash = window.location.hash.slice(1)
     if (hash) {
+      currentHash.value = hash
       // 延迟执行以确保DOM已完全挂载
       nextTick(() => {
         scrollToAnchor(hash)
       })
+    }
+
+    // 监听hash变化，支持动态跳转到锚点
+    const handleHashChange = () => {
+      const newHash = window.location.hash.slice(1)
+      if (newHash && newHash !== currentHash.value) {
+        currentHash.value = newHash
+        nextTick(() => {
+          scrollToAnchor(newHash)
+        })
+      }
+    }
+    window.addEventListener("hashchange", handleHashChange)
+
+    // 监听路由变化以处理NuxtLink的hash导航
+    const unsubscribe = router.afterEach((to) => {
+      const hash = to.hash.slice(1) // 移除 '#' 符号
+      if (hash && hash !== currentHash.value) {
+        currentHash.value = hash
+        nextTick(() => {
+          scrollToAnchor(hash)
+        })
+      }
+    })
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange)
+      unsubscribe()
     }
   }
 
@@ -129,11 +180,16 @@ export function useAnchorNavigation() {
     if (scrollTimeout) {
       clearTimeout(scrollTimeout)
     }
+    // 清理hashchange监听器
+    if (cleanupHashChange) {
+      cleanupHashChange()
+      cleanupHashChange = null
+    }
   }
 
   // 组件挂载时初始化
   onMounted(() => {
-    initAnchorNavigation()
+    cleanupHashChange = initAnchorNavigation()
   })
 
   // 组件卸载时清理

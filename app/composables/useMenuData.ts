@@ -8,7 +8,7 @@ export default function () {
       },
       {
         title: "公司概况",
-        route: "/gsgk",
+        route: "/gsgk#gsjj",
         child: [
           {
             title: "公司简介",
