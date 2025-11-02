@@ -33,10 +33,11 @@
             :autoplay="{ delay: 5000, disableOnInteraction: false }"
             :pagination="{ clickable: true }"
             class="index-news__swiper"
+            @swiper="(swiper) => (swiperInstance = swiper)"
           >
-            <SwiperSlide v-for="(news, index) in newsData" :key="index">
-              <div class="index-news__slide">
-                <img :src="news.image" :alt="`news-${index}`" class="index-news__slide-image" />
+            <SwiperSlide v-for="news in newsData" :key="news.id">
+              <div class="index-news__slide" @click="goToDetail(news.id)">
+                <img :src="news.image" :alt="news.title" class="index-news__slide-image" />
                 <div class="index-news__slide-date">
                   <div class="index-news__date-year-month">{{ news.date }}</div>
                   <div class="index-news__date-day">{{ news.day }}</div>
@@ -48,7 +49,7 @@
         </div>
         <div class="index-news__bottom--right">
           <div class="index-news__list">
-            <div v-for="(item, index) in newsList" :key="activeTab + '-' + index" class="index-news__list-item">
+            <div v-for="(item, index) in newsList" :key="activeTab + '-' + index" class="index-news__list-item" @click="goToDetail(item.id)">
               <div class="index-news__list-item-date">
                 <div class="index-news__list-date-text">{{ item.date }}</div>
                 <div class="index-news__list-date-day">{{ item.day }}</div>
@@ -60,7 +61,7 @@
             </div>
           </div>
           <div class="index-news__view-more">
-            <a href="#" class="index-news__view-more-btn">查看更多</a>
+            <a href="javascript:void(0)" class="index-news__view-more-btn" @click="handleViewMore">查看更多</a>
           </div>
         </div>
         <Transition name="loading-modal">
@@ -79,65 +80,190 @@
 <script setup lang="ts">
 import "swiper/css"
 import "swiper/css/pagination"
-import { getNewsList } from "~/api/news"
-import { ref, onMounted } from "vue"
+import { ref, onMounted, computed, watch } from "vue"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, Pagination } from "swiper/modules"
 import bg from "~/assets/images/bg-2.png"
-import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
-import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
-import swiper3 from "~/assets/images/swiper/swiper-3.jpg"
-import swiper4 from "~/assets/images/swiper/swiper-4.jpg"
-import swiper5 from "~/assets/images/swiper/swiper-5.jpg"
-import swiper6 from "~/assets/images/swiper/swiper-6.jpg"
+import { headerArticlePageList, blockItem } from "~/api"
+import { useMenuStore } from "~/store/menu"
+import { buildFullUrl } from "~/utils/utils"
+import dayjs from "dayjs"
 
+const router = useRouter()
+const menuStore = useMenuStore()
 const activeTab = ref(0)
-
-const tabs = [{ label: "公司要闻" }, { label: "媒体聚焦" }, { label: "公司新闻" }, { label: "职工园地" }, { label: "图片新闻" }]
-
 const newsList = ref<any[]>([])
+const newsData = ref<any[]>([])
 const isLoading = ref(false)
+const swiperInstance = ref<any>(null)
 
-// 从 API 获取数据
-const fetchNewsData = async () => {
+/**
+ * 从menuStore映射tabs数据
+ */
+const tabs = computed(() => {
+  return menuStore.news.map((item: any) => ({
+    label: item.name || item.title,
+    value: item.id,
+  }))
+})
+
+/**
+ * 格式化日期为 YYYY.MM 格式
+ */
+const formatDateForList = (dateString: string) => {
+  return dayjs(dateString).format("YYYY.MM")
+}
+
+/**
+ * 格式化日期为 DD 格式
+ */
+const formatDateDay = (dateString: string) => {
+  return dayjs(dateString).format("DD")
+}
+
+/**
+ * 获取轮播图数据
+ * 使用block-item接口，alias参数为xinwenzhongxin
+ */
+const fetchCarouselData = async () => {
   try {
-    const news = await getNewsList({ category: activeTab.value })
-    if (news) {
-      newsList.value = news.list.slice(0, 6)
+    const response = await blockItem({ block: "xinwenzhongxin" })
+    if (response && Array.isArray(response)) {
+      // 转换轮播数据格式
+      newsData.value = response.slice(0, 6).map((item: any) => ({
+        id: item.id,
+        title: item.title,
+        description: item.description || "",
+        image: buildFullUrl(item.image),
+        date: formatDateForList(item.publishDate || item.created),
+        day: formatDateDay(item.publishDate || item.created),
+      }))
+      console.log("🚀 ~ fetchCarouselData ~ newsData.value:", newsData.value)
     }
   } catch (error) {
-    console.error("Failed to fetch news data:", error)
+    console.error("Failed to fetch carousel data:", error)
+    newsData.value = []
   }
 }
 
-// 监听 tab 切换
+/**
+ * 获取新闻列表数据并转换格式
+ */
+const fetchNewsData = async () => {
+  // 如果tabs还没有数据，先等待
+  if (tabs.value.length === 0 || activeTab.value >= tabs.value.length) {
+    return
+  }
+
+  const currentTab = tabs.value[activeTab.value]
+  if (!currentTab) {
+    return
+  }
+
+  isLoading.value = true
+  try {
+    const response = await headerArticlePageList({
+      subChannelId: currentTab.value,
+      page: 0,
+      pageSize: 6,
+    })
+
+    if (response && typeof response === "object") {
+      const resData = response as any
+      const articles = (resData.content || []).slice(0, 6)
+
+      // 转换数据格式
+      const formattedArticles = articles.map((item: any) => ({
+        id: item.id,
+        title: item.title,
+        description: item.description || "",
+        image: buildFullUrl(item.image),
+        date: formatDateForList(item.publishDate || item.created),
+        day: formatDateDay(item.publishDate || item.created),
+      }))
+
+      // 设置列表数据
+      newsList.value = formattedArticles
+    }
+  } catch (error) {
+    console.error("Failed to fetch news data:", error)
+    newsList.value = []
+  } finally {
+    isLoading.value = false
+  }
+}
+
+/**
+ * 监听 tab 切换
+ */
 const handleTabChange = (index: number) => {
   if (activeTab.value === index) return
 
   activeTab.value = index
-  isLoading.value = true
+  fetchNewsData()
+}
 
-  // 模拟数据加载延迟，实际环境中会由 API 请求决定
-  setTimeout(() => {
-    fetchNewsData()
-    isLoading.value = false
-  }, 500)
+/**
+ * 监听tabs变化，当menuStore的news数据变化时自动加载
+ */
+watch(
+  () => tabs.value,
+  (newTabs) => {
+    if (newTabs.length > 0 && newsList.value.length === 0) {
+      fetchNewsData()
+    }
+  },
+  { deep: true },
+)
+
+/**
+ * 监听newsData变化，当轮播数据更新时手动刷新Swiper
+ */
+watch(
+  () => newsData.value,
+  () => {
+    if (swiperInstance.value) {
+      swiperInstance.value.update()
+    }
+  },
+  { deep: true },
+)
+
+/**
+ * 跳转到新闻列表页面
+ */
+const handleViewMore = () => {
+  if (tabs.value.length === 0 || activeTab.value >= tabs.value.length) {
+    return
+  }
+
+  const currentTab = tabs.value[activeTab.value]
+  if (!currentTab) {
+    return
+  }
+
+  router.push({
+    path: "/xwzx",
+    query: { id: currentTab.value },
+  })
+}
+
+/**
+ * 跳转到新闻详情页
+ */
+const goToDetail = (id: string) => {
+  router.push({
+    path: `/news/detail/${id}`,
+  })
 }
 
 onMounted(() => {
+  menuStore.init()
+  fetchCarouselData()
   fetchNewsData()
 })
 
 const modules = [Autoplay, Pagination]
-
-const newsData = [
-  { image: swiper1, date: "2025.10", day: "13", title: "中国华电集团四川分公司2025年党风廉洁建设会议召开" },
-  { image: swiper2, date: "2025.10", day: "12", title: "公司成功举办年度客户答谢会" },
-  { image: swiper3, date: "2025.10", day: "11", title: "公司新项目启动，开启新篇章" },
-  { image: swiper4, date: "2025.10", day: "10", title: "公司荣获2025年度优秀企业称号" },
-  { image: swiper5, date: "2025.10", day: "09", title: "安全生产工作会议顺利召开" },
-  { image: swiper6, date: "2025.10", day: "08", title: "党建活动丰富职工文化生活" },
-]
 </script>
 
 <style scoped lang="scss">
@@ -176,6 +302,7 @@ const newsData = [
     width: 100%;
     height: 100%;
     object-fit: contain;
+    pointer-events: none;
   }
 }
 
