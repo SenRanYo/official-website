@@ -66,27 +66,32 @@ export function throttling(func: (...args: any[]) => void, wait: number = 500, i
 
 /**
  * 拼接完整的资源URL
- * 如果URL已经是完整的（以http/https开头），则直接返回
- * 如果是相对路径，则拼接上API基础地址
+ * 所有请求都通过Nitro服务器代理，避免CORS和HTTPS混合问题
+ * 相对路径 → Nitro代理 → 后端服务
  * @param url 资源URL（相对路径或完整URL）
- * @param baseUrl 基础URL，默认为泸定公司官方网站（协议相对URL）
  * @returns 完整的资源URL
  */
-export function buildFullUrl(url: string, baseUrl: string = "//2444450wnth3.vicp.fun"): string {
+export function buildFullUrl(url: string): string {
   if (!url) {
     return ""
   }
 
-  // 如果已经是完整的URL（以http/https开头），直接返回
+  // 如果已经是完整的URL（以http/https开头），转换为相对路径
   if (url.startsWith("http://") || url.startsWith("https://")) {
+    // 提取路径部分
+    try {
+      const urlObj = new URL(url)
+      return urlObj.pathname + urlObj.search
+    } catch {
+      return url
+    }
+  }
+
+  // 如果已经是相对路径（以/开头），直接返回
+  if (url.startsWith("/")) {
     return url
   }
 
-  // 如果已经是协议相对URL（以//开头），直接返回
-  if (url.startsWith("//")) {
-    return url
-  }
-
-  // 拼接相对路径
-  return `${baseUrl}${url}`
+  // 其他情况，假设是uploads路径
+  return `/${url}`
 }

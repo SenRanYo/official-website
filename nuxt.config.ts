@@ -87,10 +87,18 @@ export default defineNuxtConfig({
         changeOrigin: true,
         prependPath: true,
       },
+      "/uploads": {
+        target: "http://2444450wnth3.vicp.fun",
+        changeOrigin: true,
+        prependPath: true,
+      },
     },
     // 生产环境代理配置 - 解决部署后的CORS问题
     routeRules: {
       "/api/**": {
+        proxy: "http://2444450wnth3.vicp.fun/**",
+      },
+      "/uploads/**": {
         proxy: "http://2444450wnth3.vicp.fun/**",
       },
     },
