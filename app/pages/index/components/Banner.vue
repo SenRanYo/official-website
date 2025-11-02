@@ -35,8 +35,12 @@ const banners = ref<any[]>([])
 
 const fetchBanners = async (params?: any) => {
   const data = await rotatingBanner({ alias: "shouyelunbotu", ...params })
-  banners.value = data || []
-  console.log("🚀 ~ fetchBanners ~ banners.value:", banners.value)
+  banners.value = (data || []).map((item: any) => {
+    return {
+      ...item,
+      imageUrl: `http://2444450wnth3.vicp.fun${item.imageUrl}`,
+    }
+  })
 }
 
 const refresh = async (params?: any) => {
@@ -77,6 +81,7 @@ defineExpose({
       width: 100%;
       height: 100%;
       object-fit: cover;
+      background-color: #ddd;
     }
 
     :deep(.swiper-pagination-bullet) {

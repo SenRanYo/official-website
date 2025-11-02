@@ -115,9 +115,33 @@
 <script setup lang="ts">
 import logo from "~/assets/images/logo.png"
 import News from "~/components/News/index.vue"
+import { useMenuStore } from "~/store/menu"
 
 // ==================== 基础设置 ====================
-const menu = useMenuData()
+const menuStore = useMenuStore()
+const staticMenu = useMenuData()
+const menu = computed(() => {
+  const baseMenu = [...(staticMenu.value || [])]
+  const newsMenuIndex = baseMenu.findIndex((item) => item.title === "新闻中心")
+
+  if (newsMenuIndex !== -1 && menuStore.news && menuStore.news.length > 0 && baseMenu[newsMenuIndex]) {
+    const newsMenuItem = baseMenu[newsMenuIndex]!
+    newsMenuItem.child = menuStore.news.map((item: any) => ({
+      title: item.name || item.title,
+      route: `/xwzx?id=${item.id}`,
+    }))
+
+    if (newsMenuItem.child && newsMenuItem.child.length > 0) {
+      newsMenuItem.route = newsMenuItem.child[0]!.route
+    }
+  }
+
+  return baseMenu
+})
+
+onMounted(() => {
+  menuStore.init()
+})
 
 // ==================== 通知菜单功能 ====================
 

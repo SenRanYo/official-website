@@ -4,7 +4,7 @@
     <Description text="新闻中心" :image="image" />
 
     <!-- 分类标签 -->
-    <Tabs v-model="category" :list="categorys" @change="onCategoryChange" />
+    <Tabs v-model="id" :list="categorys" @change="onCategoryChange" />
 
     <div class="px-[250px]">
       <News :list="newsList" :col="2" @click="onNewsClick" />
@@ -18,7 +18,9 @@
 <script setup lang="ts">
 import Tabs from "./components/tabs.vue"
 import image from "~/assets/images/news-bg.png"
-import { getNewsList } from "~/api/news"
+import { headerArticlePageList } from "~/api"
+import { useMenuStore } from "~/store/menu"
+import dayjs from "dayjs"
 
 definePageMeta({
   layout: "others",
@@ -26,15 +28,15 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
+const menuStore = useMenuStore()
 
-const category = ref("gsyw")
-const categorys = ref<any[]>([
-  { title: "媒体聚焦", value: "gsyw" },
-  { title: "公司要闻", value: "gsdt" },
-  { title: "公司新闻", value: "gsgg" },
-  { title: "职工园地", value: "mtjj" },
-  { title: "图片新闻", value: "ztjj" },
-])
+const id = ref("")
+const categorys = computed(() => {
+  return menuStore.news.map((item: any) => ({
+    title: item.name || item.title,
+    value: item.id,
+  }))
+})
 
 /** 当前页码 */
 const currentPage = ref(1)
@@ -58,12 +60,22 @@ const isLoading = ref(false)
  */
 const totalPages = computed(() => Math.ceil(total.value / pageSize.value))
 
-watch(() => category.value, handleTabChange)
+const formatDateForList = (dateString: string) => {
+  return dayjs(dateString).format("YYYY.MM")
+}
+
+const formatDateDay = (dateString: string) => {
+  return dayjs(dateString).format("DD")
+}
+
+watch(() => id.value, handleTabChange)
 watch(
-  () => route.query.category,
+  () => route.query.id,
   (value) => {
     if (value) {
-      category.value = value as string
+      id.value = value as string
+    } else if (menuStore.news.length > 0) {
+      id.value = menuStore.news[0].id
     }
   },
   { immediate: true },
@@ -80,26 +92,34 @@ const loadNews = async (page: number = currentPage.value, size: number = pageSiz
   isLoading.value = true
 
   try {
-    // 调用 API 获取新闻列表
-    const response = await getNewsList({
-      category: category.value,
-      page,
+    const response = await headerArticlePageList({
+      subChannelId: id.value,
+      page: page - 1,
       pageSize: size,
     })
 
-    // 处理响应数据
-    if (Array.isArray(response)) {
-      // 如果直接返回数组
+    if (response && typeof response === "object") {
+      const resData = response as any
+
+      if (resData.content && Array.isArray(resData.content)) {
+        newsList.value = resData.content.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          description: item.description || "",
+          image: item.image,
+          date: formatDateForList(item.publishDate || item.created),
+          day: formatDateDay(item.publishDate || item.created),
+        }))
+        total.value = parseInt(resData.totalElements) || 0
+      } else if (Array.isArray(response)) {
+        newsList.value = response
+        total.value = response.length
+      }
+    } else if (Array.isArray(response)) {
       newsList.value = response
       total.value = response.length
-    } else if (response && typeof response === "object") {
-      // 如果返回对象，从中提取数据
-      const resData = response as any
-      newsList.value = resData.data || resData.list || []
-      total.value = resData.total || newsList.value.length
     }
   } catch {
-    // 错误处理 - 加载失败时清空列表
     newsList.value = []
     total.value = 0
   } finally {
@@ -130,7 +150,7 @@ function handleTabChange() {
 function onCategoryChange(value: string) {
   router.push({
     path: "/xwzx",
-    query: { category: value },
+    query: { id: value },
   })
 }
 
@@ -139,6 +159,7 @@ function onCategoryChange(value: string) {
  */
 onMounted(() => {
   loadNews()
+  menuStore.init()
 })
 </script>
 

@@ -30,18 +30,12 @@ const Http = createAlova({
   baseURL: "/api/",
   timeout: 30 * 1000,
   statesHook,
+  cacheFor: null,
   requestAdapter: mockAdapter,
   responded: {
     onSuccess: async (response) => {
       if (response.status === 200) {
-        const result: any = response.data
-
-        if (result.code === 0) {
-          return result.data
-        }
-
-        // ElMessage.error(result.message)
-        return Promise.reject(result)
+        return response.data
       } else {
         const status = {
           400: `${response.status} 请求出现语法错误`,
