@@ -69,16 +69,21 @@ export function throttling(func: (...args: any[]) => void, wait: number = 500, i
  * 如果URL已经是完整的（以http/https开头），则直接返回
  * 如果是相对路径，则拼接上API基础地址
  * @param url 资源URL（相对路径或完整URL）
- * @param baseUrl 基础URL，默认为泸定公司官方网站
+ * @param baseUrl 基础URL，默认为泸定公司官方网站（协议相对URL）
  * @returns 完整的资源URL
  */
-export function buildFullUrl(url: string, baseUrl: string = "http://2444450wnth3.vicp.fun"): string {
+export function buildFullUrl(url: string, baseUrl: string = "//2444450wnth3.vicp.fun"): string {
   if (!url) {
     return ""
   }
 
   // 如果已经是完整的URL（以http/https开头），直接返回
   if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url
+  }
+
+  // 如果已经是协议相对URL（以//开头），直接返回
+  if (url.startsWith("//")) {
     return url
   }
 

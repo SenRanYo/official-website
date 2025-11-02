@@ -26,6 +26,7 @@ import "swiper/css"
 import "swiper/css/pagination"
 import { ref, onMounted } from "vue"
 import { rotatingBanner } from "~/api"
+import { buildFullUrl } from "~/utils/utils"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, Pagination } from "swiper/modules"
 
@@ -33,12 +34,15 @@ const modules = [Autoplay, Pagination]
 
 const banners = ref<any[]>([])
 
+/**
+ * 获取轮播图数据
+ */
 const fetchBanners = async (params?: any) => {
   const data = await rotatingBanner({ alias: "shouyelunbotu", ...params })
   banners.value = (data || []).map((item: any) => {
     return {
       ...item,
-      imageUrl: `http://2444450wnth3.vicp.fun${item.imageUrl}`,
+      imageUrl: buildFullUrl(item.imageUrl),
     }
   })
 }
