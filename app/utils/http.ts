@@ -26,8 +26,23 @@ const mockAdapter = createAlovaMockAdapter([mockNews /** ... */], {
   },
 })
 
+/**
+ * 获取API基础URL
+ * 开发环境使用相对路径（通过代理）
+ * 生产环境使用完整URL
+ */
+const getApiBaseURL = () => {
+  // 如果在客户端运行，使用nuxt的运行时配置
+  if (import.meta.client) {
+    const config = useRuntimeConfig()
+    return config.public.apiBase
+  }
+  // 服务器端返回相对路径以使用代理
+  return "/api/"
+}
+
 const Http = createAlova({
-  baseURL: "/api/",
+  baseURL: import.meta.client ? getApiBaseURL() : "/api/",
   timeout: 30 * 1000,
   statesHook,
   cacheFor: null,

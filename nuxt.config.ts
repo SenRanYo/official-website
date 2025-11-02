@@ -9,6 +9,13 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/main.css"],
 
+  // 配置不同环境的API地址
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || "http://2444450wnth3.vicp.fun",
+    },
+  },
+
   vite: {
     plugins: [tailwindcss()],
     css: {
