@@ -26,24 +26,45 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import swiper1 from "~/assets/images/swiper/swiper-1.jpg"
-import swiper2 from "~/assets/images/swiper/swiper-2.jpg"
-import swiper3 from "~/assets/images/swiper/swiper-3.jpg"
-import swiper4 from "~/assets/images/swiper/swiper-4.jpg"
-import swiper5 from "~/assets/images/swiper/swiper-5.jpg"
-import swiper6 from "~/assets/images/swiper/swiper-6.jpg"
+import { ref, onMounted } from "vue"
+import { blockItem } from "~/api"
+import { buildFullUrl } from "~/utils/utils"
 
-const items = ref([swiper1, swiper2, swiper3, swiper4, swiper5, swiper6, swiper4, swiper5])
+const items = ref<string[]>([])
 const isHovered = ref(false)
 
+/**
+ * 暂停3D轮播旋转
+ */
 const pauseRotation = () => {
   isHovered.value = true
 }
 
+/**
+ * 恢复3D轮播旋转
+ */
 const resumeRotation = () => {
   isHovered.value = false
 }
+
+/**
+ * 获取职工风采数据
+ */
+const fetchStaffData = async () => {
+  try {
+    const response = await blockItem({ block: "zhigongfengcai" })
+    // 处理返回的数据，提取图片URL并进行完整URL拼接
+    items.value = (response || []).map((item: any) => buildFullUrl(item.image))
+    console.log("🚀 ~ fetchStaffData ~ items.value:", items.value)
+  } catch (error) {
+    console.error("Failed to fetch staff data:", error)
+    items.value = []
+  }
+}
+
+onMounted(() => {
+  fetchStaffData()
+})
 </script>
 
 <style scoped lang="scss">

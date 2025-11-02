@@ -22,16 +22,24 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
 import { blockItem } from "~/api"
+import { buildFullUrl } from "~/utils/utils"
 
 const topicList = ref<any[]>([])
 const isLoading = ref(false)
 
+/**
+ * 获取专题聚焦数据
+ */
 const fetchTopicData = async () => {
   isLoading.value = true
 
   try {
-    const response = await blockItem({ alias: "zhuantijujiao" })
-    topicList.value = response || []
+    const response = await blockItem({ block: "zhuantijujiao" })
+    // 处理返回的数据，拼接图片完整URL
+    topicList.value = (response || []).map((item: any) => ({
+      ...item,
+      image: buildFullUrl(item.image),
+    }))
   } catch (error) {
     console.error("Failed to fetch topic data:", error)
     topicList.value = []
