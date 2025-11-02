@@ -27,7 +27,7 @@ const mockAdapter = createAlovaMockAdapter([mockNews /** ... */], {
 })
 
 const Http = createAlova({
-  baseURL: import.meta.env.VITE_API_PREFIX ?? import.meta.env.VITE_API_BASE_URL,
+  baseURL: "/api/",
   timeout: 30 * 1000,
   statesHook,
   requestAdapter: mockAdapter,

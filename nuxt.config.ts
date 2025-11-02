@@ -70,4 +70,15 @@ export default defineNuxtConfig({
     mirror: false, // 元素在滚动经过时是否应该反向动画
     anchorPlacement: "top-bottom", // 定义元素相对于窗口的哪个位置触发动画
   },
+
+  // 配置 Nitro 服务器代理以解决开发环境跨域问题
+  nitro: {
+    devProxy: {
+      "/api": {
+        target: "http://2444450wnth3.vicp.fun",
+        changeOrigin: true,
+        prependPath: true,
+      },
+    },
+  },
 })
