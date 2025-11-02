@@ -9,22 +9,22 @@
       <div class="footer__links">
         <!-- 新闻媒体 -->
         <div class="footer__column">
-          <USelect v-model="mediaValue" :items="mediaItems" />
+          <USelect v-model="mediaValue" :items="mediaItems" placeholder="新闻媒体链接" />
         </div>
 
         <!-- 华电网群 -->
         <div class="footer__column">
-          <USelect v-model="networkValue" :items="networkItems" />
+          <USelect v-model="networkValue" :items="networkItems" placeholder="华电网群链接" />
         </div>
 
         <!-- 政府机构 -->
         <div class="footer__column">
-          <USelect v-model="governmentValue" :items="governmentItems" />
+          <USelect v-model="governmentValue" :items="governmentItems" placeholder="政府机构链接" />
         </div>
 
         <!-- 系统链接 -->
         <div class="footer__column">
-          <USelect v-model="systemValue" :items="systemItems" />
+          <USelect v-model="systemValue" :items="systemItems" placeholder="系统链接" />
         </div>
       </div>
 
@@ -110,11 +110,6 @@ const fetchLinkData = async () => {
     networkItems.value = networkData.value.map((item: any) => item.name || item.title)
     governmentItems.value = governmentData.value.map((item: any) => item.name || item.title)
     systemItems.value = systemData.value.map((item: any) => item.name || item.title)
-
-    mediaValue.value = mediaItems.value[0] || ""
-    networkValue.value = networkItems.value[0] || ""
-    governmentValue.value = governmentItems.value[0] || ""
-    systemValue.value = systemItems.value[0] || ""
   } catch (error) {
     console.error("Failed to fetch footer links:", error)
   }

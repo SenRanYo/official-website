@@ -11,11 +11,13 @@
         <div class="history__timeline-list">
           <div ref="timelineRef" class="history__timeline-wrapper">
             <div class="history__timeline-inner">
-              <div v-for="(item, index) in years" :key="index" class="history__year" :class="{ 'history__year--active': item === year }" @click="handleYearClick(item)">
-                {{ item }}
+              <div v-for="(item, index) in years" :key="index" class="history__year-wrapper">
+                <div class="history__year" :class="{ 'history__year--active': item === year }" @click="handleYearClick(item)">
+                  {{ item }}
+                </div>
+                <div v-if="item === year" class="history__year-indicator" />
               </div>
             </div>
-            <div class="history__timeline-indicator" />
           </div>
         </div>
       </div>
@@ -28,7 +30,7 @@
               <div class="history__details-indicator" />
               <div class="history__details-text">
                 <span class="history__details-title">{{ item.title }}</span>
-                <span class="history__details-desc">{{ item.desc }}</span>
+                <span class="history__details-desc">{{ item.description }}</span>
               </div>
             </div>
           </div>
@@ -52,42 +54,93 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue"
-import { getHistoryList } from "~/api/news"
+import { articlePageListByAlias } from "~/api/index"
 import image from "~/assets/images/swiper/swiper-2.jpg"
 import historyBg from "~/assets/images/history-bg.webp"
 
-const year = ref("2025")
-const isLoading = ref(false)
-const currentData = ref<any[]>([])
+/**
+ * 历史数据项类型
+ */
+interface HistoryItem {
+  id: string
+  title: string
+  description: string
+  image: string | null
+}
 
+const year = ref("2024")
+const isLoading = ref(false)
+const allData = ref<HistoryItem[]>([])
+
+/**
+ * 从title中提取年份 (e.g. "2024年6月" -> "2024")
+ */
+const extractYear = (title: string): string => {
+  const match = title.match(/(\d{4})年/)
+  return match?.[1] ?? ""
+}
+
+/**
+ * 计算years列表 - 从数据中提取所有年份并去重
+ */
 const years = computed(() => {
-  const currentYear = parseInt(year.value)
-  const list = []
-  for (let i = currentYear - 5; i <= currentYear + 5; i++) {
-    list.push(i.toString())
-  }
-  return list
+  const yearSet = new Set<string>()
+  allData.value.forEach((item) => {
+    const extractedYear = extractYear(item.title)
+    if (extractedYear) {
+      yearSet.add(extractedYear)
+    }
+  })
+  // 按年份倒序排列
+  return Array.from(yearSet).sort().reverse()
 })
 
-// 获取历史数据
-const fetchHistoryData = async (y: string) => {
-  const list = await getHistoryList({ date: y })
-  currentData.value = list
+/**
+ * 根据选中年份过滤数据
+ */
+const currentData = computed(() => {
+  return allData.value.filter((item) => {
+    const extractedYear = extractYear(item.title)
+    return extractedYear === year.value
+  })
+})
+
+/**
+ * 获取发展历程数据
+ */
+const fetchHistoryData = async () => {
+  try {
+    isLoading.value = true
+    // 调用 articlePageListByAlias 接口获取发展历程数据
+    const response = await articlePageListByAlias({
+      alias: "fazhanlicheng",
+    })
+    allData.value = response || []
+    // 如果有数据，自动设置为最新的年份
+    if (years.value.length > 0 && !years.value.includes(year.value)) {
+      const latestYear = years.value[0]
+      if (latestYear) {
+        year.value = latestYear
+      }
+    }
+  } catch (error) {
+    console.error("获取发展历程数据失败:", error)
+    allData.value = []
+  } finally {
+    isLoading.value = false
+  }
 }
 
-// 处理年份点击事件
-const handleYearClick = async (item: string) => {
-  if (item === year.value) return
-
-  isLoading.value = true
-  await new Promise((resolve) => setTimeout(resolve, 500))
-  year.value = item
-  await fetchHistoryData(item)
-  isLoading.value = false
+/**
+ * 处理年份点击事件
+ */
+const handleYearClick = (selectedYear: string) => {
+  if (selectedYear === year.value) return
+  year.value = selectedYear
 }
 
-// 初始化数据
-fetchHistoryData("2025")
+// 初始化 - 获取所有数据
+fetchHistoryData()
 </script>
 
 <style scoped lang="scss">
@@ -194,10 +247,25 @@ fetchHistoryData("2025")
     width: 0;
     height: 0;
     position: absolute;
-    transform: translateY(-50%);
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-right: 16px solid $primary-color;
+    transition: transform 0.3s ease;
+  }
+
+  &__year-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__year-indicator {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 12px solid $primary-color;
+    flex-shrink: 0;
   }
 
   &__year {

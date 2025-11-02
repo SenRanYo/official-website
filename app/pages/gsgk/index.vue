@@ -6,9 +6,9 @@
 
     <!-- 主容器 -->
     <div class="page-content">
-      <Overview />
-      <Leadership />
-      <Structure />
+      <!-- <Overview /> -->
+      <!-- <Leadership /> -->
+      <!-- <Structure /> -->
       <History />
     </div>
   </div>
@@ -16,9 +16,9 @@
 
 <script setup lang="ts">
 import Tabs from "./components/tabs.vue"
-import Overview from "./components/overview.vue"
-import Leadership from "./components/leadership.vue"
-import Structure from "./components/structure.vue"
+// import Overview from "./components/overview.vue"
+// import Leadership from "./components/leadership.vue"
+// import Structure from "./components/structure.vue"
 import History from "./components/history.vue"
 import hdbg from "~/assets/images/hd-bg.png"
 import { useAnchorNavigation } from "~/composables/useAnchorNavigation"
