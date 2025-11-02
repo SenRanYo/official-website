@@ -80,11 +80,18 @@ export default defineNuxtConfig({
 
   // 配置 Nitro 服务器代理以解决开发环境跨域问题
   nitro: {
+    // 开发环境代理配置
     devProxy: {
       "/api": {
         target: "http://2444450wnth3.vicp.fun",
         changeOrigin: true,
         prependPath: true,
+      },
+    },
+    // 生产环境代理配置 - 解决部署后的CORS问题
+    routeRules: {
+      "/api/**": {
+        proxy: "http://2444450wnth3.vicp.fun/**",
       },
     },
   },

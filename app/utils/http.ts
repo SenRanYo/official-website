@@ -28,16 +28,11 @@ const mockAdapter = createAlovaMockAdapter([mockNews /** ... */], {
 
 /**
  * 获取API基础URL
- * 开发环境使用相对路径（通过Nitro代理）
- * 生产环境使用完整URL
+ * 开发和生产环境都使用相对路径 /api/
+ * 由Nitro服务器通过devProxy(开发)和routeRules(生产)代理处理
  */
 const getApiBaseURL = () => {
-  // 开发环境使用相对路径，通过Nitro代理访问API
-  if (!import.meta.env.PROD) {
-    return "/api/"
-  }
-  // 生产环境使用完整URL
-  return "http://2444450wnth3.vicp.fun"
+  return "/api/"
 }
 
 const Http = createAlova({
