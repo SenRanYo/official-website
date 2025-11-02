@@ -37,25 +37,97 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted, watch } from "vue"
+import { articlePageListByAlias } from "~/api"
 import qrcode from "~/assets/images/qrcode.webp"
 import footerBg from "~/assets/images/footer-bg.png"
 
-// 新闻媒体
-const mediaItems = ref(["央视网", "人民网", "新华网", "共产党员网"])
-const mediaValue = ref("央视网")
+const mediaItems = ref<any[]>([])
+const mediaValue = ref("")
+const mediaData = ref<any[]>([])
 
-// 华电网群
-const networkItems = ref(["集团公司门户网站", "四川公司门户网站", "OA办公平台", "财务共享平台"])
-const networkValue = ref("集团公司门户网站")
+const networkItems = ref<any[]>([])
+const networkValue = ref("")
+const networkData = ref<any[]>([])
 
-// 政府机构
-const governmentItems = ref(["四川省人民政府网站", "四川省人力资源和社会保障厅", "四川省发展和改革委员会", "甘孜藏族自治州人民政府网站"])
-const governmentValue = ref("四川省人民政府网站")
+const governmentItems = ref<any[]>([])
+const governmentValue = ref("")
+const governmentData = ref<any[]>([])
 
-// 系统链接
-const systemItems = ref(["华电集团门户网站", "华电国际门户网站", "四川分公司网站", "集团公司OA系统"])
-const systemValue = ref("华电集团门户网站")
+const systemItems = ref<any[]>([])
+const systemValue = ref("")
+const systemData = ref<any[]>([])
+
+const openLink = (url: string) => {
+  if (url) {
+    window.open(url, "_blank")
+  }
+}
+
+const handleMediaChange = () => {
+  const item = mediaData.value.find((i: any) => (i.name || i.title) === mediaValue.value)
+  if (item?.description) {
+    openLink(item.description)
+  }
+}
+
+const handleNetworkChange = () => {
+  const item = networkData.value.find((i: any) => (i.name || i.title) === networkValue.value)
+  if (item?.description) {
+    openLink(item.description)
+  }
+}
+
+const handleGovernmentChange = () => {
+  const item = governmentData.value.find((i: any) => (i.name || i.title) === governmentValue.value)
+  if (item?.description) {
+    openLink(item.description)
+  }
+}
+
+const handleSystemChange = () => {
+  const item = systemData.value.find((i: any) => (i.name || i.title) === systemValue.value)
+  if (item?.description) {
+    openLink(item.description)
+  }
+}
+
+const fetchLinkData = async () => {
+  try {
+    const [media, network, government, system] = await Promise.all([
+      articlePageListByAlias({ alias: "xinwenmeiti" }),
+      articlePageListByAlias({ alias: "huadianwangqun" }),
+      articlePageListByAlias({ alias: "zhenfujigou" }),
+      articlePageListByAlias({ alias: "jituanwangqun" }),
+    ])
+
+    mediaData.value = media || []
+    networkData.value = network || []
+    governmentData.value = government || []
+    systemData.value = system || []
+
+    mediaItems.value = mediaData.value.map((item: any) => item.name || item.title)
+    networkItems.value = networkData.value.map((item: any) => item.name || item.title)
+    governmentItems.value = governmentData.value.map((item: any) => item.name || item.title)
+    systemItems.value = systemData.value.map((item: any) => item.name || item.title)
+
+    mediaValue.value = mediaItems.value[0] || ""
+    networkValue.value = networkItems.value[0] || ""
+    governmentValue.value = governmentItems.value[0] || ""
+    systemValue.value = systemItems.value[0] || ""
+  } catch (error) {
+    console.error("Failed to fetch footer links:", error)
+  }
+}
+
+watch(mediaValue, handleMediaChange)
+watch(networkValue, handleNetworkChange)
+watch(governmentValue, handleGovernmentChange)
+watch(systemValue, handleSystemChange)
+
+onMounted(() => {
+  fetchLinkData()
+})
 </script>
 
 <style lang="scss" scoped>

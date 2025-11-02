@@ -11,17 +11,8 @@
         <div class="index-topic__top--right"></div>
       </div>
       <div class="index-topic__bottom">
-        <div class="index-topic__entry-item">
-          <img :src="entry1" alt="entry-item-image" />
-        </div>
-        <div class="index-topic__entry-item">
-          <img :src="entry2" alt="entry-item-image" />
-        </div>
-        <div class="index-topic__entry-item">
-          <img :src="entry3" alt="entry-item-image" />
-        </div>
-        <div class="index-topic__entry-item">
-          <img :src="entry4" alt="entry-item-image" />
+        <div v-for="item in topicList" :key="item.id" class="index-topic__entry-item">
+          <img :src="item.image" :alt="item.name || 'topic-item'" />
         </div>
       </div>
     </div>
@@ -29,10 +20,29 @@
 </template>
 
 <script setup lang="ts">
-import entry1 from "~/assets/images/entry/j-1.png"
-import entry2 from "~/assets/images/entry/j-2.png"
-import entry3 from "~/assets/images/entry/j-3.png"
-import entry4 from "~/assets/images/entry/j-4.png"
+import { ref, onMounted } from "vue"
+import { blockItem } from "~/api"
+
+const topicList = ref<any[]>([])
+const isLoading = ref(false)
+
+const fetchTopicData = async () => {
+  isLoading.value = true
+
+  try {
+    const response = await blockItem({ alias: "zhuantijujiao" })
+    topicList.value = response || []
+  } catch (error) {
+    console.error("Failed to fetch topic data:", error)
+    topicList.value = []
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchTopicData()
+})
 </script>
 
 <style scoped lang="scss">

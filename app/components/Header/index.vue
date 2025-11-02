@@ -103,7 +103,7 @@
           <div class="search-modal__results">
             <News v-if="searchResults.length > 0" :list="searchResults" :col="2" @click="handleNewsClick" />
             <div v-else class="search-modal__empty">
-              {{ searchQuery ? "未找到相关新闻" : "请输入关键词搜索" }}
+              {{ isSearching ? "搜索中..." : searchQuery ? "未找到相关新闻" : "请输入关键词搜索" }}
             </div>
           </div>
         </div>
@@ -116,6 +116,8 @@
 import logo from "~/assets/images/logo.png"
 import News from "~/components/News/index.vue"
 import { useMenuStore } from "~/store/menu"
+import { articleSearch } from "~/api"
+import dayjs from "dayjs"
 
 // ==================== 基础设置 ====================
 const menuStore = useMenuStore()
@@ -212,46 +214,42 @@ watchEffect(() => {
 const showSearchModal = ref(false)
 const searchQuery = ref("")
 const searchResults = ref<any[]>([])
+const isSearching = ref(false)
 
-/** 搜索 - 模拟新闻数据库 */
-const allNewsData = [
-  { id: "1", date: "2024-10", day: 28, title: "公司工作流程优化通知", description: "为了提高工作效率，公司对工作流程进行了优化调整。" },
-  { id: "2", date: "2024-10", day: 27, title: "员工培训计划安排", description: "本月培训计划已发布，请各部门及时组织员工参加。" },
-  { id: "3", date: "2024-10", day: 26, title: "厂区升级改造计划", description: "厂区基础设施升级工作即将开始，预计耗时两个月。" },
-  { id: "4", date: "2024-10", day: 25, title: "新产品发布会通知", description: "新产品将于下周举行发布会，欢迎各部门负责人参加。" },
-  { id: "5", date: "2024-10", day: 24, title: "安全生产检查通知", description: "公司将进行定期安全生产检查，请各部门做好准备。" },
-  { id: "6", date: "2024-10", day: 23, title: "10月份工作总结会议", description: "10月份工作总结会议将于本周五下午3点召开，各部门负责人必须参加。" },
-  { id: "7", date: "2024-10", day: 22, title: "财务报表审核完毕", description: "第三季度财务报表已完成审核，相关数据已上传至系统。" },
-  { id: "8", date: "2024-10", day: 21, title: "人事招聘启动通知", description: "公司正式启动2025年春季招聘，欢迎符合条件的应聘者投递简历。" },
-  { id: "9", date: "2024-10", day: 20, title: "技术创新大赛开启", description: "公司内部技术创新大赛正式开启，邀请各部门参赛，奖金丰厚。" },
-  { id: "10", date: "2024-10", day: 19, title: "员工食堂优化改造", description: "员工食堂将进行为期一个月的优化改造，改造期间订餐费用优惠。" },
-  { id: "11", date: "2024-10", day: 18, title: "环保达标验收通过", description: "公司环保达标验收已通过，感谢各部门的配合和支持。" },
-  { id: "12", date: "2024-10", day: 17, title: "2024年下半年计划发布", description: "下半年工作计划已正式发布，涉及产品、销售、市场等多个方面。" },
-  { id: "13", date: "2024-10", day: 16, title: "团队建设活动安排", description: "为增强团队凝聚力，本月将组织员工参加户外团建活动。" },
-  { id: "14", date: "2024-10", day: 15, title: "信息安全培训通知", description: "全员信息安全培训将于下周开始，每位员工必须参加并考试。" },
-  { id: "15", date: "2024-10", day: 14, title: "新办公楼启用典礼", description: "新办公楼将于本月底启用，届时将举办启用典礼，欢迎参加。" },
-  { id: "16", date: "2024-10", day: 13, title: "客户满意度调查", description: "本季度客户满意度调查已启动，感谢客户的参与和反馈。" },
-  { id: "17", date: "2024-10", day: 12, title: "质量管理体系优化", description: "公司质量管理体系将进行全面优化和升级，预计12月完成。" },
-  { id: "18", date: "2024-10", day: 11, title: "供应链合作伙伴大会", description: "与主要供应链合作伙伴举办季度大会，共同探讨发展方向。" },
-  { id: "19", date: "2024-10", day: 10, title: "销售目标突破庆祝", description: "上月销售目标突破，各销售部门获得丰厚奖励和表彰。" },
-  { id: "20", date: "2024-10", day: 9, title: "市场研究报告发布", description: "最新市场研究报告已完成，重点分析了竞争对手动向。" },
-  { id: "21", date: "2024-10", day: 8, title: "专利申报截止期限", description: "今年第四批专利申报截止日期为本月15日，请各部门及时提交。" },
-  { id: "22", date: "2024-10", day: 7, title: "员工健康体检安排", description: "年度员工健康体检将在10月下旬进行，具体时间另行通知。" },
-  { id: "23", date: "2024-10", day: 6, title: "研发项目进展汇报", description: "主要研发项目进展良好，三个项目已进入产业化阶段。" },
-  { id: "24", date: "2024-10", day: 5, title: "采购公告发布", description: "公司发布新一轮采购公告，欢迎符合资质的供应商投标。" },
-  { id: "25", date: "2024-09", day: 30, title: "9月份销售排名", description: "9月销售排名已公布，销售一部再次蝉联第一名。" },
-  { id: "26", date: "2024-09", day: 28, title: "技术分享会举办", description: "本月技术分享会邀请了行业专家，参加人数超过200人。" },
-  { id: "27", date: "2024-09", day: 26, title: "生产工艺改进方案", description: "新的生产工艺改进方案已获批，预计可提升效率15%。" },
-  { id: "28", date: "2024-09", day: 24, title: "客户回访满意度", description: "本月客户回访满意度达到98%，创历史新高。" },
-  { id: "29", date: "2024-09", day: 22, title: "品质认证通过", description: "公司最新产品线已通过国际品质认证，符合全球标准。" },
-  { id: "30", date: "2024-09", day: 20, title: "投资者关系说明会", description: "本周举办投资者关系说明会，详细介绍公司发展战略。" },
-]
+const formatDateForList = (dateString: string) => {
+  return dayjs(dateString).format("MM.DD")
+}
+
+const formatDateDay = (dateString: string) => {
+  return dayjs(dateString).format("DD")
+}
 
 /** 搜索 - 执行搜索 */
-function performSearch() {
+async function performSearch() {
   if (searchQuery.value.trim()) {
-    const keyword = searchQuery.value.toLowerCase()
-    searchResults.value = allNewsData.filter((news) => news.title.toLowerCase().includes(keyword) || news.description.toLowerCase().includes(keyword))
+    isSearching.value = true
+
+    try {
+      const response = await articleSearch({ q: searchQuery.value })
+
+      if (Array.isArray(response)) {
+        searchResults.value = response.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          description: item.description || item.body,
+          image: item.image,
+          date: formatDateForList(item.publishDate || item.created),
+          day: formatDateDay(item.publishDate || item.created),
+        }))
+      } else {
+        searchResults.value = []
+      }
+    } catch (error) {
+      console.error("搜索失败:", error)
+      searchResults.value = []
+    } finally {
+      isSearching.value = false
+    }
   } else {
     searchResults.value = []
   }
@@ -266,6 +264,23 @@ function handleNewsClick(newsItem: any) {
     navigateTo(`/news/${newsItem.id}`)
   }
 }
+
+/** 搜索 - ESC 键关闭搜索窗口 */
+watchEffect(() => {
+  if (showSearchModal.value) {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.keyCode === 27) {
+        showSearchModal.value = false
+      }
+    }
+
+    nextTick(() => {
+      document.addEventListener("keydown", handleEscKey)
+    })
+
+    return () => document.removeEventListener("keydown", handleEscKey)
+  }
+})
 
 // ==================== 其他功能 ====================
 

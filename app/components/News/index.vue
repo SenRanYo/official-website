@@ -77,6 +77,7 @@ const handleClick = (item: NewsItem) => {
   width: 100%;
   display: grid;
   column-gap: 15px;
+  overflow: hidden;
   grid-template-columns: repeat(var(--col, 1), 1fr);
 
   /* 单列布局 */
@@ -92,6 +93,7 @@ const handleClick = (item: NewsItem) => {
   gap: 1rem;
   padding: 30px 0;
   border-radius: 0;
+  overflow: hidden;
   background-color: transparent;
   cursor: pointer;
   border-bottom: 1px solid #e5e7eb;

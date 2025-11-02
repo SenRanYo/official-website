@@ -31,3 +31,27 @@ export const headerArticlePageList = (params?: any) => {
 export const articleDetail = (id: string) => {
   return Http.Get<any>(`/api/article/${id}`)
 }
+
+/**
+ * 首页区块内容
+ * @returns 首页区块内容
+ */
+export const blockItem = (params?: any) => {
+  return Http.Get<any>("/api/block-item", { params })
+}
+
+/**
+ * 首页底部链接列表
+ * @returns 首页底部链接列表
+ */
+export const articlePageListByAlias = (params?: any) => {
+  return Http.Get<any>("/api/article/articlePageListByAlias", { params })
+}
+
+/**
+ * 文章搜索
+ * @returns 文章搜索
+ */
+export const articleSearch = (params?: any) => {
+  return Http.Get<any>("/api/article/es", { params })
+}
