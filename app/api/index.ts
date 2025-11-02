@@ -23,3 +23,11 @@ export const headerMuneList = (params?: any) => {
 export const headerArticlePageList = (params?: any) => {
   return Http.Get<any>("/api/article/headerArticlePageList", { params })
 }
+
+/**
+ * 文章详情接口
+ * @returns 文章详情接口
+ */
+export const articleDetail = (id: string) => {
+  return Http.Get<any>(`/api/article/${id}`)
+}
