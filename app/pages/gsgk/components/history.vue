@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { ref, computed, watch } from "vue"
 import { articlePageListByAlias } from "~/api/index"
 import image from "~/assets/images/swiper/swiper-2.jpg"
 import historyBg from "~/assets/images/history-bg.webp"
@@ -71,12 +71,13 @@ interface HistoryItem {
 const year = ref("2024")
 const isLoading = ref(false)
 const allData = ref<HistoryItem[]>([])
+const timelineRef = ref<HTMLElement | null>(null)
 
 /**
- * 从title中提取年份 (e.g. "2024年6月" -> "2024")
+ * 从title中提取年份 (e.g. "2024年6月" -> "2024", "2024" -> "2024")
  */
 const extractYear = (title: string): string => {
-  const match = title.match(/(\d{4})年/)
+  const match = title.match(/(\d{4})/)
   return match?.[1] ?? ""
 }
 
@@ -123,6 +124,8 @@ const fetchHistoryData = async () => {
         year.value = latestYear
       }
     }
+    // 初始化后滚动到活跃年份
+    setTimeout(scrollToActiveYear, 100)
   } catch (error) {
     console.error("获取发展历程数据失败:", error)
     allData.value = []
@@ -138,6 +141,36 @@ const handleYearClick = (selectedYear: string) => {
   if (selectedYear === year.value) return
   year.value = selectedYear
 }
+
+/**
+ * 自动滚动到选中的年份
+ */
+const scrollToActiveYear = () => {
+  if (!timelineRef.value) return
+
+  const activeElement = timelineRef.value.querySelector(".history__year--active")
+  if (activeElement) {
+    const container = timelineRef.value
+    const elementRect = activeElement.getBoundingClientRect()
+    const containerRect = container.getBoundingClientRect()
+
+    // 计算偏移量，使选中的年份居中显示
+    const offset = elementRect.top - containerRect.top - containerRect.height / 2 + elementRect.height / 2
+    container.scrollBy({
+      top: offset,
+      behavior: "smooth",
+    })
+  }
+}
+
+// 使用 watch 监听年份变化
+watch(
+  () => year.value,
+  () => {
+    // 使用 nextTick 确保 DOM 已更新
+    setTimeout(scrollToActiveYear, 0)
+  },
+)
 
 // 初始化 - 获取所有数据
 fetchHistoryData()
@@ -227,17 +260,16 @@ fetchHistoryData()
   &__timeline-wrapper {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
+    padding: 30px 0;
   }
 
   &__timeline-inner {
-    top: 50%;
-    left: 0;
     display: flex;
-    position: absolute;
     flex-direction: column;
-    transform: translateY(-50%);
+    position: relative;
   }
 
   &__timeline-indicator {
