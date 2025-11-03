@@ -58,26 +58,16 @@ import { articlePageListByAlias } from "~/api/index"
 import image from "~/assets/images/swiper/swiper-2.jpg"
 import historyBg from "~/assets/images/history-bg.webp"
 
-/**
- * 历史数据项类型
- */
-interface HistoryItem {
-  id: string
-  title: string
-  description: string
-  image: string | null
-}
-
 const year = ref("2024")
 const isLoading = ref(false)
-const allData = ref<HistoryItem[]>([])
+const allData = ref<any[]>([])
 const timelineRef = ref<HTMLElement | null>(null)
 
 /**
  * 从title中提取年份 (e.g. "2024年6月" -> "2024", "2024" -> "2024")
  */
-const extractYear = (title: string): string => {
-  const match = title.match(/(\d{4})/)
+const extractYear = (date: string): string => {
+  const match = date.match(/(\d{4})/)
   return match?.[1] ?? ""
 }
 
@@ -87,7 +77,7 @@ const extractYear = (title: string): string => {
 const years = computed(() => {
   const yearSet = new Set<string>()
   allData.value.forEach((item) => {
-    const extractedYear = extractYear(item.title)
+    const extractedYear = extractYear(item.date)
     if (extractedYear) {
       yearSet.add(extractedYear)
     }
@@ -101,7 +91,7 @@ const years = computed(() => {
  */
 const currentData = computed(() => {
   return allData.value.filter((item) => {
-    const extractedYear = extractYear(item.title)
+    const extractedYear = extractYear(item.date)
     return extractedYear === year.value
   })
 })
