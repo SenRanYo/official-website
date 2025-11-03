@@ -6,13 +6,13 @@
  * 3. 滚动时自动激活对应的tab
  * 4. 处理hash路由（#锚点）
  */
-import { ref, nextTick, onMounted, onUnmounted, watch } from "vue"
+import { ref, nextTick, onMounted, onUnmounted } from "vue"
 import { useRouter } from "#app"
 
 export function useAnchorNavigation() {
   // 当前激活的锚点id
   const activeAnchor = ref<string>("")
-  
+
   // 当前hash值，用于检测hash变化
   const currentHash = ref<string>("")
 
@@ -21,7 +21,7 @@ export function useAnchorNavigation() {
 
   // 用于存储hashchange监听器的清理函数
   let cleanupHashChange: (() => void) | null = null
-  
+
   // 获取路由实例
   const router = useRouter()
 
@@ -32,6 +32,20 @@ export function useAnchorNavigation() {
    */
   const getAnchorElement = (anchorId: string): HTMLElement | null => {
     return document.querySelector(`[data-anchor="${anchorId}"]`) as HTMLElement | null
+  }
+
+  /**
+   * 计算需要补偿的高度（包括固定头部和tabs栏）
+   * tabs在桌面端高度为60px，移动端为50px
+   */
+  const getCompensationHeight = (): number => {
+    // 固定头部高度（header）为 80px
+    const headerHeight = 80
+    // tabs 高度：根据视口宽度判断
+    const tabsHeight = window.innerWidth > 768 ? 60 : 50
+    // 额外间距
+    const extraPadding = 20
+    return headerHeight + tabsHeight + extraPadding
   }
 
   /**
@@ -53,11 +67,16 @@ export function useAnchorNavigation() {
     // 正常处理：滚动到指定锚点
     const element = getAnchorElement(anchorId)
     if (element) {
-      // 使用平滑滚动效果
-      element.scrollIntoView({
+      // 计算补偿高度（包括header和tabs）
+      const compensationHeight = getCompensationHeight()
+      // 计算目标滚动位置，确保元素不被固定头部和tabs遮挡
+      const targetPosition = element.getBoundingClientRect().top + window.scrollY - compensationHeight
+      
+      window.scrollTo({
+        top: Math.max(0, targetPosition),
         behavior: "smooth",
-        block: "start",
       })
+      
       // 更新URL中的hash
       window.history.pushState(null, "", `#${anchorId}`)
       // 立即更新激活状态
@@ -93,8 +112,9 @@ export function useAnchorNavigation() {
     }
 
     scrollTimeout = setTimeout(() => {
-      // 获取视口顶部距离页面顶部的距离
-      const viewportTop = window.scrollY + 100 // 100px的偏移量用于提前激活
+      // 计算补偿高度和动态偏移量
+      const compensationHeight = getCompensationHeight()
+      const viewportTop = window.scrollY + compensationHeight
 
       const allAnchors = getAllAnchorElements()
 
