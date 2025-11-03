@@ -89,7 +89,7 @@ export function buildFullUrl(url: string): string {
 
   // 如果已经是相对路径（以/开头），直接返回
   if (url.startsWith("/")) {
-    return url
+    return "http://2444450wnth3.vicp.fun" + url
   }
 
   // 其他情况，假设是uploads路径
