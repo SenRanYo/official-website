@@ -5,7 +5,7 @@ import { Http } from "~/utils/http"
  * @returns 轮播图数据列表
  */
 export const rotatingBanner = (params?: any) => {
-  return Http.Get<any>("/api/article/rotatingBanner", { params })
+  return Http.Get<any>("/article/rotatingBanner", { params })
 }
 
 /**
@@ -13,7 +13,7 @@ export const rotatingBanner = (params?: any) => {
  * @returns 菜单列表
  */
 export const headerMuneList = (params?: any) => {
-  return Http.Get<any>("/api/article/headerMuneList", { params })
+  return Http.Get<any>("/article/headerMuneList", { params })
 }
 
 /**
@@ -21,7 +21,7 @@ export const headerMuneList = (params?: any) => {
  * @returns 文章分页列表
  */
 export const headerArticlePageList = (params?: any) => {
-  return Http.Get<any>("/api/article/headerArticlePageList", { params })
+  return Http.Get<any>("/article/headerArticlePageList", { params })
 }
 
 /**
@@ -29,7 +29,7 @@ export const headerArticlePageList = (params?: any) => {
  * @returns 文章详情接口
  */
 export const articleDetail = (id: string) => {
-  return Http.Get<any>(`/api/article/${id}`)
+  return Http.Get<any>(`/article/${id}`)
 }
 
 /**
@@ -37,7 +37,7 @@ export const articleDetail = (id: string) => {
  * @returns 首页区块内容
  */
 export const blockItem = (params?: any) => {
-  return Http.Get<any>("/api/block-item", { params })
+  return Http.Get<any>("/block-item", { params })
 }
 
 /**
@@ -45,7 +45,7 @@ export const blockItem = (params?: any) => {
  * @returns 首页底部链接列表
  */
 export const articlePageListByAlias = (params?: any) => {
-  return Http.Get<any>("/api/article/articlePageListByAlias", { params })
+  return Http.Get<any>("/article/articlePageListByAlias", { params })
 }
 
 /**
@@ -53,5 +53,5 @@ export const articlePageListByAlias = (params?: any) => {
  * @returns 文章搜索
  */
 export const articleSearch = (params?: any) => {
-  return Http.Get<any>("/api/article/es", { params })
+  return Http.Get<any>("/article/es", { params })
 }

@@ -64,7 +64,7 @@ export default defineNuxtConfig({
     // 开发环境代理配置
     devProxy: {
       "/api": {
-        target: "http://2444450wnth3.vicp.fun",
+        target: "http://2444450wnth3.vicp.fun/api",
         changeOrigin: true,
         prependPath: true,
       },
@@ -72,10 +72,10 @@ export default defineNuxtConfig({
     // 生产环境代理配置 - 解决部署后的CORS问题
     routeRules: {
       "/api/**": {
-        proxy: "http://2444450wnth3.vicp.fun/**",
+        proxy: "http://2444450wnth3.vicp.fun/api/**",
       },
       "/uploads/**": {
-        proxy: "http://2444450wnth3.vicp.fun/**",
+        proxy: "http://2444450wnth3.vicp.fun/api/**",
       },
       // 动态路由设置为 SSR 模式（不预渲染，而是动态渲染）
       "/news/detail/**": {
