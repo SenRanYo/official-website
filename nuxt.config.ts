@@ -77,6 +77,21 @@ export default defineNuxtConfig({
       "/uploads/**": {
         proxy: "http://2444450wnth3.vicp.fun/**",
       },
+      // 动态路由设置为 SSR 模式（不预渲染，而是动态渲染）
+      "/news/detail/**": {
+        swr: 3600, // 一小时服务端缓存
+      },
+    },
+    // 预渲染配置 - 用于 generate 命令
+    prerender: {
+      // 禁用自动链接爬取
+      crawlLinks: false,
+      // 只预渲染首页和不依赖 API 的页面
+      routes: [
+        "/", // 首页
+      ],
+      // 跳过需要 API 数据的页面（这些页面使用 SSR）
+      ignore: ["/news", "/news/detail/**", "/gsgk", "/xwzx"],
     },
   },
 })
