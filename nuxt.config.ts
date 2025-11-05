@@ -15,7 +15,9 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE || "http://2444450wnth3.vicp.fun",
     },
   },
-
+  ui: {
+    fonts: false,
+  },
   vite: {
     plugins: [tailwindcss()],
     css: {
